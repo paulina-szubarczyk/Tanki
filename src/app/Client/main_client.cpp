@@ -16,7 +16,6 @@
 #include <boost/cstdint.hpp>
 #include <boost/bind.hpp>
 
-#include "tank.pb.h"
 #include "packedmessage.h"
 
 #include "ClientTcpConnection.h"

@@ -1,0 +1,17 @@
+enum MessageType {
+	LOGIN = 1;
+	LOGOUT = 2;
+	XY = 3;
+	SHIP = 4;
+}
+
+message DataMsg {
+	
+	required MessageType type = 1;
+	optional string login = 2;
+	optional string password = 3;
+	optional int32 x1 = 4;
+	optional int32 y1 = 5;
+	optional int32 x2 = 6;
+	optional int32 y2 = 7;
+}

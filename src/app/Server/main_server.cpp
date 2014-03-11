@@ -12,10 +12,8 @@
 #include <boost/asio.hpp>
 
 #include <google/protobuf/text_format.h>
-#include "tank.pb.h"
 
 #include "packedmessage.h"
-
 #include "tcpserver.h"
 #include "session.h"
 

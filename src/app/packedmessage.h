@@ -1,5 +1,5 @@
 /*
- * PackedMessage.h
+ * packedmessage.h
  *
  *  Created on: Mar 9, 2014
  *      Author: Adam Kosiorek
@@ -7,35 +7,10 @@
 #ifndef PACKEDMESSAGE_H
 #define PACKEDMESSAGE_H
 
-#include <string>
-#include <cassert>
 #include <vector>
-#include <cstdio>
-#include <boost/shared_ptr.hpp>
-#include <boost/cstdint.hpp>
+#include <memory>
 
-typedef std::vector<boost::uint8_t> data_buffer;
-
-/**
- *  A generic function to show contents of a container holding byte data
- *  as a string with hex representation for each byte.
- */
-template<class CharContainer>
-std::string show_hex(const CharContainer& c) {
-	std::string hex;
-	char buf[16];
-	typename CharContainer::const_iterator i;
-	for (i = c.begin(); i != c.end(); ++i) {
-		std::sprintf(buf, "%02X ", static_cast<unsigned>(*i) & 0xFF);
-		hex += buf;
-	}
-	return hex;
-}
-
-/**
- *  The header size for packed messages
- */
-const unsigned HEADER_SIZE = 4;
+typedef std::vector<uint8_t> DataBuffer;
 
 /**
  *  PackedMessage implements simple "packing" of protocol buffers Messages into
@@ -45,19 +20,31 @@ const unsigned HEADER_SIZE = 4;
 template<class MessageType>
 class PackedMessage {
 public:
+	typedef std::shared_ptr<MessageType> MessagePointer;
 
-	typedef boost::shared_ptr<MessageType> MessagePointer;
+	PackedMessage() : msg_(std::move(std::shared_ptr<MessageType>(new MessageType()))) {};
 
-	PackedMessage(MessagePointer msg = MessagePointer()) :
-			m_msg(msg) {
-	}
+	/**
+	 *
+	 */
+	PackedMessage(MessagePointer msg) {
+		if(msg == nullptr) throw new std::logic_error("Cannot pack a null message");
+		msg_ = std::move(msg);
+	};
 
+	/**
+	 *
+	 */
 	void setMsg(MessagePointer msg) {
-		m_msg = msg;
+		if(msg == nullptr) throw new std::logic_error("Cannot pack a null message");
+		msg_ = std::move(msg);
 	}
 
+	/**
+	 *
+	 */
 	MessagePointer getMsg() {
-		return m_msg;
+		return msg_;
 	}
 
 	/**
@@ -65,53 +52,58 @@ public:
 	 *  exactly fit the message.
 	 *  Return false in case of an error, true if successful.
 	 */
-	bool pack(data_buffer& buf) const {
-		if (!m_msg)
-			return false;
+	bool pack(DataBuffer& buf) const {
+			if (!msg_->IsInitialized())
+				throw new std::logic_error("Cannot pack a null message");
 
-		unsigned msg_size = m_msg->ByteSize();
-		buf.resize(HEADER_SIZE + msg_size);
-		encodeHeader(buf, msg_size);
-		return m_msg->SerializeToArray(&buf[HEADER_SIZE], msg_size);
-	}
+			unsigned msg_size = msg_->ByteSize();
+			buf.resize(HEADER_SIZE + msg_size);
+			encodeHeader(buf, msg_size);
+			return msg_->SerializeToArray(&buf[HEADER_SIZE], msg_size);
+		}
 
 	/**
 	 *  Given a buffer with the first HEADER_SIZE bytes representing the header,
 	 *  decode the header and return the message length. Return 0 in case of
 	 *  an error.
 	 */
-	unsigned decodeHeader(const data_buffer& buf) const {
-		if (buf.size() < HEADER_SIZE)
-			return 0;
+	unsigned decodeHeader(const DataBuffer& buf) const {
+			if (buf.size() < HEADER_SIZE)
+				throw new std::logic_error("Buffer's size should be >= 4");
 
-		unsigned msg_size = 0;
-		for (unsigned i = 0; i < HEADER_SIZE; ++i)
-			msg_size = msg_size * 256 + (static_cast<unsigned>(buf[i]) & 0xFF);
-		return msg_size;
-	}
+			unsigned msg_size = 0;
+			for (unsigned i = 0; i < HEADER_SIZE; ++i)
+				msg_size = msg_size * 256 + (static_cast<unsigned>(buf[i]) & 0xFF);
+			return msg_size;
+		}
 
 	/**
 	 *  Unpack and store a message from the given packed buffer.
 	 *   Return true if unpacking successful, false otherwise.
 	 */
-	bool unpack(const data_buffer& buf) {
-		return m_msg->ParseFromArray(&buf[HEADER_SIZE],
-				buf.size() - HEADER_SIZE);
-	}
+	bool unpack(const DataBuffer& buf) {
+			return msg_->ParseFromArray(&buf[HEADER_SIZE],
+					buf.size() - HEADER_SIZE);
+		}
 
+	/**
+	 *  The header size for packed messages
+	 */
+	const unsigned HEADER_SIZE = 4;
 private:
+
 	/**
 	 *  Encodes the side into a header at the beginning of buf
 	 */
-	void encodeHeader(data_buffer& buf, unsigned size) const {
-		assert(buf.size() >= HEADER_SIZE);
-		buf[0] = static_cast<boost::uint8_t>((size >> 24) & 0xFF);
-		buf[1] = static_cast<boost::uint8_t>((size >> 16) & 0xFF);
-		buf[2] = static_cast<boost::uint8_t>((size >> 8) & 0xFF);
-		buf[3] = static_cast<boost::uint8_t>(size & 0xFF);
-	}
+	void encodeHeader(DataBuffer& buf, unsigned size) const {
+			assert(buf.size() >= HEADER_SIZE);
+			buf[0] = static_cast<uint8_t>((size >> 24) & 0xFF);
+			buf[1] = static_cast<uint8_t>((size >> 16) & 0xFF);
+			buf[2] = static_cast<uint8_t>((size >> 8) & 0xFF);
+			buf[3] = static_cast<uint8_t>(size & 0xFF);
+		}
 
-	MessagePointer m_msg;
+	MessagePointer msg_;
 };
 
 #endif /* PACKEDMESSAGE_H */

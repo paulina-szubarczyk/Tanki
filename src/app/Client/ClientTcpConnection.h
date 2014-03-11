@@ -19,7 +19,6 @@
 #include <boost/cstdint.hpp>
 #include <boost/bind.hpp>
 
-#include "tank.pb.h"
 #include "packedmessage.h"
 
 using boost::asio::ip::tcp;
@@ -46,7 +45,7 @@ public:
 private:
 	tcp::socket socket_;
 	tcp::acceptor acceptor_;
-	data_buffer buffer_;
+	DataBuffer buffer_;
 
 	const int HEADER_SIZE = 4;
 	const bool DEBUG = true;

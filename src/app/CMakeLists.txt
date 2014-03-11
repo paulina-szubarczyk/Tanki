@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project( Tanki )
+project( App )
 
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall ")
 
@@ -34,5 +34,5 @@ target_link_libraries(messages ${PROTOBUF_LIBRARIES})
 set(CommonLibs ${CommonLibs} ${Boost_LIBRARIES} messages)
 
 
-add_subdirectory(Client)
+#add_subdirectory(Client)
 add_subdirectory(Server)
