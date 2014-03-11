@@ -1,0 +1,24 @@
+message Tank {
+
+    	optional int32 hp  = 1;
+	optional int32 x = 2;
+	optional int32 y = 3;
+	optional int32 orientation = 4;
+	optional int32 speed = 5;
+	optional int32 range = 6;
+
+	message PowerUp {
+
+		enum PowerType { 
+			LIFE = 0;
+			RANGE = 1;
+			SPEED = 2;
+		}
+	
+		required PowerType type = 1;
+		optional int32 started = 2;
+		optional int32 duration = 3;
+		}
+
+	repeated PowerUp powerUps = 7;
+}
