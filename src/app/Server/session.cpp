@@ -21,7 +21,8 @@ void Session::doRead() {
 	socket_.async_read_some(boost::asio::buffer(data_, max_length),
 			[this, self](boost::system::error_code ec, std::size_t length){
 
-		sleep(1);
+		data.push_back(std::string(data_, 0, length));
+//		sleep(1);
 		std::cout.write(data_, length);
 		std::cout << std::endl;
 		if(!ec) doWrite(length);

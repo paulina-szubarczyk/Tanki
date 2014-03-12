@@ -7,18 +7,14 @@
 
 #include <iostream>
 #include <array>
+#include <thread>
+
 #include <boost/asio.hpp>
-#include<thread>
-#include <google/protobuf/text_format.h>
+
 #include <glog/logging.h>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/cstdint.hpp>
-#include <boost/bind.hpp>
 
-#include "packedmessage.h"
 
-#include "ClientTcpConnection.h"
 
 using boost::asio::ip::tcp;
 namespace asio = boost::asio;
@@ -39,13 +35,12 @@ int main(int argc, char** argv) {
 		tcp::socket socket(io_service);
 		boost::asio::connect(socket, endpoint_iterator);
 
-		std::string str = "query";
-		str += argv[1];
-
+		std::string str;
 		std::thread thread([&]() {
 			while(true) {
-			socket.write_some(boost::asio::buffer(str));
-			std::cout << "aha!\n";
+
+			std::getline(std::cin, str);
+			boost::asio::write(socket, asio::buffer(str, str.size()));
 			}
 		});
 

@@ -34,5 +34,5 @@ target_link_libraries(messages ${PROTOBUF_LIBRARIES})
 set(CommonLibs ${CommonLibs} ${Boost_LIBRARIES} messages)
 
 
-#add_subdirectory(Client)
+add_subdirectory(Client)
 add_subdirectory(Server)

@@ -22,6 +22,8 @@ public:
 	Session(tcp::socket socket);
 	void start();
 
+	std::vector<std::string> data;
+
 private:
 	void doRead();
 	void doWrite(std::size_t length);
