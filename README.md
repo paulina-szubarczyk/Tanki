@@ -9,6 +9,9 @@ Multiplayer Game Server - ShipsTheGame
 
 	2. Google:
 		protocol buffers, glog, C++ testing framework
+	
+	3. OpenGL:
+		glut, glui
 
 	3. Compilers:
 		Windows: Visual Studio
@@ -33,6 +36,7 @@ Multiplayer Game Server - ShipsTheGame
 		Additional options: 
 			To be specified between -G and ../src
 			-DCMAKE_BUILD_TYPE=Debug	debug build type
+			-DCMAKE_CXX_COMPILER_ARG1='-std=c++11' c++11
 
 		Example:
 			cmake -G"Eclipse CDT4" -DCMAKE_BUILD_TYPE=Debug ../src
