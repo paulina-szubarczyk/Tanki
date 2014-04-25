@@ -31,8 +31,6 @@ void Session::doRead() {
 
 void Session::doWrite(std::size_t length) {
 
-
-
 	auto self(shared_from_this());
 	boost::asio::async_write(socket_, boost::asio::buffer(data_, length),
 			[this, self](boost::system::error_code ec, std::size_t) {
