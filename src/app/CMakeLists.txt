@@ -9,7 +9,7 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 include_directories( ${CMAKE_BINARY_DIR}/app )
 
 #	Boost
-find_package( Boost 1.55 COMPONENTS system thread chrono date_time REQUIRED)
+find_package( Boost 1.53 COMPONENTS system thread chrono date_time REQUIRED)
 include_directories( ${Boost_INCLUDE_DIR} )
 link_directories( ${Boost_LIBRARY_DIRS} )
 
@@ -30,7 +30,6 @@ target_link_libraries(messages ${PROTOBUF_LIBRARIES})
 
 #	Setup common libraries
 set(CommonLibs ${CommonLibs} ${Boost_LIBRARIES} messages)
-
 
 add_subdirectory(Client)
 add_subdirectory(server_lib)

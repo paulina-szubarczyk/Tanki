@@ -8,7 +8,7 @@
 #include <iostream>
 #include <array>
 #include <thread>
-
+#include <boost/thread.hpp>
 #include <boost/asio.hpp>
 
 #include <glog/logging.h>
