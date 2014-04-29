@@ -8,6 +8,7 @@ include_directories(${gmock_SOURCE_DIR}/include ${gmock_SOURCE_DIR})
 
 set(GTEST_LIBS gmock gmock_main)
 
+
 enable_testing()
 add_subdirectory(network_lib)
 add_subdirectory(game_engine_lib)
