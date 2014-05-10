@@ -31,6 +31,9 @@ public:
 	int getY(int i){return vertex_y[i];};;
 	std::vector < GLint >* getVectorX(){return &vertex_x;};
 	std::vector < GLint >* getVectorY(){return &vertex_y;};
+	int getVectorXSize(){return vertex_x.size();}
+	int getVectorYSize(){return vertex_y.size();}
+	void clear();
 	void draw(GLint x, GLint y); //rysowanie kwadratu o srodu w punkcie P(x,y)
 	void erase();//funkcja usuwa wszystkie narysowane kwadraty
 	void testShip( int argc, char * argv[] ); //prosta funkcja testowa pozwalajaca uzytkownikowi rysowac kwadraty we wskazanych myszka punktach

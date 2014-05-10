@@ -16,6 +16,10 @@ void Ship::setInstance(){
 	instance = this;
 }
 
+void Ship::clear(){
+	vertex_x.clear();
+	vertex_y.clear();
+}
 void Ship::addCoordinates(int x, int y){
 	vertex_x.push_back( x );
 	vertex_y.push_back( glutGet( GLUT_WINDOW_HEIGHT ) - y );

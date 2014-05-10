@@ -24,34 +24,34 @@ TEST_F(ShipTest, ConstructorTest){
 }
 
 TEST_F(ShipTest, SetInstanceTest){
-//	Ship s;
-//	s.setInstance();
-//	ASSERT_TRUE(s.getInstance());
+	Ship s;
+	s.setInstance();
+	ASSERT_TRUE(s.getInstance());
 
 }
 
 TEST_F(ShipTest, AddCoordinatesTest){
-//	Ship s;
-//	s.addCoordinates(5,7);
+	Ship s;
+	s.addCoordinates(5,7);
 
-//	ASSERT_TRUE(s.getVectorXSize());
-//	ASSERT_TRUE(s.getVectorYSize());
-//	ASSERT_EQ(s.getX(0), 5);
-//	ASSERT_EQ(s.getY(0), 7);
-	ASSERT_EQ(1,0);
+	ASSERT_GT(s.getVectorXSize(),0);
+	ASSERT_GT(s.getVectorYSize(),0);
+	ASSERT_EQ(s.getX(0), 5);
+	ASSERT_EQ(s.getY(0), 7);
+
 }
 
 TEST_F(ShipTest, EraseTest){
-//	Ship s;
-//	for(int j = 0; j < 100; j++){
-//		s.addCoordinates(1,1);
-//	}
-//	ASSERT_TRUE(s.getVectorXSize());
-//	ASSERT_TRUE(s.getVectorYSize());
-//
-//	s.clear();
-//	ASSERT_FALSE(s.getVectorXSize());
-//	ASSERT_FALSE(s.getVectorYSize());
+	Ship s;
+	for(int j = 0; j < 100; j++){
+		s.addCoordinates(1,1);
+	}
+	ASSERT_EQ(s.getVectorXSize(),100);
+	ASSERT_EQ(s.getVectorYSize(),100);
+
+	s.clear();
+	ASSERT_EQ(s.getVectorXSize(),0);
+	ASSERT_EQ(s.getVectorYSize(),0);
 
 }
 
