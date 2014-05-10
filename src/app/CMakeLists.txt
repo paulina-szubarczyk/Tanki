@@ -35,4 +35,5 @@ add_subdirectory(client_lib)
 add_subdirectory(Client)
 add_subdirectory(server_lib)
 add_subdirectory(Server)
+add_subdirectory(game_engine_lib)
 
