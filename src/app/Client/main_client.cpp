@@ -12,6 +12,7 @@
 #include <boost/asio.hpp>
 
 #include <glog/logging.h>
+#include "ship.h"
 
 
 
@@ -21,6 +22,8 @@ namespace asio = boost::asio;
 
 int main(int argc, char** argv) {
 
+	Ship s;
+	s.testShip(argc, argv);
 	google::InitGoogleLogging(argv[0]);
 
 
