@@ -31,6 +31,8 @@ target_link_libraries(messages ${PROTOBUF_LIBRARIES})
 #	Setup common libraries
 set(CommonLibs ${CommonLibs} ${Boost_LIBRARIES} messages)
 
+add_subdirectory(client_lib)
 add_subdirectory(Client)
 add_subdirectory(server_lib)
 add_subdirectory(Server)
+
