@@ -33,4 +33,5 @@ set(CommonLibs ${CommonLibs} ${Boost_LIBRARIES} messages)
 
 
 add_subdirectory(Client)
+add_subdirectory(server_lib)
 add_subdirectory(Server)
