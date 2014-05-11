@@ -9,37 +9,19 @@
 #include "Field.h"
 #include <iostream>
 
-SmallGameShip::SmallGameShip() : field_(nullptr),GameShip(GameShip::ShipState::FLOAT){}
-SmallGameShip::SmallGameShip(FieldPtr field): field_(field), GameShip(GameShip::ShipState::FLOAT){}
+SmallGameShip::SmallGameShip() : GameShip(GameShip::ShipState::FLOAT), HitObserver(){}
 
-SmallGameShip::~SmallGameShip() {
-	// TODO Auto-generated destructor stub
-}
 
-void SmallGameShip::changeState(FieldPtr field, ShipState state){
-	if (field_ == field)
-		this->state_ = state;
-	else {
-		std::cerr<<"[SmallGameShip.changeStateError] Param field doesn't belong to this ship.\n";
-	}
-}
-GameShip::ShipState SmallGameShip::getState(){
+GameShip::ShipState SmallGameShip::getState() const {
 	return state_;
 }
 
-std::size_t  SmallGameShip::getSize(){
+std::size_t  SmallGameShip::getSize() const {
 	return 1;
 }
 
-void SmallGameShip::updateState(){}
+void SmallGameShip::hit() {
+	state_ = GameShip::ShipState::HIT;
+}
 
-void SmallGameShip::setField(FieldPtr field){
-	if (field)
-		field_ = field;
-	else {
-		std::cerr<<"[SmallGameShip.setFieldError] You are trying to set SmallGameShip on uninitialzed Field\n";
-	}
-}
-SmallGameShip::FieldPtr SmallGameShip::getField(){
-	return field_;
-}
+

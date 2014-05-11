@@ -9,23 +9,18 @@
 #define SMALLGAMESHIP_H_
 
 #include "GameShip.h"
+#include "HitObserver.h"
 
-class SmallGameShip: public GameShip {
-	using GameShip::FieldPtr;
+class SmallGameShip: public GameShip, public HitObserver {
+
 public:
 	SmallGameShip();
-	SmallGameShip(FieldPtr field);
-	virtual ~SmallGameShip();
+	virtual ~SmallGameShip() = default;
 
-	virtual void changeState(FieldPtr field, ShipState state) override;
-	virtual ShipState getState();
-	virtual std::size_t getSize();
+	virtual ShipState getState() const override;
+	virtual std::size_t getSize() const override;
 
-	void setField(FieldPtr field);
-	FieldPtr getField();
-protected:
-	virtual void updateState();
-	GameShip::FieldPtr field_;
+	virtual void hit() override;
 };
 
 #endif /* SMALLGAMESHIP_H_ */

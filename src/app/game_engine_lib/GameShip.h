@@ -9,23 +9,18 @@
 #define ABSTRACTSHIP_H_
 
 #include <memory>
-
-class Field;
-
 class GameShip {
 public:
-	typedef std::shared_ptr<Field> FieldPtr;
 	enum class ShipState { FLOAT, SUNK, HIT };
 
 	GameShip();
 	GameShip(ShipState state);
-	virtual ~GameShip();
+	virtual ~GameShip() = default;
 
-	virtual void changeState(FieldPtr field, ShipState state) = 0;
-	virtual ShipState getState() = 0;
-	virtual std::size_t getSize() = 0;
+	virtual ShipState getState() const {} ;
+	virtual std::size_t getSize() const {};
+
 protected:
-	virtual void updateState() = 0;
 	ShipState state_;
 };
 #endif /* ABSTRACTSHIP_H_ */
