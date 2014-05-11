@@ -8,7 +8,7 @@
 #include "GameShip.h"
 #include "Field.h"
 
-GameShip::GameShip(){}
-GameShip::GameShip(ShipState state):state_(state){}
-GameShip::~GameShip(){}
+GameShip::GameShip() : state_(ShipState::FLOAT) {}
+GameShip::GameShip(ShipState state) : state_(state){}
+
 

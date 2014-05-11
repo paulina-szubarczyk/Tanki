@@ -7,22 +7,22 @@
 
 #ifndef FIELD_H_
 #define FIELD_H_
-#include <memory>
+#include "hit_typedef.h"
+
 class SmallGameShip;
 class Field {
 public:
 	Field();
 	Field(int position);
 	~Field();
-	typedef std::weak_ptr<SmallGameShip> ShipPtr;
+
 	int getPosition() const ;
 
-	void setShip(ShipPtr ship);
-	ShipPtr getShip();
+	SignalHitType hit;
+	void registerHitObserver(HitObserverPtr hitObserver);
+
 private:
 	int position_;
-	ShipPtr ship_;
-
 };
 
 inline bool operator<(const Field &f1, const Field &f2){

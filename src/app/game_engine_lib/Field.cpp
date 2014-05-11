@@ -16,10 +16,6 @@ int Field::getPosition() const  {
 	return position_;
 }
 
-void Field::setShip(ShipPtr ship){
-	ship_ = ship;
-}
-
-Field::ShipPtr Field::getShip(){
-	return ship_;
+void Field::registerHitObserver(HitObserverPtr hitObserver){
+	hit.connect(SignalHitType::slot_type( &HitObserver::hit, hitObserver.get()).track_foreign(hitObserver));
 }
