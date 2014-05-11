@@ -1,29 +1,31 @@
 /*
  * GameShip.h
  *
- *  Created on: May 10, 2014
+ *  Created on: May 11, 2014
  *      Author: paulina
  */
 
-#ifndef STATEK_H_
-#define STATEK_H_
+#ifndef ABSTRACTSHIP_H_
+#define ABSTRACTSHIP_H_
 
 #include <memory>
-#include "Field.h"
 
-class GameShip : public AbstractShip {
+class Field;
+
+class GameShip {
 public:
+	typedef std::shared_ptr<Field> FieldPtr;
+	enum class ShipState { FLOAT, SUNK, HIT };
 
 	GameShip();
+	GameShip(ShipState state);
 	virtual ~GameShip();
 
-	void changeState(std::shared_ptr<Field> field, ShipState state);
-	void setField(std::shared_ptr<Field> field);
-	std::shared_ptr<Field> getField();
-
-private:
-	void updateState();
-	std::shared_ptr<Field> field_;
+	virtual void changeState(FieldPtr field, ShipState state) = 0;
+	virtual ShipState getState() = 0;
+	virtual std::size_t getSize() = 0;
+protected:
+	virtual void updateState() = 0;
+	ShipState state_;
 };
-
-#endif /* STATEK_H_ */
+#endif /* ABSTRACTSHIP_H_ */
