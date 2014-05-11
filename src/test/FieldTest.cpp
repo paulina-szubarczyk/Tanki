@@ -22,19 +22,48 @@ TEST_F(FieldTest, ConstructorTest){
 
 TEST_F(FieldTest, PositionTest){
 	Field field;
-	EXPECT_EQ(field.getPosition(),0);
+	Field field2(10);
+	EXPECT_EQ(field.getPosition(), 0);
+	EXPECT_EQ(field2.getPosition(),10);
 }
 
 TEST_F(FieldTest, OperatorLessThenTest){
 	Field field1(10), field2(1);
-	EXPECT_TRUE(field2<field1);
+	EXPECT_TRUE(field2 < field1);
+	EXPECT_FALSE(field1 < field2);
 }
 
-TEST_F(FieldTest, ShipOnFieldTest){
-	std::shared_ptr<Field> field_ptr(new Field(1));
-//	std::shared_ptr<SmallGameShip> ship_ptr(new SmallGameShip());
-//	field_ptr->setShip(ship_ptr);
-//	EXPECT_TRUE(field_ptr->getShip().lock()==ship_ptr);
+TEST_F(FieldTest, RegisterHitObserverTest){
+	std::shared_ptr<Field> field(new Field(1));
+
+	class TestHitObserver : public HitObserver{
+	public:
+		TestHitObserver() : HitObserver(), id_(0), state_(0) {};
+		TestHitObserver(int id) : HitObserver(), id_(id), state_(0) {};
+		~TestHitObserver() = default;
+		void hit() {
+			state_ = 1;
+			std::cout << "[ RUN      ] TestHitObserver " << id_ << " is hitten\n";
+		}
+		int getState() {return state_; }
+	private:
+		int id_;
+		int state_;
+	};
+
+	std::shared_ptr<TestHitObserver> thobs(new TestHitObserver());
+	field->registerHitObserver(thobs);
+	EXPECT_EQ(thobs->getState(), 0);
+	field->hit();
+	EXPECT_EQ(thobs->getState(), 1);
+
+	std::shared_ptr<TestHitObserver> thobs2(new TestHitObserver(1));
+	field->registerHitObserver(thobs2);
+	EXPECT_EQ(thobs2->getState(), 0);
+	EXPECT_EQ(thobs->getState(), 1);
+	field->hit();
+	EXPECT_EQ(thobs->getState(), 1);
+	EXPECT_EQ(thobs2->getState(), 1);
 }
 
 

@@ -21,12 +21,12 @@ TEST_F(SmallGameShipTest, ConstructorTest){
 	EXPECT_EQ(ship.getSize(),1);
 }
 
-
 TEST_F(SmallGameShipTest, GameShipStateTest){
 
 	SmallGameShip ship;
-
-	EXPECT_EQ(ship.getState(), SmallGameShip::ShipState::HIT);
+	EXPECT_EQ(ship.getState(), SmallGameShip::ShipState::FLOAT);
+	ship.hit();
+	EXPECT_EQ(ship.getState(), SmallGameShip::ShipState::SUNK);
 }
 
 
