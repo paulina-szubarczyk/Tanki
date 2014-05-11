@@ -1,25 +1,14 @@
 /*
  * GameShip.cpp
  *
- *  Created on: May 10, 2014
+ *  Created on: May 11, 2014
  *      Author: paulina
  */
 
 #include "GameShip.h"
-#include <exception>
-#include <iostream>
+#include "Field.h"
 
-GameShip::GameShip() {
-	state_ = ShipState::FLOAT;
-}
+GameShip::GameShip(){}
+GameShip::GameShip(ShipState state):state_(state){}
+GameShip::~GameShip(){}
 
-GameShip::~GameShip() {
-	// TODO Auto-generated destructor stub
-}
-
-
-void GameShip::changeState(Field* field, ShipState state){
-	state_ = state;
-}
-
-void GameShip::updateState(){}
