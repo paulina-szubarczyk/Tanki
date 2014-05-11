@@ -7,8 +7,9 @@
 
 #include "BigGameShip.h"
 
-BigGameShip::BigGameShip() : GameShip(GameShip::ShipState::FLOAT), HitObserver() {};
+BigGameShip::BigGameShip() : GameShip(GameShip::ShipState::FLOAT){};
 BigGameShip::~BigGameShip() {};
+
 GameShip::ShipState BigGameShip::getState() const {
 	return state_;
 }
@@ -26,10 +27,11 @@ void BigGameShip::addShips(std::vector<ShipPtr> ships){
 }
 
 void BigGameShip::hit() {
-	for (auto ship = ships_.begin(); ship != ships_.end(); ++ship)
-		if ((*ship)->getState() == GameShip::ShipState::FLOAT){
-			state_ = GameShip::ShipState::HIT;
+	for (auto ship = ships_.begin(); ship != ships_.end(); ++ship){
+		if ((*ship)->getState() == ShipState::FLOAT){
+			state_ = ShipState::HIT;
 			return;
 		}
-	state_ = GameShip::ShipState::SUNK;
+	}
+	state_ = ShipState::SUNK;
 }

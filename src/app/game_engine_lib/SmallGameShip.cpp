@@ -9,7 +9,7 @@
 #include "Field.h"
 #include <iostream>
 
-SmallGameShip::SmallGameShip() : GameShip(GameShip::ShipState::FLOAT), HitObserver(){}
+SmallGameShip::SmallGameShip() : GameShip(GameShip::ShipState::FLOAT) {}
 
 
 GameShip::ShipState SmallGameShip::getState() const {
@@ -21,7 +21,7 @@ std::size_t  SmallGameShip::getSize() const {
 }
 
 void SmallGameShip::hit() {
-	state_ = GameShip::ShipState::HIT;
+	state_ = GameShip::ShipState::SUNK;
 }
 
 

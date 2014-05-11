@@ -12,11 +12,12 @@
 #include "HitObserver.h"
 #include <vector>
 
-class BigGameShip: public GameShip, public HitObserver {
+class BigGameShip: public GameShip {
 
 public:
 	BigGameShip();
 	virtual ~BigGameShip();
+	using GameShip::ShipState;
 
 	typedef std::shared_ptr<GameShip> ShipPtr;
 

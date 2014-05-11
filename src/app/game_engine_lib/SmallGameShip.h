@@ -9,9 +9,8 @@
 #define SMALLGAMESHIP_H_
 
 #include "GameShip.h"
-#include "HitObserver.h"
 
-class SmallGameShip: public GameShip, public HitObserver {
+class SmallGameShip: public GameShip {
 
 public:
 	SmallGameShip();

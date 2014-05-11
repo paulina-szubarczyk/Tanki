@@ -9,9 +9,11 @@
 #define ABSTRACTSHIP_H_
 
 #include <memory>
-class GameShip {
+#include "HitObserver.h"
+
+class GameShip: public HitObserver {
 public:
-	enum class ShipState { FLOAT, SUNK, HIT };
+	enum ShipState { FLOAT, SUNK, HIT };
 
 	GameShip();
 	GameShip(ShipState state);
@@ -19,6 +21,7 @@ public:
 
 	virtual ShipState getState() const {} ;
 	virtual std::size_t getSize() const {};
+	virtual void hit() override;
 
 protected:
 	ShipState state_;
