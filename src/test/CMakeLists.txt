@@ -14,8 +14,14 @@ include_directories(${ClientLib_SOURCE_DIR})
 include_directories(${ServerLib_SOURCE_DIR})
 include_directories(${GameEngineLib_SOURCE_DIR})
 
+<<<<<<< HEAD
 add_executable(app_test main_test.cpp shiptest.cpp MessagePackerTest.cpp SmallGameShipTest.cpp BigGameShipTest.cpp FieldTest.cpp)
 target_link_libraries(app_test gtest gtest_main messages lib_client  lib_server lib_game_engine)
+=======
+add_executable(app_test main_test.cpp shiptest.cpp SmallGameShipTest.cpp BigGameShipTest.cpp FieldTest.cpp
+                FieldsUpdaterTest.cpp GameboardTest.cpp)
+target_link_libraries(app_test gtest gtest_main messages lib_client lib_game_engine)
+>>>>>>> game_engine_lib classes FieldsUpdater is a pipe between serwer's messages and game engine
 add_test(app_test app_test)
 add_custom_command(TARGET app_test POST_BUILD COMMAND app_test)
 

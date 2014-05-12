@@ -35,3 +35,7 @@ void BigGameShip::hit() {
 	}
 	state_ = ShipState::SUNK;
 }
+
+void BigGameShip::registerShipObserver(ShipObserverPtr shipObserver){
+	hitShip.connect(SignalShipType::slot_type( &ShipObserver::shipHit, shipObserver.get()).track_foreign(shipObserver));
+}
