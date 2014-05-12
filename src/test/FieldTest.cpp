@@ -6,7 +6,6 @@
  */
 #include "gtest/gtest.h"
 #include "Field.h"
-#include "SmallGameShip.h"
 
 class FieldTest : public ::testing::Test {
 protected:
@@ -42,8 +41,7 @@ TEST_F(FieldTest, RegisterHitObserverTest){
 		TestHitObserver(int id) : HitObserver(), id_(id), state_(0) {};
 		~TestHitObserver() = default;
 		void hit() {
-			state_ = 1;
-			std::cout << "[ RUN      ] TestHitObserver " << id_ << " is hitten\n";
+			++state_ ;
 		}
 		int getState() {return state_; }
 	private:
@@ -62,7 +60,7 @@ TEST_F(FieldTest, RegisterHitObserverTest){
 	EXPECT_EQ(thobs2->getState(), 0);
 	EXPECT_EQ(thobs->getState(), 1);
 	field->hit();
-	EXPECT_EQ(thobs->getState(), 1);
+	EXPECT_EQ(thobs->getState(), 2);
 	EXPECT_EQ(thobs2->getState(), 1);
 }
 

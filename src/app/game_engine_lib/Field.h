@@ -14,6 +14,7 @@ class Field {
 public:
 	Field();
 	Field(int position);
+	Field(const Field &field);
 	~Field();
 
 	int getPosition() const ;

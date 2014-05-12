@@ -6,7 +6,6 @@
 // */
 #include "gtest/gtest.h"
 #include "SmallGameShip.h"
-#include "Field.h"
 
 class SmallGameShipTest : public ::testing::Test {
 protected:

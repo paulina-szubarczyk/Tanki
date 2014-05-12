@@ -11,6 +11,7 @@
 Field::Field():position_(0) {}
 Field::Field(int position):position_(position) {}
 Field::~Field() {}
+Field::Field(const Field &field) : Field(field.position_) {}
 
 int Field::getPosition() const  {
 	return position_;

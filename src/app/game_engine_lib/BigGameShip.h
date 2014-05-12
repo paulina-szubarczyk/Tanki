@@ -10,6 +10,7 @@
 
 #include "GameShip.h"
 #include "HitObserver.h"
+#include "hitShip_typedef.h"
 #include <vector>
 
 class BigGameShip: public GameShip {
@@ -20,6 +21,9 @@ public:
 	using GameShip::ShipState;
 
 	typedef std::shared_ptr<GameShip> ShipPtr;
+
+	SignalShipType hitShip;
+	void registerShipObserver(ShipObserverPtr shipObserver);
 
 	virtual void hit() override;
 

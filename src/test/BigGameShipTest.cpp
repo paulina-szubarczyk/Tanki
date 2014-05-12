@@ -6,8 +6,6 @@
 // */
 #include "gtest/gtest.h"
 #include "BigGameShip.h"
-#include "SmallGameShip.h"
-#include "Field.h"
 
 class BigGameShipTest : public ::testing::Test {
 protected:
@@ -20,7 +18,6 @@ protected:
 		TestUnitShip() : GameShip() {} ;
 		virtual GameShip::ShipState getState() const { return state_;}
 		virtual void hit() {
-//			std::cout << "I'm hitten\n";
 			state_ = GameShip::ShipState::SUNK; }
 	};
 	typedef std::shared_ptr<GameShip> TestShipPtr;
@@ -74,5 +71,35 @@ TEST_F(BigGameShipTest, GameShipStateTest){
 	bigship.hit();
 	EXPECT_TRUE(bigship.getState() == GameShip::ShipState::SUNK);
 }
+TEST_F(BigGameShipTest, RegisterShipObserverTest){
+	std::shared_ptr<BigGameShip> ship(new BigGameShip());
 
+	class TestShipObserver : public ShipObserver{
+	public:
+		TestShipObserver() : ShipObserver(), id_(0), state_(0) {};
+		TestShipObserver(int id) : ShipObserver(), id_(id), state_(0) {};
+		~TestShipObserver() = default;
+		void shipHit() {
+			++state_ ;
+		}
+		int getState() {return state_; }
+	private:
+		int id_;
+		int state_;
+	};
+
+	std::shared_ptr<TestShipObserver> tsobs(new TestShipObserver());
+	ship->registerShipObserver(tsobs);
+	EXPECT_EQ(tsobs->getState(), 0);
+	ship->hitShip();
+	EXPECT_EQ(tsobs->getState(), 1);
+
+	std::shared_ptr<TestShipObserver> tsobs2(new TestShipObserver(1));
+	ship->registerShipObserver(tsobs2);
+	EXPECT_EQ(tsobs2->getState(), 0);
+	EXPECT_EQ(tsobs->getState(), 1);
+	ship->hitShip();
+	EXPECT_EQ(tsobs->getState(), 2);
+	EXPECT_EQ(tsobs2->getState(), 1);
+}
 
