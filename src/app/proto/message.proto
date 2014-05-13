@@ -3,6 +3,7 @@ enum MessageType {
 	LOGOUT = 2;
 	XY = 3;
 	SHIP = 4;
+	ACK = 5;
 }
 
 message DataMsg {

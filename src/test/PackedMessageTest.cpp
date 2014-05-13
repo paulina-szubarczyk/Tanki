@@ -6,7 +6,7 @@
  */
 #include "gtest/gtest.h"
 
-#include "packedmessage.h"
+#include "PackedMessage.h"
 #include "test.pb.h"
 #include <memory>
 
@@ -18,6 +18,9 @@ protected:
 	~PackedMessageTest() {};
 	virtual void SetUp() {};
 	virtual void TeatDown() {};
+
+	typedef PackedMessage<TestMsg> PackedMessageType;
+	typedef PackedMessageType::BufferType BufferType;
 };
 
 // Tests that the Foo::Bar() method does Abc.
@@ -26,12 +29,12 @@ TEST_F(PackedMessageTest, PacksAndUnpacksMessage) {
 	std::shared_ptr<TestMsg> testMsgFrom(new TestMsg());
 
 	testMsgFrom->set_field(100);
-	DataBuffer buffer;
+	BufferType buffer;
 
-	PackedMessage<TestMsg> packedMsgIn(testMsgFrom);
+	PackedMessageType packedMsgIn(testMsgFrom);
 	ASSERT_TRUE(packedMsgIn.pack(buffer));
 
-	PackedMessage<TestMsg> packedMsgOut;
+	PackedMessageType packedMsgOut;
 	ASSERT_TRUE(packedMsgOut.unpack(buffer));
 
 	ASSERT_EQ(packedMsgOut.getMsg()->field(), packedMsgIn.getMsg()->field());
@@ -40,19 +43,19 @@ TEST_F(PackedMessageTest, PacksAndUnpacksMessage) {
 TEST_F(PackedMessageTest, ExceptionOnNullMsgSet) {
 
 	std::shared_ptr<TestMsg> testPtr;
-	EXPECT_ANY_THROW(new PackedMessage<TestMsg>(testPtr));
-	PackedMessage<TestMsg> testMsg;
+	EXPECT_ANY_THROW(new PackedMessageType(testPtr));
+	PackedMessageType testMsg;
 	EXPECT_ANY_THROW(testMsg.setMsg(testPtr));
 }
 
 TEST_F(PackedMessageTest, DecodeHeaderSmallBuffer) {
 
-	DataBuffer buffer;
-	PackedMessage<TestMsg> testMsg;
+	BufferType buffer;
+	PackedMessageType testMsg;
 	testMsg.getMsg()->set_field(100);
 	testMsg.pack(buffer);
 
-	DataBuffer smallBuffer(0);
+	BufferType smallBuffer(0);
 	EXPECT_ANY_THROW(testMsg.decodeHeader(smallBuffer));
 }
 
@@ -61,8 +64,8 @@ TEST_F(PackedMessageTest, DecodeHeader) {
 	std::shared_ptr<TestMsg> msg(new TestMsg);
 	msg->set_field(100);
 	int size = msg->ByteSize();
-	DataBuffer buffer(4);
-	PackedMessage<TestMsg> packedMsg(msg);
+	BufferType buffer(4);
+	PackedMessageType packedMsg(msg);
 	packedMsg.pack(buffer);
 	EXPECT_EQ(packedMsg.decodeHeader(buffer), size);
 }
@@ -70,8 +73,8 @@ TEST_F(PackedMessageTest, DecodeHeader) {
 TEST_F(PackedMessageTest, PackUninitializedMsg) {
 
 	std::shared_ptr<TestMsg> msg(new TestMsg);
-	DataBuffer buffer(4);
-	PackedMessage<TestMsg> packedMsg(msg);
+	BufferType buffer(4);
+	PackedMessageType packedMsg(msg);
 	EXPECT_ANY_THROW(packedMsg.pack(buffer));
 }
 
