@@ -11,20 +11,12 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 include_directories(${App_SOURCE_DIR} ${App_BINARY_DIR})
 include_directories(${Client_SOURCE_DIR})
 include_directories(${ClientLib_SOURCE_DIR})
-<<<<<<< HEAD
 include_directories(${ServerLib_SOURCE_DIR})
 include_directories(${GameEngineLib_SOURCE_DIR})
 
 add_executable(app_test main_test.cpp shiptest.cpp MessagePackerTest.cpp SmallGameShipTest.cpp BigGameShipTest.cpp FieldTest.cpp
                 FieldsUpdaterTest.cpp GameboardTest.cpp)
 target_link_libraries(app_test gtest gtest_main messages lib_client lib_server  lib_game_engine)
-=======
-include_directories(${GameEngineLib_SOURCE_DIR})
-
-add_executable(app_test main_test.cpp shiptest.cpp SmallGameShipTest.cpp BigGameShipTest.cpp FieldTest.cpp
-                FieldsUpdaterTest.cpp GameboardTest.cpp)
-target_link_libraries(app_test gtest gtest_main messages lib_client lib_game_engine)
->>>>>>> origin/paulina_dev
 add_test(app_test app_test)
 add_custom_command(TARGET app_test POST_BUILD COMMAND app_test)
 
