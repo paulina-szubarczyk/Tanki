@@ -6,6 +6,8 @@ add_library(lib_server
         IoHarbour.cpp 
         Connection.cpp
         Acceptor.cpp
+        BasicAcceptor.cpp
+        ProtobufConnection.cpp
         )
         
 target_link_libraries(lib_server ${CommonLibs})

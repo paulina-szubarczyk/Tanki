@@ -104,8 +104,6 @@ TEST_F(ConnectionTest, ConnectTest) {
 	EXPECT_EQ(connection->connect_, 2);
 }
 
-
-
 }  // namespace
 
 

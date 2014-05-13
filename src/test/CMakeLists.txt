@@ -15,7 +15,7 @@ include_directories(${ServerLib_SOURCE_DIR})
 
 
 
-add_executable(app_test main_test.cpp shiptest.cpp)
+add_executable(app_test main_test.cpp shiptest.cpp PackedMessageTest.cpp)
 target_link_libraries(app_test gtest gtest_main messages lib_client lib_server)
 add_test(app_test app_test)
 add_custom_command(TARGET app_test POST_BUILD COMMAND app_test)

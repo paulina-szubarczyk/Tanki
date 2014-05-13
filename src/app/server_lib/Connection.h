@@ -30,16 +30,17 @@ class Acceptior;
  * http://www.gamedev.net/blog/950/entry-2249317-a-guide-to-getting-started-with-boostasio/?pg=10
  */
 class Connection : public std::enable_shared_from_this<Connection> {
-
 	friend class Acceptor;
+public:	//	Typedefs
+	typedef std::shared_ptr<IoHarbour> HarbourPtr;
 
 public:	//	Constructors
-	Connection(std::shared_ptr<IoHarbour> harbour);
+	Connection(HarbourPtr harbour);
 	virtual ~Connection() = default;
 
 public:	//	Setters & Getters
 	bool hasError() const;
-	std::shared_ptr<IoHarbour> getHarbour() const;
+	HarbourPtr getHarbour() const;
 	int getReceiveBufferSize() const;
 	void setReceiveBufferSize(int receiveBufferSize);
 	const ip::tcp::socket& getSocket() const;
@@ -51,27 +52,27 @@ public:	//	Setters & Getters
 
 public:	//	Methods
 	// Binds the socket to the specified interface.
-	void bind(const std::string& ip, uint16_t port);
+	virtual void bind(const std::string& ip, uint16_t port);
 
 	// Starts an a/synchronous connect.
-	void connect(const std::string& host, uint16_t port);
+	virtual void connect(const std::string& host, uint16_t port);
 
 	// Posts data to be sent to the connection.
-	void send(const std::vector<uint8_t>& buffer);
+	virtual void send(const std::vector<uint8_t>& buffer);
 
 	// Posts a recv for the connection to process. If total_bytes is 0, then
 	// as many bytes as possible up to GetReceiveBufferSize() will be
 	// waited for. If Recv is not 0, then the connection will wait for exactly
 	// total_bytes before invoking OnRecv.
-	void receive(int totalBytes = 0);
+	virtual void receive(int totalBytes = 0);
 
 	// Posts an asynchronous disconnect event for the object to process.
-	void disconnect();
+	virtual void disconnect();
 
-private:	//	Methods
+protected:	//	Methods
 	void startSend();
 	void startError(const boost::system::error_code & error);
-	void startReceive(int32_t totalBytes);
+	virtual void startReceive(int32_t totalBytes);
 	void startTimer();
 
 	void dispatchSend(std::vector<uint8_t> buffer);
@@ -84,7 +85,7 @@ private:	//	Methods
 	void handleReceive(const boost::system::error_code & error, int actualBytes);
 	void handleTimer(const boost::system::error_code& error);
 
-private:	//	Abstract methods
+protected:	//	Abstract methods
 	// Called when the connection has successfully connected to the local
 	// host.
 	virtual void onAccept(const std::string& host, uint16_t port) = 0;
@@ -106,8 +107,8 @@ private:	//	Abstract methods
 	virtual void onError(const boost::system::error_code& error) = 0;
 
 
-private:	//	Fields
-	std::shared_ptr<IoHarbour> harbour_;
+protected:	//	Fields
+	HarbourPtr harbour_;
 	ip::tcp::socket socket_;
 	strand strand_;
 	basic_waitable_timer<steady_clock> timer_;

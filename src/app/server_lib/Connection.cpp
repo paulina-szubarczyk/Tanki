@@ -16,7 +16,7 @@ using namespace std::placeholders;
 
 namespace ships {
 
-Connection::Connection(std::shared_ptr<IoHarbour> harbour)
+Connection::Connection(HarbourPtr harbour)
 	: harbour_(harbour),
 	  strand_(harbour_->getService()),
 	  socket_(harbour_->getService()),
@@ -29,7 +29,7 @@ bool Connection::hasError() const {
 	return error_;
 }
 
-std::shared_ptr<IoHarbour> Connection::getHarbour() const {
+auto Connection::getHarbour() const -> HarbourPtr {
 	return harbour_;
 }
 

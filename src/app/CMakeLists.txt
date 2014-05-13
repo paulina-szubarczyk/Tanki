@@ -25,7 +25,7 @@ include_directories(${GLOG_INCLUDE_DIRS})
 set(CommonLibs ${CommonLibs} ${GLOG_LIBRARIES})
 
 #	Build a message library
-add_library(messages ${ProtoSources} ${ProtoHeaders} packedmessage.h)
+add_library(messages ${ProtoSources} ${ProtoHeaders} PackedMessage.cpp)
 target_link_libraries(messages ${PROTOBUF_LIBRARIES})
 
 #	Setup common libraries
