@@ -18,7 +18,7 @@ void FieldsUpdater::shipHit() {
 }
 
 void FieldsUpdater::hit(FieldType field) {
-	secondPlayerGameboard_->hit(field);
+	secondPlayerGameboard_->hit(field.first,field.second);
 	lastHit_ = field;
 }
 

@@ -9,7 +9,7 @@
 #define CLIENTFIELDUPDATER_H_
 
 #include "ShipObserver.h"
-#include <array>
+#include <utility>
 #include <memory>
 #include "Gameboard.h"
 
@@ -21,7 +21,7 @@ public:
 
 	virtual void shipHit() override;
 
-	typedef std::array<int,2> FieldType;
+	typedef std::pair<int,int> FieldType;
 
 	void hit(FieldType field);
 	FieldType getLastHit() const;

@@ -20,6 +20,13 @@ TEST_F(GameboardTest, ConstructorTest) {
 	ASSERT_EQ(gameboard.getSize(),100);
 }
 
+TEST_F(GameboardTest, HitTest) {
+	Gameboard gameboard(4);
+
+	gameboard.hit(1,1);
+
+}
+
 
 
 
