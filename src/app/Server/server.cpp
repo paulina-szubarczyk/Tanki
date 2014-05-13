@@ -1,7 +1,7 @@
 #include "BasicAcceptor.h"
 #include "ProtobufConnection.h"
 #include "IoHarbour.h"
-#include "PackedMessage.h"
+#include "MessagePacker.h"
 #include "MessageHandler.h"
 
 #include "message.pb.h"

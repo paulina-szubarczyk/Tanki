@@ -13,7 +13,7 @@ include_directories(${Client_SOURCE_DIR})
 include_directories(${ClientLib_SOURCE_DIR})
 include_directories(${ServerLib_SOURCE_DIR})
 
-add_executable(app_test main_test.cpp shiptest.cpp PackedMessageTest.cpp)
+add_executable(app_test main_test.cpp shiptest.cpp MessagePackerTest.cpp)
 
 target_link_libraries(app_test gtest gtest_main messages lib_client lib_server)
 add_test(app_test app_test)

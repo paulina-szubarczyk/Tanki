@@ -6,7 +6,7 @@
  */
 
 #include "ProtobufConnection.h"
-#include "PackedMessage.h"
+#include "MessagePacker.h"
 
 #include "glog/logging.h"
 
@@ -21,8 +21,8 @@ ProtobufConnection::ProtobufConnection(HarbourPtr harbour, MsgHandlerPtr msgHand
 void ProtobufConnection::send(std::shared_ptr<DataMsg> msg) {
 
 	std::vector<uint8_t> buffer;
-	packedMessage.setMsg(msg);
-	packedMessage.pack(buffer);
+	msgPacker_.setMsg(msg);
+	msgPacker_.pack(buffer);
 	Connection::send(buffer);
 }
 
@@ -63,15 +63,15 @@ void ProtobufConnection::startReceive(int32_t totalBytes) {
 	auto wrappedHeaderHandler = strand_.wrap(std::bind(
 			&ProtobufConnection::handleReceiveHeader, std::dynamic_pointer_cast<ProtobufConnection>(shared_from_this()), _1));
 
-    receiveBuffer_.resize(packedMessage.HEADER_SIZE);
+    receiveBuffer_.resize(msgPacker_.HEADER_SIZE);
     async_read(socket_, buffer(receiveBuffer_), wrappedHeaderHandler);
 }
 
 void ProtobufConnection::startReceiveBody(int32_t totalBytes) { //header
 
-	receiveBuffer_.resize(packedMessage.HEADER_SIZE + totalBytes);
+	receiveBuffer_.resize(msgPacker_.HEADER_SIZE + totalBytes);
 	mutable_buffers_1 buf = buffer(
-			&receiveBuffer_[packedMessage.HEADER_SIZE], totalBytes);
+			&receiveBuffer_[msgPacker_.HEADER_SIZE], totalBytes);
 
 	auto wrappedBodyHandler = strand_.wrap(std::bind(
 			&ProtobufConnection::handleReceiveBody, std::dynamic_pointer_cast<ProtobufConnection>(shared_from_this()), _1));
@@ -81,13 +81,13 @@ void ProtobufConnection::startReceiveBody(int32_t totalBytes) { //header
 
 void ProtobufConnection::handleReceiveHeader(const boost::system::error_code & error) {
 
-	startReceiveBody(packedMessage.decodeHeader(receiveBuffer_));
+	startReceiveBody(msgPacker_.decodeHeader(receiveBuffer_));
 }
 
 void ProtobufConnection::handleReceiveBody(const boost::system::error_code & error) {
 
-	if(packedMessage.unpack(receiveBuffer_))
-		msgHandler_->handleMsg(*packedMessage.getMsg());
+	if(msgPacker_.unpack(receiveBuffer_))
+		msgHandler_->handleMsg(*msgPacker_.getMsg());
 
 	startReceive();
 }

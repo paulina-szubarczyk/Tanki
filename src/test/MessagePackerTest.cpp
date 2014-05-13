@@ -6,25 +6,25 @@
  */
 #include "gtest/gtest.h"
 
-#include "PackedMessage.h"
+#include "MessagePacker.h"
 #include "test.pb.h"
 #include <memory>
 
 namespace {
 
-class PackedMessageTest : public ::testing::Test {
+class MessagePackerTest : public ::testing::Test {
 protected:
-	PackedMessageTest() {};
-	~PackedMessageTest() {};
+	MessagePackerTest() {};
+	~MessagePackerTest() {};
 	virtual void SetUp() {};
 	virtual void TeatDown() {};
 
-	typedef PackedMessage<TestMsg> PackedMessageType;
+	typedef MessagePacker<TestMsg> PackedMessageType;
 	typedef PackedMessageType::BufferType BufferType;
 };
 
 // Tests that the Foo::Bar() method does Abc.
-TEST_F(PackedMessageTest, PacksAndUnpacksMessage) {
+TEST_F(MessagePackerTest, PacksAndUnpacksMessage) {
 
 	std::shared_ptr<TestMsg> testMsgFrom(new TestMsg());
 
@@ -40,7 +40,7 @@ TEST_F(PackedMessageTest, PacksAndUnpacksMessage) {
 	ASSERT_EQ(packedMsgOut.getMsg()->field(), packedMsgIn.getMsg()->field());
 }
 
-TEST_F(PackedMessageTest, ExceptionOnNullMsgSet) {
+TEST_F(MessagePackerTest, ExceptionOnNullMsgSet) {
 
 	std::shared_ptr<TestMsg> testPtr;
 	EXPECT_ANY_THROW(new PackedMessageType(testPtr));
@@ -48,7 +48,7 @@ TEST_F(PackedMessageTest, ExceptionOnNullMsgSet) {
 	EXPECT_ANY_THROW(testMsg.setMsg(testPtr));
 }
 
-TEST_F(PackedMessageTest, DecodeHeaderSmallBuffer) {
+TEST_F(MessagePackerTest, DecodeHeaderSmallBuffer) {
 
 	BufferType buffer;
 	PackedMessageType testMsg;
@@ -59,7 +59,7 @@ TEST_F(PackedMessageTest, DecodeHeaderSmallBuffer) {
 	EXPECT_ANY_THROW(testMsg.decodeHeader(smallBuffer));
 }
 
-TEST_F(PackedMessageTest, DecodeHeader) {
+TEST_F(MessagePackerTest, DecodeHeader) {
 
 	std::shared_ptr<TestMsg> msg(new TestMsg);
 	msg->set_field(100);
@@ -70,7 +70,7 @@ TEST_F(PackedMessageTest, DecodeHeader) {
 	EXPECT_EQ(packedMsg.decodeHeader(buffer), size);
 }
 
-TEST_F(PackedMessageTest, PackUninitializedMsg) {
+TEST_F(MessagePackerTest, PackUninitializedMsg) {
 
 	std::shared_ptr<TestMsg> msg(new TestMsg);
 	BufferType buffer(4);

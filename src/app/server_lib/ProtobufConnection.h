@@ -11,14 +11,14 @@
 #include "Connection.h"
 
 #include "MessageHandler.h"
-#include "PackedMessage.h"
+#include "MessagePacker.h"
 #include "message.pb.h"
 
 namespace ships {
 
 class ProtobufConnection: public Connection {
 public:	//	Typedefs
-	typedef PackedMessage<DataMsg> PackageType;
+	typedef MessagePacker<DataMsg> PackageType;
 	typedef MessageHandler<MessageType, DataMsg> MsgHandlerType;
 	typedef std::shared_ptr<MsgHandlerType> MsgHandlerPtr;
 
@@ -44,7 +44,7 @@ private:	//	Methods
 	void handleReceiveHeader(const boost::system::error_code & error);
 	void handleReceiveBody(const boost::system::error_code & error);
 
-	PackedMessage<DataMsg> packedMessage;
+	MessagePacker<DataMsg> msgPacker_;
 	MsgHandlerPtr msgHandler_;
 };
 
