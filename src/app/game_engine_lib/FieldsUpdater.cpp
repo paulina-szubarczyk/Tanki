@@ -7,21 +7,18 @@
 
 #include "FieldsUpdater.h"
 
-FieldsUpdater::FieldsUpdater() : ShipObserver() {
-	// TODO Auto-generated constructor stub
+FieldsUpdater::FieldsUpdater() : ShipObserver() {}
 
-}
+FieldsUpdater::FieldsUpdater(std::shared_ptr<Gameboard> gameboard ) : ShipObserver(), secondPlayerGameboard_(gameboard){}
 
-FieldsUpdater::~FieldsUpdater() {
-	// TODO Auto-generated destructor stub
-}
+FieldsUpdater::~FieldsUpdater() {}
 
 void FieldsUpdater::shipHit() {
 
 }
 
 void FieldsUpdater::hit(FieldType field) {
-//	secondPlayerGameboard_->hit(field);
+	secondPlayerGameboard_->hit(field);
 	lastHit_ = field;
 }
 

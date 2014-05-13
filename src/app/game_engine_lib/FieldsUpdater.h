@@ -11,10 +11,12 @@
 #include "ShipObserver.h"
 #include <array>
 #include <memory>
+#include "Gameboard.h"
 
 class FieldsUpdater: public ShipObserver {
 public:
 	FieldsUpdater();
+	FieldsUpdater(std::shared_ptr<Gameboard> gameboard);
 	virtual ~FieldsUpdater();
 
 	virtual void shipHit() override;
@@ -26,6 +28,7 @@ public:
 
 private:
 	FieldType lastHit_;
+	std::shared_ptr<Gameboard> secondPlayerGameboard_;
 };
 
 #endif /* CLIENTFIELDUPDATER_H_ */

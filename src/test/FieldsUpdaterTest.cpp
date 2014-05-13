@@ -8,6 +8,7 @@
 #include "FieldsUpdater.h"
 #include <boost/signals2/signal.hpp>
 #include "array"
+
 class FieldsUpdaterTest : public ::testing::Test {
 protected:
 	FieldsUpdaterTest() {};
