@@ -31,6 +31,7 @@ void Gameboard::print() {
 	for(; it != fields_.end(); ++it)
 		std::cout << it->getPosition() << " ";
 }
+
 std::size_t Gameboard::getSize() const {
 	return fields_.size();
 }

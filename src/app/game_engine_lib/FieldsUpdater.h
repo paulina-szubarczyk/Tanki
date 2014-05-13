@@ -23,6 +23,7 @@ public:
 
 	typedef std::pair<int,int> FieldType;
 
+
 	void hit(FieldType field);
 	FieldType getLastHit() const;
 

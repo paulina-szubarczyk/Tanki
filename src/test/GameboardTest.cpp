@@ -20,6 +20,7 @@ TEST_F(GameboardTest, ConstructorTest) {
 	ASSERT_EQ(gameboard.getSize(),100);
 }
 
+<<<<<<< HEAD
 TEST_F(GameboardTest, HitTest) {
 	Gameboard gameboard(4);
 
@@ -27,6 +28,8 @@ TEST_F(GameboardTest, HitTest) {
 
 }
 
+=======
+>>>>>>> origin/paulina_dev
 
 
 
