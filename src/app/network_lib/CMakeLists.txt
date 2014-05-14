@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 2.8)
-project( ServerLib )
+project( NetworkLib )
 
-add_library(lib_server 
+add_library(network
         MessageHandler.cpp 
         IoHarbour.cpp 
         Connection.cpp
         Acceptor.cpp
         BasicAcceptor.cpp
         ProtobufConnection.cpp
-        Player.cpp
+        MessagePacker.cpp
         )
         
-target_link_libraries(lib_server ${CommonLibs})
+target_link_libraries(network ${CommonLibs})
 
  

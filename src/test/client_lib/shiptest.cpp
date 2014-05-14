@@ -7,7 +7,6 @@
 #include "gtest/gtest.h"
 
 #include "ship.h"
-#include "test.pb.h"
 
 class ShipTest : public ::testing::Test {
 protected:

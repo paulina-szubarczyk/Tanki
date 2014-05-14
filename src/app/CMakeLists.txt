@@ -25,15 +25,13 @@ include_directories(${GLOG_INCLUDE_DIRS})
 set(CommonLibs ${CommonLibs} ${GLOG_LIBRARIES})
 
 #	Build a message library
-add_library(messages ${ProtoSources} ${ProtoHeaders} MessagePacker.cpp)
+add_library(messages ${ProtoSources} ${ProtoHeaders})
 target_link_libraries(messages ${PROTOBUF_LIBRARIES})
 
 #	Setup common libraries
 set(CommonLibs ${CommonLibs} ${Boost_LIBRARIES} messages)
 
 add_subdirectory(client_lib)
-add_subdirectory(Client)
-add_subdirectory(server_lib)
-add_subdirectory(Server)
+add_subdirectory(network_lib)
 add_subdirectory(game_engine_lib)
-
+add_subdirectory(execs)
