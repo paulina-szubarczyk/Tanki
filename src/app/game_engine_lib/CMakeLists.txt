@@ -11,3 +11,9 @@ add_library(game_engine
         ShipObserver.cpp 
         Gameboard.cpp
 )
+
+install(TARGETS game_engine
+               RUNTIME DESTINATION bin
+               LIBRARY DESTINATION lib
+               ARCHIVE DESTINATION lib/static
+)

@@ -11,3 +11,5 @@ add_executable(${name}
 
 target_link_libraries(${name} gtest gtest_main lib_client)
 add_custom_command(TARGET ${name} POST_BUILD COMMAND ${name})
+
+install(TARGETS ${name} DESTINATION test)
