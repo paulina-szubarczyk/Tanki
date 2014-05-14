@@ -5,15 +5,15 @@ set( name test_network )
 include_directories(${NetworkLib_SOURCE_DIR})
 include_directories(${Message_BINARY_DIR})
 
-add_executable(${name} 
-                    ${MAIN} 
+add_executable(${name}  
                     MessageHandlerTest.cpp 
                     IoHarbourTest.cpp 
                     ConnectionTest.cpp
                     MessagePackerTest.cpp
 )
 
-target_link_libraries(${name} gtest gtest_main network)
+target_link_libraries(${name} ${GTEST_LIBS} network)
 add_custom_command(TARGET ${name} POST_BUILD COMMAND ${name})
+add_test(TEST ${name})
 
 install(TARGETS ${name} DESTINATION test)
