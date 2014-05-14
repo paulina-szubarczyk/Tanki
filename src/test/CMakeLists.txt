@@ -11,12 +11,14 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 include_directories(${App_SOURCE_DIR} ${App_BINARY_DIR})
 include_directories(${ClientLib_SOURCE_DIR})
 
-add_executable(app_test main_test.cpp shiptest.cpp)
+include_directories(${GameEngineLib_SOURCE_DIR})
+
+add_executable(app_test main_test.cpp shiptest.cpp SmallGameShipTest.cpp BigGameShipTest.cpp FieldTest.cpp
+                FieldsUpdaterTest.cpp GameboardTest.cpp)
                 
-target_link_libraries(app_test gtest gtest_main lib_client)
+target_link_libraries(app_test gtest gtest_main lib_client lib_game_engine)
 
 add_test(app_test app_test)
 add_custom_command(TARGET app_test POST_BUILD COMMAND app_test)
 
 add_subdirectory(network_lib)
-add_subdirectory(game_engine_lib)
