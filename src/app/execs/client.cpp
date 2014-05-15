@@ -31,8 +31,8 @@ int main(int argc, char * argv[]) {
 
 	std::shared_ptr<DataMsg> dataMsg(new DataMsg());
 	dataMsg->set_type(MessageType::LOGIN);
-	dataMsg->set_login("adam");
-	dataMsg->set_password("passwd");
+	dataMsg->set_login(argv[1]);
+	dataMsg->set_password(argv[2]);
 
 	while(true) {
 		connection->send(dataMsg);

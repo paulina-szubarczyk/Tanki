@@ -16,6 +16,13 @@
 
 namespace ships {
 
+/**
+ * A concrete connection class. It handles Google Protocol Buffer-based connections.
+ * Provides interface for sending protobuf message. Incoming message handling is done through
+ * a message handling object. The on* methods have only a dummy implementation with logging.
+ *
+ * Uses a MessagePacker object to pack protobuf messsages.
+ */
 class ProtobufConnection: public Connection {
 public:	//	Typedefs
 	typedef MessagePacker<DataMsg> PackageType;
@@ -23,11 +30,18 @@ public:	//	Typedefs
 	typedef std::shared_ptr<MsgHandlerType> MsgHandlerPtr;
 
 public:	//	Constructors
+	ProtobufConnection(HarbourPtr harbour);
 	ProtobufConnection(HarbourPtr harbour, MsgHandlerPtr msgHandler);
 	~ProtobufConnection() = default;
 
 public:	//	Methods
+
+	/**
+	 * Sends a DataMsg to the other side
+	 */
 	void send(std::shared_ptr<DataMsg> msg);
+	MsgHandlerPtr getMsgHandler() const;
+	void setMsgHandler(MsgHandlerPtr msgHandler);
 
 private:	//	 Overriden abstract methods
 	void onAccept(const std::string & host, uint16_t port) override;

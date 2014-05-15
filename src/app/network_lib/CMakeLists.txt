@@ -4,13 +4,18 @@ project( NetworkLib )
 include_directories(${Message_BINARY_DIR})
 
 add_library(network
-        MessageHandler.cpp 
-        IoHarbour.cpp 
-        Connection.cpp
         Acceptor.cpp
-        BasicAcceptor.cpp
-        ProtobufConnection.cpp
+        Connection.cpp
+        ConnectionFactory.cpp
+        ConnectionPool.cpp
+        IoHarbour.cpp 
+        MessageHandler.cpp 
+        MessageHandlerPolicies.cpp
         MessagePacker.cpp
+        MessageSender.cpp
+        PoolingAcceptor.cpp
+        ProtobufConnection.cpp
+        ProtobufConnectionFactory.cpp    
 )
         
 target_link_libraries(network 

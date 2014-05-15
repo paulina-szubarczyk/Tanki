@@ -10,6 +10,7 @@ add_executable(${name}
                     IoHarbourTest.cpp 
                     ConnectionTest.cpp
                     MessagePackerTest.cpp
+                    ConnectionPoolTest.cpp
 )
 
 target_link_libraries(${name} ${GTEST_LIBS} network)

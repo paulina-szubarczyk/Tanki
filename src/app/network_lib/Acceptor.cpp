@@ -15,7 +15,7 @@ namespace ships {
 
 using namespace std::placeholders;
 
-Acceptor::Acceptor(std::shared_ptr<IoHarbour> harbour)
+Acceptor::Acceptor(HarbourPtr harbour)
 		: harbour_(harbour),
 		  acceptor_(harbour->getService()),
 		  strand_(harbour->getService()),

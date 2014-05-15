@@ -25,20 +25,9 @@ public:
 
 public:
 	MessagePacker();
-
-	/**
-	 *
-	 */
 	MessagePacker(MsgPtr msg);
 
-	/**
-	 *
-	 */
 	void setMsg(MsgPtr msg);
-
-	/**
-	 *
-	 */
 	MsgPtr getMsg() const;
 
 	/**

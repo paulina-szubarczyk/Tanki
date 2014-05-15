@@ -28,6 +28,11 @@ class Acceptior;
 /**
  * Abstract Connection class. Adapted from:
  * http://www.gamedev.net/blog/950/entry-2249317-a-guide-to-getting-started-with-boostasio/?pg=10
+ *
+ * Member function description:
+ * start*	initiates some event
+ * dispatch*	schedules an asynchronous action
+ * handle*	handles an event
  */
 class Connection : public std::enable_shared_from_this<Connection> {
 	friend class Acceptor;
@@ -51,22 +56,32 @@ public:	//	Setters & Getters
 	void setTimerInterval(int timerInterval);
 
 public:	//	Methods
-	// Binds the socket to the specified interface.
+   /**
+	* Binds the socket to the specified interface.
+	*/
 	virtual void bind(const std::string& ip, uint16_t port);
 
-	// Starts an a/synchronous connect.
+   /**
+	* Starts an a/synchronous connect.
+	*/
 	virtual void connect(const std::string& host, uint16_t port);
 
-	// Posts data to be sent to the connection.
+   /**
+	* Posts data to be sent to the connection.
+	*/
 	virtual void send(const std::vector<uint8_t>& buffer);
 
-	// Posts a recv for the connection to process. If total_bytes is 0, then
-	// as many bytes as possible up to GetReceiveBufferSize() will be
-	// waited for. If Recv is not 0, then the connection will wait for exactly
-	// total_bytes before invoking OnRecv.
+   /**
+	* Posts a recv for the connection to process. If total_bytes is 0, then
+	* as many bytes as possible up to GetReceiveBufferSize() will be
+	* waited for. If Recv is not 0, then the connection will wait for exactly
+	* total_bytes before invoking OnRecv.
+	*/
 	virtual void receive(int totalBytes = 0);
 
-	// Posts an asynchronous disconnect event for the object to process.
+   /**
+	* Posts an asynchronous disconnect event for the object to process.
+	*/
 	virtual void disconnect();
 
 protected:	//	Methods
@@ -86,24 +101,36 @@ protected:	//	Methods
 	void handleTimer(const boost::system::error_code& error);
 
 protected:	//	Abstract methods
-	// Called when the connection has successfully connected to the local
-	// host.
+   /**
+	* Called when the connection has successfully connected to the local
+	* host.
+	*/
 	virtual void onAccept(const std::string& host, uint16_t port) = 0;
 
-	// Called when the connection has successfully connected to the remote
-	// host.
+   /**
+	* Called when the connection has successfully connected to the remote
+	* host.
+	*/
 	virtual void onConnect(const std::string& host, uint16_t port) = 0;
 
-	// Called when data has been sent by the connection.
+   /**
+	* Called when data has been sent by the connection.
+	*/
 	virtual void onSend(const std::vector<uint8_t>& buffer) = 0;
 
-	// Called when data has been received by the connection.
+   /**
+	* Called when data has been received by the connection.
+	*/
 	virtual void onReceive(std::vector<uint8_t>& buffer) = 0;
 
-	// Called on each timer event.
+   /**
+	* Called on each timer event.
+	*/
 	virtual void onTimer(const milliseconds& delta) = 0;
 
-	// Called when an error is encountered.
+   /**
+	* Called when an error is encountered.
+	*/
 	virtual void onError(const boost::system::error_code& error) = 0;
 
 

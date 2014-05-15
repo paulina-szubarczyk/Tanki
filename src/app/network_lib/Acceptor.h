@@ -22,39 +22,56 @@ class IoHarbour;
 class Connection;
 
 /**
- * abstract Acceptor class. Adapted from:
+ * An abstract Acceptor class. Adapted from:
  * http://www.gamedev.net/blog/950/entry-2249317-a-guide-to-getting-started-with-boostasio/?pg=10
+ *
+ * Member function description:
+ * start*	initiates some event
+ * dispatch*	schedules an asynchronous action
+ * handle*	handles an event
  */
 class Acceptor: public std::enable_shared_from_this<Acceptor> {
 	friend class ioHarbour;
+public:	//	Typedefs
+	typedef std::shared_ptr<IoHarbour> HarbourPtr;
 
 private:	//	 constructors
 	Acceptor(const Acceptor& acceptor);
 	Acceptor& operator =(const Acceptor& acceptor);
 
 protected:	//	Constructors
-	Acceptor(std::shared_ptr<IoHarbour> harbour);
+	Acceptor(HarbourPtr harbour);
 	virtual ~Acceptor() = default;
 
 public:	//	Setters & getters
 	std::shared_ptr<IoHarbour> getHarbour();
 	ip::tcp::acceptor& getAcceptor();
 	strand& getStrand();
+
+	/**
+	 * Sets timer interval in milliseconds. Default is 1000.
+	 */
 	void setTimerInterval(int32_t timerInterval);
 	int32_t getTimerInterval() const;
 	bool hasError();
 
 public:	//	Methods
-	// begin listening on the specific network interface.
-	void listen(const std::string& host, const uint16_t& port);
+	/**
+	 * Begin listening on the specific network interface.
+	 */
+	virtual void listen(const std::string& host, const uint16_t& port);
 
-	// posts the connection to the listening interface. The next client that
-	// connections will be given this connection. if multiple calls to Accept
-	// are called at a time, then they are accepted in a fIFO order.
-	void accept(std::shared_ptr<Connection> connection);
+	/**
+	 * Posts the connection to the listening interface. The next client that
+	 * connections will be given this connection. if multiple calls to Accept
+	 * are called at a time, then they are accepted in a fIFO order.
+	 */
+	virtual void accept(std::shared_ptr<Connection> connection);
 
-	// stop the Acceptor from listening.
-	void stop();
+	/**
+	 * Stop the Acceptor from listening.
+	 */
+	virtual void stop();
 
 private:	//	Methods
 	void startTimer();
@@ -68,24 +85,29 @@ private:	//	Methods
 	bool handleError(const boost::system::error_code& error);
 
 private:	//	Abstract methods
-	// called when a connection has connected to the server. This function
-	// should return true to invoke the connection's onAccept function if the
-	// connection will be kept. if the connection will not be kept, the
-	// connection's disconnect function should be called and the function
-	// should return false.
+   /**
+	* Called when a connection has connected to the server. This function
+	* should return true to invoke the connection's onAccept function if the
+	* connection will be kept. if the connection will not be kept, the
+	* connection's disconnect function should be called and the function
+	* should return false.
+	*/
 	virtual bool onAccept(std::shared_ptr<Connection> connection,
 			const std::string& host, uint16_t port) = 0;
-
-	// called on each timer event.
+   /**
+	* Called on each timer event.
+	*/
 	virtual void onTimer(const milliseconds& delta) = 0;
 
-	// called when an error is encountered. Most typically, this is when the
-	// acceptor is being closed via the stop function or if the Listen is
-	// called on an address that is not available.
+   /**
+	* Called when an error is encountered. Most typically, this is when the
+	* acceptor is being closed via the stop function or if the Listen is
+	* called on an address that is not available.
+	*/
 	virtual void onError(const boost::system::error_code& error) = 0;
 
 private:	//	Fields
-	std::shared_ptr<IoHarbour> harbour_;
+	HarbourPtr harbour_;
 	ip::tcp::acceptor acceptor_;
 	strand strand_;
 	basic_waitable_timer<steady_clock> timer_;

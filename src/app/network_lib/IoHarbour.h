@@ -28,11 +28,36 @@ public:
 
 	io_service& getService();
 	bool hasStopped();
+
+	/**
+	 *	Stops harbour from execution.
+	 */
 	void stop();
+
+	/**
+	 *	Resets a harbour. Required after called stop().
+	 */
 	void reset();
+
+	/**
+	 *	Runs harbour until it is stopped. Do not call in single threaded applications.
+	 */
 	void run();
+
+	/**
+	 *	Polls harbour and executes all there is on an execution queue. Call in single
+	 *	threaded applications
+	 */
 	void poll();
+
+	/**
+	 *	Dispatches a functor for asynchronous execution. Faster than post, but never executed immediately.
+	 */
 	void dispatch(std::function<void()> fun);
+
+	/**
+	 *	Posts a functor for asynchronous execution. Executes immediately if possible.
+	 */
 	void post(std::function<void()> fun);
 
 private:

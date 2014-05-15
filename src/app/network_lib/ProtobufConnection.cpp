@@ -14,6 +14,10 @@ using namespace std::placeholders;
 
 namespace ships {
 
+ProtobufConnection::ProtobufConnection(HarbourPtr harbour)
+	: Connection(harbour),
+	  msgHandler_(nullptr) {}
+
 ProtobufConnection::ProtobufConnection(HarbourPtr harbour, MsgHandlerPtr msgHandler)
 	: Connection(harbour),
 	  msgHandler_(msgHandler) {}
@@ -82,6 +86,14 @@ void ProtobufConnection::startReceiveBody(int32_t totalBytes) { //header
 void ProtobufConnection::handleReceiveHeader(const boost::system::error_code & error) {
 
 	startReceiveBody(msgPacker_.decodeHeader(receiveBuffer_));
+}
+
+auto ProtobufConnection::getMsgHandler() const -> MsgHandlerPtr{
+	return msgHandler_;
+}
+
+void ProtobufConnection::setMsgHandler(MsgHandlerPtr msgHandler) {
+	msgHandler_ = msgHandler;
 }
 
 void ProtobufConnection::handleReceiveBody(const boost::system::error_code & error) {

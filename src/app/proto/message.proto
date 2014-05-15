@@ -1,9 +1,11 @@
 enum MessageType {
-	LOGIN = 1;
-	LOGOUT = 2;
-	XY = 3;
-	SHIP = 4;
-	ACK = 5;
+	HIT = 1;
+	RESULT = 2;
+	LEFT = 3;
+	OVER = 4;
+	XY = 5;
+	SHIP = 6;
+	LOGIN = 7;
 }
 
 message DataMsg {
@@ -15,4 +17,9 @@ message DataMsg {
 	optional int32 y1 = 5;
 	optional int32 x2 = 6;
 	optional int32 y2 = 7;
+	
+	optional int32 x = 8;
+	optional int32 y = 9;
+	optional bool this = 10;
+	optional bool win = 11;
 }
