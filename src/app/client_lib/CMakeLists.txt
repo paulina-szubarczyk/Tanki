@@ -10,12 +10,5 @@ include_directories( ${OPENGL_INCLUDE_DIRS}
                      ${GLUI_INCLUDE_DIRS}
 )
 
-add_library(lib_client ship.cpp)
-target_link_libraries(lib_client ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${GLUI_LIBRARIES})
-
-
-install(TARGETS lib_client
-               RUNTIME DESTINATION bin
-               LIBRARY DESTINATION lib
-               ARCHIVE DESTINATION lib/static
-)
+add_library(lib_client ship.cpp observable.cpp GridCell.cpp )
+target_link_libraries(lib_client ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
