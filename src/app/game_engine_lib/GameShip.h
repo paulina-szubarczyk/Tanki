@@ -19,6 +19,7 @@ public:
 	GameShip(ShipState state);
 	virtual ~GameShip() = default;
 
+	static std::shared_ptr<GameShip> createGameShip() {};
 	virtual ShipState getState() const {} ;
 	virtual std::size_t getSize() const {};
 	virtual void hit() override;

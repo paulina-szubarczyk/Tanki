@@ -16,6 +16,7 @@ public:
 	SmallGameShip();
 	virtual ~SmallGameShip() = default;
 
+	static std::shared_ptr<SmallGameShip> createSmallGameShip(int);
 	virtual ShipState getState() const override;
 	virtual std::size_t getSize() const override;
 

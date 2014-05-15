@@ -24,4 +24,6 @@ void SmallGameShip::hit() {
 	state_ = GameShip::ShipState::SUNK;
 }
 
-
+std::shared_ptr<SmallGameShip> SmallGameShip::createSmallGameShip(int) {
+	return std::shared_ptr<SmallGameShip>(new SmallGameShip());
+}

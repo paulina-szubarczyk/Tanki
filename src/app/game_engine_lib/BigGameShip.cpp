@@ -6,6 +6,7 @@
  */
 
 #include "BigGameShip.h"
+#include "SmallGameShip.h"
 
 BigGameShip::BigGameShip() : GameShip(GameShip::ShipState::FLOAT){};
 BigGameShip::~BigGameShip() {};
@@ -38,4 +39,13 @@ void BigGameShip::hit() {
 
 void BigGameShip::registerShipObserver(ShipObserverPtr shipObserver){
 	hitShip.connect(SignalShipType::slot_type( &ShipObserver::shipHit, shipObserver.get()).track_foreign(shipObserver));
+}
+
+std::shared_ptr<BigGameShip> BigGameShip::createBigGameShip(int size){
+	std::shared_ptr<BigGameShip> ship;
+	for (int i = 0; i < size; ++i){
+		ShipPtr smallShip(new SmallGameShip());
+		ship->addShip(smallShip);
+	}
+	return ship;
 }

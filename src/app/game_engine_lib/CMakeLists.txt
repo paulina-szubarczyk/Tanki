@@ -10,6 +10,7 @@ add_library(game_engine
         FieldsUpdater.cpp 
         ShipObserver.cpp 
         Gameboard.cpp
+        ShipFactoryMethod.cpp
 )
 
 install(TARGETS game_engine

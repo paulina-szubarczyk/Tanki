@@ -103,3 +103,9 @@ TEST_F(BigGameShipTest, RegisterShipObserverTest){
 	EXPECT_EQ(tsobs2->getState(), 1);
 }
 
+TEST_F(BigGameShipTest, CreateShipTest){
+
+	std::shared_ptr<BigGameShip> bigship = BigGameShip::createBigGameShip(4);
+	EXPECT_EQ(bigship->getSize(),4);
+}
+

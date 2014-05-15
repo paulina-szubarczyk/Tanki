@@ -27,6 +27,7 @@ public:
 
 	virtual void hit() override;
 
+	static std::shared_ptr<BigGameShip> createBigGameShip(int size);
 	virtual ShipState getState() const override;
 	virtual std::size_t getSize() const override;
 

@@ -28,4 +28,9 @@ TEST_F(SmallGameShipTest, GameShipStateTest){
 	EXPECT_EQ(ship.getState(), SmallGameShip::ShipState::SUNK);
 }
 
+TEST_F(SmallGameShipTest, CreateShipTest){
+	std::shared_ptr<SmallGameShip> ship = SmallGameShip::createSmallGameShip(0);
+	EXPECT_EQ(ship->getState(),GameShip::ShipState::FLOAT);
+	EXPECT_EQ(ship->getSize(),1);
+}
 
