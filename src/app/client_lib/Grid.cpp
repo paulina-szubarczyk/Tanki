@@ -8,19 +8,24 @@
 #include "Grid.h"
 
 Grid::Grid(){
-	init();
+	//init();
 }
 
 Grid::Grid(int n){
-	init();
+	init(n);
 }
-void Grid::init(){
+void Grid::init(int n){
+	grid_.resize(boost::extents[n][n]);
+	for(int i = 0; i < n; i++)
+		for(int j=0; j<n; j++)
+			addNewCell(grid_[i][j]);
+
+
 
 }
 
-void Grid::addNewCell(){
-	CellPtr newCell(new GridCell);
-	grid_.push_back(newCell);
+void Grid::addNewCell(CellPtr ptr){
+	ptr = CellPtr(new GridCell);
 }
 
 void Grid::addNewShip(){
@@ -31,9 +36,9 @@ CellPtr Grid::getCell(){
 	return CellPtr (nullptr);
 }
 int Grid::getGridSize(){
-	return grid_.size();
+	return grid_.num_elements();
 }
 
-const std::vector<CellPtr>& Grid::getGrid(){
+const array2D& Grid::getGrid(){
 	return grid_;
 }
