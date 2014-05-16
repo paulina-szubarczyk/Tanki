@@ -8,7 +8,7 @@
 #include "Grid.h"
 
 Grid::Grid(){
-	//init();
+
 }
 
 Grid::Grid(int n){
@@ -17,15 +17,17 @@ Grid::Grid(int n){
 void Grid::init(int n){
 	grid_.resize(boost::extents[n][n]);
 	for(int i = 0; i < n; i++)
-		for(int j=0; j<n; j++)
-			addNewCell(grid_[i][j]);
-
-
+		for(int j=0; j<n; j++){
+			//addNewCell(grid_[i][j]);
+			grid_[i][j].reset(new GridCell);
+			grid_[i][j]->setCoordinates(i,j);
+		}
 
 }
 
-void Grid::addNewCell(CellPtr ptr){
-	ptr = CellPtr(new GridCell);
+void Grid::gridResize(int n){
+	//grid_.resize(boost::extents[n][n]);
+	init(n);
 }
 
 void Grid::addNewShip(){

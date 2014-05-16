@@ -19,21 +19,32 @@ protected:
 
 TEST_F(GridTest, InitializationTest){
 
-	Grid grid(10);
-	ASSERT_EQ(grid.getGridSize(),100);
+	int n = 10;
+	Grid grid(n);
+	ASSERT_EQ(grid.getGridSize(),n*n);
 
-//	int i = 0;
-//	int k = 0;
-//	for(auto cell : grid.getGrid()){
-//		k = (cell->getX() + cell->getY()*10);
-//		ASSERT_EQ(i,k);
-//		++i;
-//	}
+	for(int i = 0; i < n; i++)
+			for(int j=0; j<n; j++)
+			{
+				ASSERT_EQ(grid.getGrid()[i][j]->getX(),i);
+				ASSERT_EQ(grid.getGrid()[i][j]->getY(),j);
+			}
 }
 
-TEST_F(GridTest, AddCellTest){
+TEST_F(GridTest, GridManipulationTest){
 	Grid grid;
 	ASSERT_EQ(grid.getGridSize(),0);
+	grid.gridResize(5);
+	ASSERT_EQ(grid.getGridSize(),25);
+
+	grid.getGrid()[0][0]->setColor(0.2,0.3,0.4);
+	ASSERT_FLOAT_EQ(grid.getGrid()[0][0]->getRed(),0.2);
+	ASSERT_FLOAT_EQ(grid.getGrid()[0][0]->getGreen(),0.3);
+	ASSERT_FLOAT_EQ(grid.getGrid()[0][0]->getBlue(),0.4);
+
+
+
+
 //	grid.addNewCell();
 //	ASSERT_GT(grid.getGridSize(),0);
 }

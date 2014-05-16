@@ -26,7 +26,7 @@ public:
 
 
 	void init(int n);
-	void addNewCell(CellPtr ptr);
+	void gridResize(int n);
 	void addNewShip();
 
 	CellPtr getCell();
@@ -34,7 +34,7 @@ public:
 	const array2D& getGrid();
 
 private:
-//std::vector<CellPtr> grid_;
+
 array2D grid_;
 
 };
