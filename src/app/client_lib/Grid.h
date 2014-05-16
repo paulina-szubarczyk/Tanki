@@ -11,12 +11,14 @@
 #include "GridCell.h"
 #include <vector>
 #include <boost/shared_ptr.hpp>
+typedef boost::shared_ptr<GridCell> CellPtr;
 class Grid{
 public:
 	Grid();
-	~Grid();
+	Grid(int n);
+	//~Grid();
 
-	typedef boost::shared_ptr<GridCell> CellPtr;
+
 
 	void init();
 	void addNewCell();
@@ -24,7 +26,7 @@ public:
 
 	CellPtr getCell();
 	int getGridSize();
-	boost::shared_ptr<std::vector<CellPtr>> getGrid();
+	const std::vector<CellPtr>& getGrid();
 
 private:
 std::vector<CellPtr> grid_;

@@ -30,3 +30,10 @@ TEST_F(GridTest, InitializationTest){
 		++i;
 	}
 }
+
+TEST_F(GridTest, AddCellTest){
+	Grid grid;
+	ASSERT_EQ(grid.getGridSize(),0);
+	grid.addNewCell();
+	ASSERT_GT(grid.getGridSize(),0);
+}

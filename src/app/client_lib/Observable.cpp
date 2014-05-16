@@ -5,8 +5,8 @@
  *      Author: klis
  */
 
-#include "observable.h"
-#include "observer.h"
+#include "Observable.h"
+#include "Observer.h"
 
 void Observable::attachObserver(Observer* observer){
 	observers_.push_back(observer);
