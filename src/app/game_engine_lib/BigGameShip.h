@@ -33,6 +33,7 @@ public:
 
 	void addShip(ShipPtr ship);
 	void addShips(std::vector<ShipPtr> ships);
+	std::vector<ShipPtr> getShips();
 
 private:
 	std::vector<ShipPtr> ships_;

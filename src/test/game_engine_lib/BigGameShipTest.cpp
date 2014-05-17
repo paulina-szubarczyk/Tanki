@@ -6,6 +6,8 @@
 // */
 #include "gtest/gtest.h"
 #include "BigGameShip.h"
+#include "SmallGameShip.h"
+#include <iostream>
 
 class BigGameShipTest : public ::testing::Test {
 protected:
@@ -109,3 +111,14 @@ TEST_F(BigGameShipTest, CreateShipTest){
 	EXPECT_EQ(bigship->getSize(),4);
 }
 
+TEST_F(BigGameShipTest, GetShipTest){
+
+	std::shared_ptr<BigGameShip> bigship(dynamic_cast<BigGameShip*>(BigGameShip::createBigGameShip(4)));
+	std::vector<std::shared_ptr<GameShip>> ships = bigship->getShips();
+
+	EXPECT_EQ(ships.size(),4);
+	EXPECT_TRUE(typeid(*ships[0].get()).name()==typeid(SmallGameShip).name());
+	EXPECT_TRUE(typeid(ships[0].get()).name()==typeid(GameShip*).name());
+	EXPECT_FALSE(typeid(*ships[0].get()).name()==typeid(GameShip).name());
+
+}
