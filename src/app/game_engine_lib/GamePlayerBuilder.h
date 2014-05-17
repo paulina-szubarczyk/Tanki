@@ -9,28 +9,26 @@
 #define GAMEPLAYERBUILDER_H_
 
 #include "PlayerBuilder.h"
+#include "FieldsUpdater.h"
 
 class GamePlayerBuilder : public PlayerBuilder {
 public:
 	typedef std::shared_ptr<BigGameShip> ShipPtr;
 	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 
-	GamePlayerBuilder(ProtobufConnPtr connection);
+	GamePlayerBuilder();
 	virtual ~GamePlayerBuilder();
 
-	void createGamePlayer();
-	virtual void addPlayerConnection(std::shared_ptr<ships::ProtobufConnection> connection) ;
-	virtual void addPlayerMsgHandler() ;
-	virtual void addPlayerMsgSender() ;
+	void createGamePlayer(OutputPtr output);
 	virtual void addPlayerGameboard(int size);
 	virtual void addPlayerShips(std::vector<std::vector<int>> y,
 								std::vector<std::vector<int>> x) ;
 
 	virtual void addPlayerShip( std::vector<int> x,
 								std::vector<int> y) ;
-	static void configPlayerFieldsUpdater(PlayerPtr firstPlayer, PlayerPtr secondPlayer_);
+	static void configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2, OutputPtr output1, OutputPtr output2);
 protected:
-	bool shipsError_;
+
 };
 
 #endif /* GAMEPLAYERBUILDER_H_ */

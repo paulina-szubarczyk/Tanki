@@ -82,7 +82,7 @@ TEST_F(BigGameShipTest, RegisterShipObserverTest){
 		TestShipObserver() : ShipObserver(), id_(0), state_(0) {};
 		TestShipObserver(int id) : ShipObserver(), id_(id), state_(0) {};
 		~TestShipObserver() = default;
-		void shipHit() {
+		void shipHit(GameShip::ShipState state) {
 			++state_ ;
 		}
 		int getState() {return state_; }
@@ -94,14 +94,14 @@ TEST_F(BigGameShipTest, RegisterShipObserverTest){
 	std::shared_ptr<TestShipObserver> tsobs(new TestShipObserver());
 	ship->registerShipObserver(tsobs);
 	EXPECT_EQ(tsobs->getState(), 0);
-	ship->hitShip();
+	ship->hitShip(GameShip::ShipState::HIT);
 	EXPECT_EQ(tsobs->getState(), 1);
 
 	std::shared_ptr<TestShipObserver> tsobs2(new TestShipObserver(1));
 	ship->registerShipObserver(tsobs2);
 	EXPECT_EQ(tsobs2->getState(), 0);
 	EXPECT_EQ(tsobs->getState(), 1);
-	ship->hitShip();
+	ship->hitShip(GameShip::ShipState::SUNK);
 	EXPECT_EQ(tsobs->getState(), 2);
 	EXPECT_EQ(tsobs2->getState(), 1);
 }

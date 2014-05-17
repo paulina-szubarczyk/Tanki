@@ -15,7 +15,7 @@ protected:
 	virtual void TeatDown() {};
 };
 TEST_F(GamePlayerTest, ConstructorTest){
-	GamePlayer player;
+//	GamePlayer player;
 }
 
 

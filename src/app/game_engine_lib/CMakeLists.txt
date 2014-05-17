@@ -18,6 +18,7 @@ add_library(game_engine
         PlayerBuilder.cpp
         GamePlayerBuilder.cpp
         GameEngine.cpp
+        GamePlayerOutput.cpp
 )
 target_link_libraries(game_engine network)
 

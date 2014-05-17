@@ -7,40 +7,32 @@
 
 #include "GamePlayerBuilder.h"
 
-GamePlayerBuilder::GamePlayerBuilder(ProtobufConnPtr connection) : PlayerBuilder() {
-	connection_ = connection;
+GamePlayerBuilder::GamePlayerBuilder() : PlayerBuilder() {
+
 }
 
 GamePlayerBuilder::~GamePlayerBuilder() {}
 
-void GamePlayerBuilder::createGamePlayer() {
-	createPlayer();
-	addPlayerConnection(connection_);
-	addPlayerMsgSender();
-	addPlayerMsgHandler();
+void GamePlayerBuilder::createGamePlayer(OutputPtr output) {
+	createPlayer(output);
 	//size from Rules;
 	int size;
 	addPlayerGameboard(size);
-	shipsError_ = true;
-	msgSender_->sendGetShips();
-	// msgHandler funkcja odbierająca statki
-	while (!shipsError_);
-	// GameEngin dodaje FieldsUpdater;
 }
 void GamePlayerBuilder::addPlayerGameboard(int size) {
 	player_->gameboard_ = std::shared_ptr<Gameboard>(new Gameboard(size));
 }
-void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr firstPlayer, PlayerPtr secondPlayer) {
-	firstPlayer->fieldsUpdater_= std::shared_ptr<FieldsUpdater> (new FieldsUpdater);
 
-	auto shipsIter = secondPlayer->ships_.begin();
-	auto shipsIterEnd = secondPlayer->ships_.end();
+void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2, OutputPtr output1, OutputPtr output2) {
+
+	player1->fieldsUpdater_= std::shared_ptr<FieldsUpdater> (new FieldsUpdater(output1, output2, player2->gameboard_));
+
+	auto shipsIter = player2->ships_.begin();
+	auto shipsIterEnd = player2->ships_.end();
 	while (shipsIterEnd != shipsIter)
-		(*shipsIter)->registerShipObserver(firstPlayer->fieldsUpdater_);
+		(*shipsIter)->registerShipObserver(player1->fieldsUpdater_);
 }
-void GamePlayerBuilder::addPlayerConnection(ProtobufConnPtr connection) {
-	player_->connection_ = connection;
-}
+
 
 void GamePlayerBuilder::addPlayerShips(std::vector<std::vector<int>> y,	std::vector<std::vector<int>> x) {
 	auto xIter = x.begin();
@@ -49,7 +41,6 @@ void GamePlayerBuilder::addPlayerShips(std::vector<std::vector<int>> y,	std::vec
 		addPlayerShip(*xIter,*yIter);
 	}
 	// check with rules if thats all ships, send info if not
-	shipsError_ = false;
 }
 void GamePlayerBuilder::addPlayerShip( std::vector<int> x, std::vector<int> y) {
 
@@ -72,11 +63,3 @@ void GamePlayerBuilder::addPlayerShip( std::vector<int> x, std::vector<int> y) {
 	}
 }
 
-void GamePlayerBuilder::addPlayerMsgHandler() {
-	MsgHandlerType m;
-	//TODO register function
-}
-
-void GamePlayerBuilder::addPlayerMsgSender() {
-	player_->msgSender_ = msgSender_;
-}

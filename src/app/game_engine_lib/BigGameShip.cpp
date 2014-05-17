@@ -30,14 +30,16 @@ void BigGameShip::hit() {
 	for (auto ship = ships_.begin(); ship != ships_.end(); ++ship){
 		if ((*ship)->getState() == ShipState::FLOAT){
 			state_ = ShipState::HIT;
+			hitShip(state_);
 			return;
 		}
 	}
 	state_ = ShipState::SUNK;
+	hitShip(state_);
 }
 
 void BigGameShip::registerShipObserver(ShipObserverPtr shipObserver){
-	hitShip.connect(SignalShipType::slot_type( &ShipObserver::shipHit, shipObserver.get()).track_foreign(shipObserver));
+	hitShip.connect(SignalShipType::slot_type( &ShipObserver::shipHit, shipObserver.get(), _1).track_foreign(shipObserver));
 }
 
 GameShip* BigGameShip::createBigGameShip(int size){

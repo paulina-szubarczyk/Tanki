@@ -11,7 +11,7 @@
 #include <memory>
 #include <boost/signals2/signal.hpp>
 
-typedef boost::signals2::signal<void (void)> SignalShipType;
+typedef boost::signals2::signal<void (GameShip::ShipState)> SignalShipType;
 typedef std::shared_ptr<ShipObserver> ShipObserverPtr;
 
 

@@ -11,25 +11,27 @@
 #include "ShipObserver.h"
 #include <utility>
 #include <memory>
-#include "Gameboard.h"
+#include "gameEngine_typedef.h"
 
 class FieldsUpdater: public ShipObserver {
 public:
+	FieldsUpdater(OutputPtr output1, OutputPtr output2, GameboardPtr gameboard);
 	FieldsUpdater();
-	FieldsUpdater(std::shared_ptr<Gameboard> gameboard);
 	virtual ~FieldsUpdater();
 
-	virtual void shipHit() override;
+	virtual void shipHit(GameShip::ShipState state) override;
 
 	typedef std::pair<int,int> FieldType;
 
 
-	void hit(FieldType field);
+	void hit(int x, int y);
 	FieldType getLastHit() const;
 
 private:
 	FieldType lastHit_;
-	std::shared_ptr<Gameboard> secondPlayerGameboard_;
+	GameboardPtr oponentGameboard_;
+	OutputPtr oponentOutput_;
+	OutputPtr playerOutput_;
 };
 
 #endif /* CLIENTFIELDUPDATER_H_ */

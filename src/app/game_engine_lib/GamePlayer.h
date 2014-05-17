@@ -9,30 +9,28 @@
 #define GAMEPLAYER_H_
 
 #include "BigGameShip.h"
+#include "gameEngine_typedef.h"
 #include "FieldsUpdater.h"
-#include "Gameboard.h"
-#include "ProtobufConnection.h"
-#include "MessageSender.h"
-#include "MessageHandler.h"
-#include "message.pb.h"
 
 #include <vector>
 class GamePlayer {
+	friend class GamePlayerBuilder;
 public:
-	GamePlayer();
+	typedef std::shared_ptr<FieldsUpdater> FieldsUpdaterPtr;
+	GamePlayer(OutputPtr output);
 	virtual ~GamePlayer();
 
-	friend class GamePlayerBuilder;
-
 	void hitField(int x, int y);
+	void changeTurn(bool turn);
+	bool getTurn();
+	GameboardPtr getGameboard();
 
 private:
 	std::vector<std::shared_ptr<BigGameShip>> ships_;
-	std::shared_ptr<Gameboard> gameboard_;
-	std::shared_ptr<FieldsUpdater> fieldsUpdater_;
-	std::shared_ptr<ships::ProtobufConnection> connection_;
-	std::shared_ptr<ships::MessageSender> msgSender_;
-	std::shared_ptr<ships::MessageHandler<MessageType, DataMsg>> msgHandler_;
+	GameboardPtr gameboard_;
+	FieldsUpdaterPtr fieldsUpdater_;
+	OutputPtr output_;
+	bool turn_;
 };
 
 #endif /* GAMEPLAYER_H_ */
