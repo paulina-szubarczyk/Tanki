@@ -34,7 +34,8 @@ TEST_F(GridTest, InitializationTest){
 TEST_F(GridTest, GridManipulationTest){
 	Grid grid;
 	ASSERT_EQ(grid.getGridSize(),0);
-	grid.gridResize(5);
+	//grid.gridResize(5);
+	grid.init(5);
 	ASSERT_EQ(grid.getGridSize(),25);
 
 	grid.getGrid()[0][0]->setColor(0.2,0.3,0.4);
@@ -42,6 +43,9 @@ TEST_F(GridTest, GridManipulationTest){
 	ASSERT_FLOAT_EQ(grid.getGrid()[0][0]->getGreen(),0.3);
 	ASSERT_FLOAT_EQ(grid.getGrid()[0][0]->getBlue(),0.4);
 
+	CellPtr ship(new GridCell(0.1, 0.2, 0.3, 2, 4));
+	grid.addNewShip(ship);
+	//grid.setCellObject();
 
 
 

@@ -30,7 +30,10 @@ void Grid::gridResize(int n){
 	init(n);
 }
 
-void Grid::addNewShip(){
+void Grid::addNewShip(CellPtr ship){
+	int i = ship->get()X;
+	int j = ship->getY();
+	grid_[i][j] = ship;
 
 }
 

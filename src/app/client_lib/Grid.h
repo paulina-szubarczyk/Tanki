@@ -27,7 +27,7 @@ public:
 
 	void init(int n);
 	void gridResize(int n);
-	void addNewShip();
+	void addNewShip(CellPtr ship);
 
 	CellPtr getCell();
 	int getGridSize();
