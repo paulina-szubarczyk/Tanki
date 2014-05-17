@@ -8,7 +8,9 @@
 #include "PlayerBuilder.h"
 
 PlayerBuilder::PlayerBuilder() {
-	 shipFactory = ShipFactoryMethod::getInstance();
+	shipFactory = ShipFactoryMethod::getInstance();
+	MsgSenderPtr msgSender = MsgSenderPtr(new ships::MessageSender(connection_));
+	msgSender_ = msgSender;
 }
 
 PlayerBuilder::~PlayerBuilder() {

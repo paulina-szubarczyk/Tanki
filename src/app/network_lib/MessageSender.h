@@ -55,6 +55,8 @@ public:
 	 */
 	void sendGameOver();
 
+	void sendGetShips();
+
 	ConnectionPtr getConnection() const;
 	void setConnection(ConnectionPtr connection);
 

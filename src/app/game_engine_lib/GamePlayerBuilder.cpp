@@ -6,17 +6,31 @@
  */
 
 #include "GamePlayerBuilder.h"
-#include "Gameboard.h"
-#include "Field.h"
 
-GamePlayerBuilder::GamePlayerBuilder() : PlayerBuilder() {}
+GamePlayerBuilder::GamePlayerBuilder(ProtobufConnPtr connection) : PlayerBuilder() {
+	connection_ = connection;
+}
 
 GamePlayerBuilder::~GamePlayerBuilder() {}
 
+void GamePlayerBuilder::createGamePlayer() {
+	createPlayer();
+	addPlayerConnection(connection_);
+	addPlayerMsgSender();
+	addPlayerMsgHandler();
+	//size from Rules;
+	int size;
+	addPlayerGameboard(size);
+	shipsError_ = true;
+	msgSender_->sendGetShips();
+	// msgHandler funkcja odbierająca statki
+	while (!shipsError_);
+	// GameEngin dodaje FieldsUpdater;
+}
 void GamePlayerBuilder::addPlayerGameboard(int size) {
 	player_->gameboard_ = std::shared_ptr<Gameboard>(new Gameboard(size));
 }
-GamePlayer* GamePlayerBuilder::configPlayerFieldsUpdater(GamePlayer* firstPlayer, GamePlayer* secondPlayer) {
+void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr firstPlayer, PlayerPtr secondPlayer) {
 	firstPlayer->fieldsUpdater_= std::shared_ptr<FieldsUpdater> (new FieldsUpdater);
 
 	auto shipsIter = secondPlayer->ships_.begin();
@@ -24,7 +38,7 @@ GamePlayer* GamePlayerBuilder::configPlayerFieldsUpdater(GamePlayer* firstPlayer
 	while (shipsIterEnd != shipsIter)
 		(*shipsIter)->registerShipObserver(firstPlayer->fieldsUpdater_);
 }
-void GamePlayerBuilder::addPlayerConnection(std::shared_ptr<ships::ProtobufConnection> connection) {
+void GamePlayerBuilder::addPlayerConnection(ProtobufConnPtr connection) {
 	player_->connection_ = connection;
 }
 
@@ -34,6 +48,8 @@ void GamePlayerBuilder::addPlayerShips(std::vector<std::vector<int>> y,	std::vec
 	while ( xIter != x.end() ) {
 		addPlayerShip(*xIter,*yIter);
 	}
+	// check with rules if thats all ships, send info if not
+	shipsError_ = false;
 }
 void GamePlayerBuilder::addPlayerShip( std::vector<int> x, std::vector<int> y) {
 
@@ -54,4 +70,13 @@ void GamePlayerBuilder::addPlayerShip( std::vector<int> x, std::vector<int> y) {
 		++yIter;
 		++smallShipsIter;
 	}
+}
+
+void GamePlayerBuilder::addPlayerMsgHandler() {
+	MsgHandlerType m;
+	//TODO register function
+}
+
+void GamePlayerBuilder::addPlayerMsgSender() {
+	player_->msgSender_ = msgSender_;
 }
