@@ -29,7 +29,7 @@ TEST_F(SmallGameShipTest, GameShipStateTest){
 }
 
 TEST_F(SmallGameShipTest, CreateShipTest){
-	std::shared_ptr<SmallGameShip> ship = SmallGameShip::createSmallGameShip(0);
+	std::shared_ptr<SmallGameShip> ship(dynamic_cast<SmallGameShip*>(SmallGameShip::createSmallGameShip(0)));
 	EXPECT_EQ(ship->getState(),GameShip::ShipState::FLOAT);
 	EXPECT_EQ(ship->getSize(),1);
 }

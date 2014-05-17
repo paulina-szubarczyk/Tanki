@@ -9,7 +9,6 @@
 #include "Field.h"
 
 GameShip::GameShip() : HitObserver() , state_(ShipState::FLOAT) {}
-GameShip::GameShip(ShipState state) :  HitObserver() , state_(state){}
 void GameShip::hit() {}
 
 

@@ -9,7 +9,7 @@
 #include "Field.h"
 #include <iostream>
 
-SmallGameShip::SmallGameShip() : GameShip(GameShip::ShipState::FLOAT) {}
+SmallGameShip::SmallGameShip() : GameShip() {}
 
 
 GameShip::ShipState SmallGameShip::getState() const {
@@ -24,6 +24,6 @@ void SmallGameShip::hit() {
 	state_ = GameShip::ShipState::SUNK;
 }
 
-std::shared_ptr<SmallGameShip> SmallGameShip::createSmallGameShip(int) {
-	return std::shared_ptr<SmallGameShip>(new SmallGameShip());
+GameShip* SmallGameShip::createSmallGameShip(int) {
+	return (new SmallGameShip());
 }

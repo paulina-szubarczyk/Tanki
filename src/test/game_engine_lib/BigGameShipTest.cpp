@@ -15,6 +15,7 @@ protected:
 	~BigGameShipTest() {};
 	virtual void SetUp() {};
 	virtual void TeatDown() {};
+
 	class TestUnitShip : public GameShip {
 	public:
 		TestUnitShip() : GameShip() {} ;
@@ -107,7 +108,7 @@ TEST_F(BigGameShipTest, RegisterShipObserverTest){
 
 TEST_F(BigGameShipTest, CreateShipTest){
 
-	std::shared_ptr<BigGameShip> bigship = BigGameShip::createBigGameShip(4);
+	std::shared_ptr<BigGameShip> bigship(dynamic_cast<BigGameShip*>(BigGameShip::createBigGameShip(4)));
 	EXPECT_EQ(bigship->getSize(),4);
 }
 

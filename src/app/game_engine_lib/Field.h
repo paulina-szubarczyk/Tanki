@@ -8,6 +8,12 @@
 #ifndef FIELD_H_
 #define FIELD_H_
 #include "hit_typedef.h"
+#include "HitObserver.h"
+#include <memory>
+#include <boost/signals2/signal.hpp>
+
+typedef boost::signals2::signal<void (void)> SignalHitType;
+typedef std::shared_ptr<HitObserver> HitObserverPtr;
 
 class SmallGameShip;
 class Field {

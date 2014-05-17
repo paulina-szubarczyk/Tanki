@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project( GameEngineLib )
 
+include_directories(${Message_BINARY_DIR})
+include_directories(${NetworkLib_SOURCE_DIR})
+
 add_library(game_engine 
         Field.cpp 
         GameShip.cpp 
@@ -11,7 +14,11 @@ add_library(game_engine
         ShipObserver.cpp 
         Gameboard.cpp
         ShipFactoryMethod.cpp
+        GamePlayer.cpp
+        PlayerBuilder.cpp
+        GamePlayerBuilder.cpp
 )
+target_link_libraries(game_engine network)
 
 install(TARGETS game_engine
                RUNTIME DESTINATION bin
