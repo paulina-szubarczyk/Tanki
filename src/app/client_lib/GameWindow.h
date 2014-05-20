@@ -10,7 +10,8 @@
 
 #include "Grid.h"
 #include "Drawable.h"
-
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <GL/glut.h>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -25,17 +26,17 @@ public:
 	static GameWindow& getInstance();
 
 
-protected:
-	virtual void init();
-	virtual void display(Grid& grid);
-	virtual void reshape(int w, int h);
-	virtual void mouseFunc(int button, int state, int x, int y, Grid& grid);
+	void init();
+	void display(Grid& grid);
+	void reshape(int w, int h);
+	void mouseFunc(int button, int state, int x, int y, Grid& grid);
+	void display1();
 
-	virtual void drawSquares(GLenum mode, Grid& grid);
-	virtual void processHits(GLint hits, GLuint buffer[], Grid& grid);
-	virtual void startGameWindow(int argc, char *argv[]);
+	void drawSquares(GLenum mode, Grid& grid);
+	void processHits(GLint hits, GLuint buffer[], Grid& grid);
+	void startGameWindow(int argc, char *argv[]);
 
-	static void displayWrapper(Grid& grid);
+	static void displayWrapper();
 	static void reshapeWrapper(int w, int h);
 	static void mouseFuncWrapper(int button, int state, int x, int y, Grid& grid);
 

@@ -12,6 +12,10 @@ GameWindow& GameWindow::getInstance(){
 	return instance;
 }
 
+GameWindow::GameWindow(){
+	init();
+}
+
 void GameWindow::init(){
 	grid1_.init(10);
 	grid2_.init(10);
@@ -21,7 +25,7 @@ void GameWindow::init(){
 	glFlush();
 }
 
-void drawSquares(GLenum mode, Grid grid) //draw grid
+void GameWindow::drawSquares(GLenum mode, Grid& grid) //draw grid
 {
    GLuint i, j;
    for (i = 0; i < 10; i++) { //change 10 to gridSize()
@@ -68,7 +72,7 @@ void GameWindow::mouseFunc(int button, int state, int x, int y, Grid& grid)
    gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
                   1.0, 1.0, viewport);
    gluOrtho2D (0.0, 10.0, 0.0, 10.0);
-   drawSquares (GL_SELECT, grid);
+   drawSquares(GL_SELECT, grid);
 
    glMatrixMode (GL_PROJECTION);
    glPopMatrix ();
@@ -85,6 +89,11 @@ void GameWindow::display(Grid& grid){
 	glFlush();
 }
 
+void GameWindow::display1(){
+	glClear(GL_COLOR_BUFFER_BIT);
+	drawSquares (GL_RENDER, grid1_); //will later use bind
+	glFlush();
+}
 void GameWindow::reshape(int w, int h){
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
@@ -120,8 +129,8 @@ void GameWindow::processHits(GLint hits, GLuint buffer[],Grid& grid){
 }
 }
 
-void GameWindow::displayWrapper(Grid& grid){ //czy jako argument mogę przekazać niestatyczna?
-	getInstance().display(grid);
+void GameWindow::displayWrapper(){ //czy jako argument mogę przekazać niestatyczna?
+	getInstance().display1();
 
 }
 
@@ -143,14 +152,17 @@ void GameWindow::startGameWindow(int argc, char *argv[]){
 	int subw = glutCreateSubWindow (mainw, 0, 0, 500, 500);
 	init();
 	GameWindow& g = getInstance();
-	Grid& g2 = grid1_;
-	boost::function<void (int,int,int,int)> mouseBind1 = boost::bind(&GameWindow::mouseFunc,boost::ref(g),_1, _2, _3, _4, g2);
-	typedef void (* function_t)(int,int,int,int);
+	Grid& grid1ref = grid1_;
+	//boost::function<void (int,int,int,int)> mouseBind1 = boost::bind(&GameWindow::mouseFunc,boost::ref(g),_1, _2, _3, _4, grid1ref);
+	//typedef void (* function_t)(int,int,int,int);
 	//function_t* f = mouseBind1.target<function_t>();
 	//function_t f = mouseWork;
 	//function_t* f2 = mouseBind1;
-	glutMouseFunc (*mouseBind1.target<function_t>());
+	//glutMouseFunc (*mouseBind1.target<function_t>());
 	glutReshapeFunc (reshapeWrapper);
-	auto displayBind1 = boost::bind(displayWrapper, grid1_);
-	glutDisplayFunc(displayBind1);
+	typedef void (* function_t2)();
+	//boost::function<void ()> displayBind1 = boost::bind(&GameWindow::display,boost::ref(g), grid1ref);
+	//glutDisplayFunc(*displayBind1.target<function_t2>());
+	glutDisplayFunc(displayWrapper);
+	glutMainLoop();
 }

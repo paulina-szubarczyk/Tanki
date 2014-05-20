@@ -18,7 +18,7 @@ void Grid::init(int n) {
 	grid_.resize(boost::extents[n][n]);
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++) {
-			grid_[i][j].reset(new GridCell);
+			grid_[i][j].reset(new GridCell(0.0,0.0,0.7,i,j));
 			grid_[i][j]->setCoordinates(i, j);
 		}
 
