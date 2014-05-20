@@ -129,7 +129,7 @@ void GameWindow::processHits(GLint hits, GLuint buffer[],Grid& grid){
 }
 }
 
-void GameWindow::displayWrapper(){ //czy jako argument mogę przekazać niestatyczna?
+void GameWindow::displayWrapper(){
 	getInstance().display1();
 
 }
@@ -153,16 +153,13 @@ void GameWindow::startGameWindow(int argc, char *argv[]){
 	init();
 	GameWindow& g = getInstance();
 	Grid& grid1ref = grid1_;
-	//boost::function<void (int,int,int,int)> mouseBind1 = boost::bind(&GameWindow::mouseFunc,boost::ref(g),_1, _2, _3, _4, grid1ref);
-	//typedef void (* function_t)(int,int,int,int);
-	//function_t* f = mouseBind1.target<function_t>();
-	//function_t f = mouseWork;
-	//function_t* f2 = mouseBind1;
-	//glutMouseFunc (*mouseBind1.target<function_t>());
+	boost::function<void (int,int,int,int)> mouseBind1 = boost::bind(&GameWindow::mouseFunc,boost::ref(g),_1, _2, _3, _4, grid1ref);
+	typedef void (* function_t)(int,int,int,int);
+	//glutMouseFunc (*mouseBind1.target<function_t>()); //segmentation faul
 	glutReshapeFunc (reshapeWrapper);
 	typedef void (* function_t2)();
-	//boost::function<void ()> displayBind1 = boost::bind(&GameWindow::display,boost::ref(g), grid1ref);
-	//glutDisplayFunc(*displayBind1.target<function_t2>());
+	boost::function<void ()> displayBind1 = boost::bind(&GameWindow::display,boost::ref(g), grid1ref);
+	//glutDisplayFunc(*displayBind1.target<function_t2>()); //segmentation fault
 	glutDisplayFunc(displayWrapper);
 	glutMainLoop();
 }
