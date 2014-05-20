@@ -43,8 +43,9 @@ void drawSquares(GLenum mode, Grid grid) //draw grid
    }
 }
 
-void GameWindow::mouseFunc(int button, int state, int x, int y)
+void GameWindow::mouseFunc(int button, int state, int x, int y, Grid& grid)
 {
+	int BUFSIZE = 512;
    GLuint selectBuf[BUFSIZE];
    GLint hits;
    GLint viewport[4];
@@ -67,18 +68,18 @@ void GameWindow::mouseFunc(int button, int state, int x, int y)
    gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
                   1.0, 1.0, viewport);
    gluOrtho2D (0.0, 10.0, 0.0, 10.0);
-   drawSquares (GL_SELECT);
+   drawSquares (GL_SELECT, grid);
 
    glMatrixMode (GL_PROJECTION);
    glPopMatrix ();
    glFlush ();
 
    hits = glRenderMode (GL_RENDER);
-   processHits (hits, selectBuf);
+   processHits (hits, selectBuf, grid);
    glutPostRedisplay();
 }
 
-void GameWindow::display(Grid grid){
+void GameWindow::display(Grid& grid){
 	glClear(GL_COLOR_BUFFER_BIT);
 	drawSquares (GL_RENDER, grid); //will later use bind
 	glFlush();
@@ -93,6 +94,46 @@ void GameWindow::reshape(int w, int h){
 	glLoadIdentity();
 }
 
+void GameWindow::processHits(GLint hits, GLuint buffer[],Grid& grid){
+	 unsigned int i, j;
+	   GLuint ii, jj, names, *ptr;
+
+	   printf ("hits = %d\n", hits);
+	   ptr = (GLuint *) buffer;
+	   for (i = 0; i < hits; i++) { /*  for each hit  */
+	      names = *ptr;
+	      printf (" number of names for this hit = %d\n", names);
+	         ptr++;
+	      printf("  z1 is %g;", (float) *ptr/0x7fffffff); ptr++;
+	      printf(" z2 is %g\n", (float) *ptr/0x7fffffff); ptr++;
+	      printf ("   names are ");
+	      for (j = 0; j < names; j++) { /*  for each name */
+	         printf ("%d ", *ptr);
+	         if (j == 0)  /*  set row and column  */
+	            ii = *ptr;
+	         else if (j == 1)
+	            jj = *ptr;
+	         ptr++;
+	      }
+	      printf ("\n");
+	      grid.getGrid()[ii][jj]->setColor(1.0,0.0,0.0);
+}
+}
+
+void GameWindow::displayWrapper(Grid& grid){ //czy jako argument mogę przekazać niestatyczna?
+	getInstance().display(grid);
+
+}
+
+void GameWindow::reshapeWrapper(int w, int h){
+	getInstance().reshape(w,h);
+}
+
+void GameWindow::mouseFuncWrapper(int button, int state, int x, int y, Grid& grid){
+	getInstance().mouseFunc(button, state, x, y, grid);
+}
+
+void mouseWork(int a, int b, int, int){}
 void GameWindow::startGameWindow(int argc, char *argv[]){
 	glutInit(&argc, argv);
 	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
@@ -101,7 +142,15 @@ void GameWindow::startGameWindow(int argc, char *argv[]){
 	int mainw = glutCreateWindow ("GRID");
 	int subw = glutCreateSubWindow (mainw, 0, 0, 500, 500);
 	init();
-	glutMouseFunc (pickSquares);
-	glutReshapeFunc (reshape);
-	glutDisplayFunc(display);
+	GameWindow& g = getInstance();
+	Grid& g2 = grid1_;
+	boost::function<void (int,int,int,int)> mouseBind1 = boost::bind(&GameWindow::mouseFunc,boost::ref(g),_1, _2, _3, _4, g2);
+	typedef void (* function_t)(int,int,int,int);
+	//function_t* f = mouseBind1.target<function_t>();
+	//function_t f = mouseWork;
+	//function_t* f2 = mouseBind1;
+	glutMouseFunc (*mouseBind1.target<function_t>());
+	glutReshapeFunc (reshapeWrapper);
+	auto displayBind1 = boost::bind(displayWrapper, grid1_);
+	glutDisplayFunc(displayBind1);
 }

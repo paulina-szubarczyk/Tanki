@@ -19,7 +19,7 @@ class Grid {
 public:
 	Grid();
 	Grid(int n);
-	virtual ~Grid();
+	//virtual ~Grid();
 
 	typedef array2D::index index;
 
