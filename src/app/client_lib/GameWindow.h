@@ -28,22 +28,33 @@ public:
 
 	void init();
 	void display(Grid& grid);
+	void display1();
+	void display2();
 	void reshape(int w, int h);
 	void mouseFunc(int button, int state, int x, int y, Grid& grid);
-	void display1();
+	void mouseFunc1(int button, int state, int x, int y);
+	void mouseFunc2(int button, int state, int x, int y);
+
 
 	void drawSquares(GLenum mode, Grid& grid);
 	void processHits(GLint hits, GLuint buffer[], Grid& grid);
 	void startGameWindow(int argc, char *argv[]);
 
-	static void displayWrapper();
+	static void displayWrapper1();
+	static void displayWrapper2();
 	static void reshapeWrapper(int w, int h);
-	static void mouseFuncWrapper(int button, int state, int x, int y, Grid& grid);
-
+	static void mouseFuncWrapper1(int button, int state, int x, int y);
+	static void mouseFuncWrapper2(int button, int state, int x, int y);
+//	static void displayCallbackFwd() { display_callback(); }
+//	static boost::function<void()> display_callback;
 private:
 	GameWindow();
 	GameWindow(const GameWindow&) = delete;
 	GameWindow& operator=(const GameWindow&) = delete;
+
+
+private:
+
 
 	Grid grid1_;
 	Grid grid2_;
