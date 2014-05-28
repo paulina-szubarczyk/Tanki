@@ -32,6 +32,7 @@ public:
 	void display1();
 	void display2();
 	void reshape(int w, int h);
+	void myGlutIdle();
 	void mouseFunc(int button, int state, int x, int y, Grid& grid);
 	void mouseFunc1(int button, int state, int x, int y);
 	void mouseFunc2(int button, int state, int x, int y);
@@ -43,6 +44,7 @@ public:
 
 	static void displayWrapper1();
 	static void displayWrapper2();
+	static void idleWrapper();
 	static void reshapeWrapper(int w, int h);
 	static void mouseFuncWrapper1(int button, int state, int x, int y);
 	static void mouseFuncWrapper2(int button, int state, int x, int y);
@@ -52,12 +54,9 @@ private:
 	GameWindow(const GameWindow&) = delete;
 	GameWindow& operator=(const GameWindow&) = delete;
 
-
-private:
-
-
 	Grid grid1_;
 	Grid grid2_;
+	int mainWindow_;
 
 };
 #endif /* GAMEWINDOW_H_ */
