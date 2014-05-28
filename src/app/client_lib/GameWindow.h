@@ -9,12 +9,13 @@
 #define GAMEWINDOW_H_
 
 #include "Grid.h"
-#include "Drawable.h"
+//#include "Drawable.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
+#include <GL/glui.h>
+//#include <boost/bind.hpp>
+//#include <boost/function.hpp>
 /*
  * Class using Signleton pattern, because there can be only one window to
  * display game content
@@ -45,8 +46,7 @@ public:
 	static void reshapeWrapper(int w, int h);
 	static void mouseFuncWrapper1(int button, int state, int x, int y);
 	static void mouseFuncWrapper2(int button, int state, int x, int y);
-//	static void displayCallbackFwd() { display_callback(); }
-//	static boost::function<void()> display_callback;
+
 private:
 	GameWindow();
 	GameWindow(const GameWindow&) = delete;

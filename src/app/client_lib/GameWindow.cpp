@@ -19,10 +19,6 @@ GameWindow::GameWindow(){
 void GameWindow::init(){
 	grid1_.init(10);
 	grid2_.init(10);
-
-	glClearColor (0.0, 0.0, 0.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glFlush();
 }
 
 void GameWindow::drawSquares(GLenum mode, Grid& grid) //draw grid
@@ -34,10 +30,13 @@ void GameWindow::drawSquares(GLenum mode, Grid& grid) //draw grid
       for (j = 0; j < 10; j ++) {
          if (mode == GL_SELECT)
             glPushName (j);
+
+         //draw filled squares
          glPolygonMode(GL_FRONT,GL_FILL);
-         glColor3f ((GLfloat) grid.getGrid()[i][j]->getRed(), (GLfloat) grid.getGrid()[i][j]->getGreen(),
-                    (GLfloat) grid.getGrid()[i][j]->getBlue());
+         glColor3f ((GLfloat) grid.getGrid()[i][j]->getRed(), (GLfloat) grid.getGrid()[i][j]->getGreen(), (GLfloat) grid.getGrid()[i][j]->getBlue());
          glRecti (i, j, i+1, j+1);
+
+         //draw black lines
          glPolygonMode(GL_FRONT,GL_LINE);
          glColor3f(0.0,0.0,0.0);
          glRecti (i, j, i+1, j+1);
@@ -68,6 +67,7 @@ void GameWindow::mouseFunc(int button, int state, int x, int y, Grid& grid)
    glMatrixMode (GL_PROJECTION);
    glPushMatrix ();
    glLoadIdentity ();
+
 /*  create 1x1 pixel picking region near cursor location      */
    gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
                   1.0, 1.0, viewport);
@@ -109,7 +109,7 @@ void GameWindow::reshape(int w, int h){
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D (0.0, 10.0, 0.0, 10.0);
+	gluOrtho2D (0.0, 20.0, 0.0, 10.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -136,14 +136,12 @@ void GameWindow::processHits(GLint hits, GLuint buffer[],Grid& grid){
 	         ptr++;
 	      }
 	      printf ("\n");
+
 	      grid.getGrid()[ii][jj]->setColor(1.0,0.0,0.0);
 }
 }
 
 void GameWindow::displayWrapper1(){
-//	display_callback = func;
-//	glutDisplayFunc(GameWindow::displayCallbackFwd);
-
 	getInstance().display1();
 
 }
@@ -164,7 +162,7 @@ void GameWindow::mouseFuncWrapper2(int button, int state, int x, int y){
 	getInstance().mouseFunc2(button, state, x, y);
 }
 
-void mouseWork(int a, int b, int, int){}
+
 void GameWindow::startGameWindow(int argc, char *argv[]){
 
 	glutInit(&argc, argv);
@@ -179,21 +177,16 @@ void GameWindow::startGameWindow(int argc, char *argv[]){
 	int subw = glutCreateSubWindow (mainw, 0, 0, 500, 500);
 	init();
 
-//	GameWindow& g = getInstance();
-//	Grid& grid1ref = grid1_;
-	//static boost::function<void (int,int,int,int)> mouseBind1 = boost::bind(&GameWindow::mouseFunc,boost::ref(g),_1, _2, _3, _4, grid1ref);
-	//boost::function<void (int,int,int,int)>* mouseBind1 = new boost::function<void (int,int,int,int)>(boost::bind(&GameWindow::mouseFunc,boost::ref(getInstance()),_1, _2, _3, _4, boost::ref(grid1_)));
-	//typedef void (* function_t)(int,int,int,int);
-	//glutMouseFunc (*mouseBind1.target<function_t>()); //segmentation faul
 	glutMouseFunc (mouseFuncWrapper1);
 	glutReshapeFunc (reshapeWrapper);
-	//typedef void (* function_t2)();
-	//boost::function<void ()> displayBind1 = boost::bind(&GameWindow::display,boost::ref(g), grid1ref);
-	//glutDisplayFunc(*displayBind1.target<function_t2>()); //segmentation fault
 	glutDisplayFunc(displayWrapper1);
 	int subw2 = glutCreateSubWindow (mainw, 600, 0, 500, 500);
 	glutMouseFunc (mouseFuncWrapper2);
 	glutReshapeFunc (reshapeWrapper);
 	glutDisplayFunc(displayWrapper2);
+
+	GLUI *glui = GLUI_Master.create_glui( "GLUI" );
+	glui->set_main_gfx_window(mainw);
+
 	glutMainLoop();
 }
