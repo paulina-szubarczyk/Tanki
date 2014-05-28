@@ -9,7 +9,6 @@
 #define GAMEWINDOW_H_
 
 #include "Grid.h"
-//#include "Drawable.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -26,7 +25,6 @@ class GameWindow: public Grid{
 public:
 	static GameWindow& getInstance();
 
-
 	void init();
 	void display(Grid& grid);
 	void display1();
@@ -37,9 +35,10 @@ public:
 	void mouseFunc1(int button, int state, int x, int y);
 	void mouseFunc2(int button, int state, int x, int y);
 
-
 	void drawSquares(GLenum mode, Grid& grid);
 	void processHits(GLint hits, GLuint buffer[], Grid& grid);
+	void initMyGlut();
+	void createGLUI();
 	void startGameWindow(int argc, char *argv[]);
 
 	static void displayWrapper1();
@@ -57,6 +56,9 @@ private:
 	Grid grid1_;
 	Grid grid2_;
 	int mainWindow_;
+	GLUI* glui_;
+	int pickedX_;
+	int pickedY_;
 
 };
 #endif /* GAMEWINDOW_H_ */

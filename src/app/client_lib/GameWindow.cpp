@@ -19,6 +19,8 @@ GameWindow::GameWindow(){
 void GameWindow::init(){
 	grid1_.init(10);
 	grid2_.init(10);
+	pickedX_=-1;
+	pickedY_=-1;
 }
 
 void GameWindow::drawSquares(GLenum mode, Grid& grid) //draw grid
@@ -49,9 +51,9 @@ void GameWindow::drawSquares(GLenum mode, Grid& grid) //draw grid
 void GameWindow::mouseFunc(int button, int state, int x, int y, Grid& grid)
 {
 	int BUFSIZE = 512;
-   GLuint selectBuf[BUFSIZE];
-   GLint hits;
-   GLint viewport[4];
+	GLuint selectBuf[BUFSIZE];
+	GLint hits;
+	GLint viewport[4];
 
    if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN)
       return;
@@ -68,9 +70,9 @@ void GameWindow::mouseFunc(int button, int state, int x, int y, Grid& grid)
    glPushMatrix ();
    glLoadIdentity ();
 
-/*  create 1x1 pixel picking region near cursor location      */
+/*  create picking region near cursor location      */
    gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
-                  1.0, 1.0, viewport);
+                  0.1, 0.1, viewport);
    gluOrtho2D (0.0, 10.0, 0.0, 10.0);
    drawSquares(GL_SELECT, grid);
 
@@ -93,7 +95,7 @@ void GameWindow::mouseFunc2(int button, int state, int x, int y){
 
 void GameWindow::display(Grid& grid){
 	glClear(GL_COLOR_BUFFER_BIT);
-	drawSquares (GL_RENDER, grid); //will later use bind
+	drawSquares (GL_RENDER, grid);
 	glFlush();
 }
 
@@ -122,11 +124,12 @@ void GameWindow::processHits(GLint hits, GLuint buffer[],Grid& grid){
 	   ptr = (GLuint *) buffer;
 	   for (i = 0; i < hits; i++) { /*  for each hit  */
 	      names = *ptr;
-	      printf (" number of names for this hit = %d\n", names);
-	         ptr++;
-	      printf("  z1 is %g;", (float) *ptr/0x7fffffff); ptr++;
-	      printf(" z2 is %g\n", (float) *ptr/0x7fffffff); ptr++;
-	      printf ("   names are ");
+	      ptr+=3;
+//	      printf (" number of names for this hit = %d\n", names);
+//	         ptr++;
+//	      printf("  z1 is %g;", (float) *ptr/0x7fffffff); ptr++;
+//	      printf(" z2 is %g\n", (float) *ptr/0x7fffffff); ptr++;
+//	      printf ("   names are ");
 	      for (j = 0; j < names; j++) { /*  for each name */
 	         printf ("%d ", *ptr);
 	         if (j == 0)  /*  set row and column  */
@@ -138,6 +141,9 @@ void GameWindow::processHits(GLint hits, GLuint buffer[],Grid& grid){
 	      printf ("\n");
 
 	      grid.getGrid()[ii][jj]->setColor(1.0,0.0,0.0);
+	      pickedX_=++ii;
+	      pickedY_=++jj;
+	      glui_->sync_live();
 }
 }
 
@@ -171,53 +177,63 @@ void GameWindow::myGlutIdle(){
 	glutPostRedisplay();
 }
 
+void GameWindow::initMyGlut(){
+	//Glut & main window init
+
+		glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+		glutInitWindowSize (1100, 500);
+		glutInitWindowPosition (100, 100);
+
+		mainWindow_ = glutCreateWindow ("GRID");
+		glClearColor (0.0, 0.0, 0.0, 0.0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glFlush();
+
+		//subwindows & Glut functions
+		int subWindowWidth = 500;
+		int subWindowHeight = 500;
+		int subw = glutCreateSubWindow (mainWindow_, 0, 0, subWindowWidth, subWindowHeight);
+		glutMouseFunc (mouseFuncWrapper1);
+		glutReshapeFunc (reshapeWrapper);
+		glutDisplayFunc(displayWrapper1);
+		int subw2 = glutCreateSubWindow (mainWindow_, subWindowWidth + 100, 0, subWindowWidth, subWindowHeight);
+		glutMouseFunc (mouseFuncWrapper2);
+		glutReshapeFunc (reshapeWrapper);
+		glutDisplayFunc(displayWrapper2);
+}
+void GameWindow::createGLUI(){
+	glui_ = GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_Y));
+
+		//Connect to server
+		GLUI_Rollout* serverRollout = glui_->add_rollout("Server");
+		GLUI_EditText* serverIP = glui_->add_edittext_to_panel(serverRollout,"Server IP: ");
+		serverIP->set_w(180);
+		glui_->add_button_to_panel(serverRollout,"Connect");
+
+		//Add ship
+		GLUI_Rollout* shipAdd = glui_->add_rollout("Add ship");
+		GLUI_Spinner* shipSize = glui_->add_spinner_to_panel(shipAdd,"Ship Size");
+		GLUI_Listbox* orientationList = glui_->add_listbox_to_panel(shipAdd, "Orientation");
+		orientationList->add_item(0, "Horizontal");
+		orientationList->add_item(1, "Vertical");
+		shipSize->set_int_limits(1,5);
+		GLUI_Panel* remainingPanel = glui_->add_panel_to_panel(shipAdd, "Remaining to add");
+		GLUI_Panel* hitPanel = glui_->add_panel("Hit");
+
+		//Hit picked coordinates
+		GLUI_EditText* xCoordinate = glui_->add_edittext_to_panel(hitPanel,"X coordinate: ", GLUI_EDITTEXT_INT, &pickedX_);
+		GLUI_EditText* yCoordinate = glui_->add_edittext_to_panel(hitPanel,"Y coordinate: ", GLUI_EDITTEXT_INT, &pickedY_);
+		glui_->add_button_to_panel(hitPanel,"Hit");
+
+		glui_->add_button("Start Game");
+		glui_->add_button("Quit", 0, (GLUI_Update_CB)exit);
+		glui_->set_main_gfx_window(mainWindow_);
+		GLUI_Master.set_glutIdleFunc(idleWrapper);
+}
 void GameWindow::startGameWindow(int argc, char *argv[]){
 
-	//Glut & main window init
 	glutInit(&argc, argv);
-	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
-	glutInitWindowSize (1100, 500);
-	glutInitWindowPosition (100, 100);
-
-	mainWindow_ = glutCreateWindow ("GRID");
-	glClearColor (0.0, 0.0, 0.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glFlush();
-
-	//init();
-
-	//subwindows & Glut functions
-	int subWindowWidth = 500;
-	int subWindowHeight = 500;
-	int subw = glutCreateSubWindow (mainWindow_, 0, 0, subWindowWidth, subWindowHeight);
-	glutMouseFunc (mouseFuncWrapper1);
-	glutReshapeFunc (reshapeWrapper);
-	glutDisplayFunc(displayWrapper1);
-	int subw2 = glutCreateSubWindow (mainWindow_, subWindowWidth + 100, 0, subWindowWidth, subWindowHeight);
-	glutMouseFunc (mouseFuncWrapper2);
-	glutReshapeFunc (reshapeWrapper);
-	glutDisplayFunc(displayWrapper2);
-
-	//GLUI
-	GLUI *glui = GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_Y));
-	GLUI_Rollout* serverRollout = glui->add_rollout("Server");
-	GLUI_EditText* serverIP = glui->add_edittext_to_panel(serverRollout,"Server IP: ");
-	serverIP->set_w(180);
-	glui->add_button_to_panel(serverRollout,"Connect");
-	GLUI_Rollout* shipAdd = glui->add_rollout("Add ship");
-	GLUI_Spinner* shipSize = glui->add_spinner_to_panel(shipAdd,"Ship Size");
-	GLUI_Listbox* orientationList = glui->add_listbox_to_panel(shipAdd, "Orientation");
-	orientationList->add_item(0, "Horizontal");
-	orientationList->add_item(1, "Vertical");
-	shipSize->set_int_limits(1,5);
-	GLUI_Panel* remainingPanel = glui->add_panel_to_panel(shipAdd, "Remaining to add");
-	GLUI_Panel* hitPanel = glui->add_panel("Hit");
-	GLUI_EditText* xCoordinate = glui->add_edittext_to_panel(hitPanel,"X coordinate: ");
-	GLUI_EditText* yCoordinate = glui->add_edittext_to_panel(hitPanel,"Y coordinate: ");
-	glui->add_button_to_panel(hitPanel,"Hit");
-	glui->add_button("Start Game");
-	glui->add_button("Quit");
-	glui->set_main_gfx_window(mainWindow_);
-	GLUI_Master.set_glutIdleFunc(idleWrapper);
+	initMyGlut();
+	createGLUI();
 	glutMainLoop();
 }
