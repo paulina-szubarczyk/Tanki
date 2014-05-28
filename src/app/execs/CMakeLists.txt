@@ -3,12 +3,13 @@ project( Execs )
 
 include_directories(${Message_BINARY_DIR})
 include_directories(${NetworkLib_SOURCE_DIR})
+include_directories(${ClientLib_SOURCE_DIR})
 
 add_executable(server server.cpp)        
 target_link_libraries(server network )
 
 add_executable(client client.cpp)
-target_link_libraries( client network )
+target_link_libraries( client network lib_client )
 
 install(TARGETS client server
                RUNTIME DESTINATION bin

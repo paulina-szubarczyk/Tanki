@@ -1,44 +1,73 @@
-#include "ProtobufConnection.h"
-#include "IoHarbour.h"
-#include "MessagePacker.h"
-#include "MessageHandler.h"
+/*
+ * 	main_client.cpp
+ *
+ *  Created on: Mar 9, 2014
+ *      Author: Adam Kosiorek
+ */
 
-#include "message.pb.h"
-
-#include "glog/logging.h"
-
-#include <thread>
-#include <mutex>
 #include <iostream>
-#include <iomanip>
+#include <array>
+#include <thread>
+#include <boost/thread.hpp>
+#include <boost/asio.hpp>
 
-using namespace ships;
+#include <glog/logging.h>
+//#include "ship.h"
+#include "GameWindow.h"
 
-int main(int argc, char * argv[]) {
-	google::InitGoogleLogging(argv[0]);
 
-	std::shared_ptr<ships::IoHarbour> harbour(new ships::IoHarbour());
 
-	std::shared_ptr<MessageHandler<MessageType, DataMsg>> msgHandler(new MessageHandler<MessageType, DataMsg>());
-	msgHandler->setTypeMethod([](const DataMsg& msg) {return msg.type();});
-	msgHandler->addMsgHandler(MessageType::LOGIN, [](const DataMsg& msg) {
-		LOG(INFO) << "LOGIN: " << msg.login();
-		LOG(INFO) << "PASSW: " << msg.password();
-	});
 
-	std::shared_ptr<ProtobufConnection> connection(new ProtobufConnection(harbour, msgHandler));
-	connection->connect("127.0.0.1", 7777);
+using boost::asio::ip::tcp;
+namespace asio = boost::asio;
 
-	std::shared_ptr<DataMsg> dataMsg(new DataMsg());
-	dataMsg->set_type(MessageType::LOGIN);
-	dataMsg->set_login(argv[1]);
-	dataMsg->set_password(argv[2]);
+int main(int argc, char** argv) {
 
-	while(true) {
-		connection->send(dataMsg);
-		harbour->poll();
-		std::this_thread::sleep_for(std::chrono::milliseconds(300));
-	}
-
-	return 0;
+//	Ship s;
+//	s.testShip(argc, argv);
+	GameWindow::getInstance().startGameWindow(argc, argv);
+//	google::InitGoogleLogging(argv[0]);
+//
+//
+//    LOG(INFO) << "Starting!";
+//
+//		try {
+//		std::string server = "localhost";
+//		boost::asio::io_service io_service;
+//		tcp::resolver resolver(io_service);
+//		tcp::resolver::query query(server, "daytime");
+//		tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+//		tcp::socket socket(io_service);
+//		boost::asio::connect(socket, endpoint_iterator);
+//
+//		std::string str;
+//		std::thread thread([&]() {
+//			while(true) {
+//
+//			std::getline(std::cin, str);
+//			boost::asio::write(socket, asio::buffer(str, str.size()));
+//			}
+//		});
+//
+//
+//			while(true) {
+//				std::array<char, 128> buf;
+//				boost::system::error_code error;
+//				size_t len = socket.read_some(boost::asio::buffer(buf), error);
+//				if(error == boost::asio::error::eof)
+//					break;
+//				else if(error)
+//					throw boost::system::system_error(error);
+//
+//				std::cout.write(buf.data(), len);
+//				std::cout << std::endl;
+//			}
+//
+//			thread.join();
+//
+//
+//	} catch (std::exception &e) {
+//
+//		std::cerr << e.what() << std::endl;
+//	}
 }

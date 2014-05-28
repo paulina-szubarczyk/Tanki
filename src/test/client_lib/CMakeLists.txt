@@ -5,8 +5,10 @@ set( name test_client_lib )
 
 include_directories(${ClientLib_SOURCE_DIR})
 
-add_executable(${name} 
-                    shiptest.cpp
+add_executable(${name}
+                    
+                    GridCellTest.cpp
+                    GridTest.cpp
 )
 
 target_link_libraries(${name} ${GTEST_LIBS} lib_client)

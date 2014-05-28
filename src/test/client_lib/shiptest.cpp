@@ -30,14 +30,16 @@ TEST_F(ShipTest, SetInstanceTest){
 }
 
 TEST_F(ShipTest, AddCoordinatesTest){
-//	Ship s;
-//	s.addCoordinates(5,7);
 
-//	ASSERT_TRUE(s.getVectorXSize());
-//	ASSERT_TRUE(s.getVectorYSize());
-//	ASSERT_EQ(s.getX(0), 5);
-//	ASSERT_EQ(s.getY(0), 7);
-//	ASSERT_EQ(1,0);
+
+	Ship s;
+	s.addCoordinates(5,7);
+
+	ASSERT_GT(s.getVectorXSize(),0);
+	ASSERT_GT(s.getVectorYSize(),0);
+	ASSERT_EQ(s.getX(0), 5);
+	ASSERT_EQ(s.getY(0), 7);
+
 }
 
 TEST_F(ShipTest, EraseTest){
