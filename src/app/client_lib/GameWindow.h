@@ -10,10 +10,6 @@
 
 #include "Grid.h"
 #include "GlutFunctions.h"
-//#include <GL/gl.h>
-//#include <GL/glu.h>
-//#include <GL/glut.h>
-//#include <GL/glui.h>
 #include <map>
 #include <string>
 
@@ -28,17 +24,15 @@ public:
 	static GameWindow& getInstance();
 
 	void init();
-//	void display(Grid& grid);
+
 	void display1();
 	void display2();
-//	void reshape(int w, int h);
+
 	void myGlutIdle();
-//	void mouseFunc(int button, int state, int x, int y, Grid& grid);
+
 	void mouseFunc1(int button, int state, int x, int y);
 	void mouseFunc2(int button, int state, int x, int y);
 
-//	void drawSquares(GLenum mode, Grid& grid);
-//	void processHits(GLint hits, GLuint buffer[], Grid& grid);
 	void initMyGlut();
 	void createGLUI();
 	void startGameWindow(int argc, char *argv[]);
@@ -50,8 +44,8 @@ public:
 	static void mouseFuncWrapper1(int button, int state, int x, int y);
 	static void mouseFuncWrapper2(int button, int state, int x, int y);
 
-	void setShipsQuantity(std::map<int,int>& configuration);
-	void addLineToShipsToAdd(int shipSize, int quantity);
+	//void setShipsQuantity(std::map<int,int>& configuration);
+	//void addLineToShipsToAdd(int shipSize, int quantity);
 
 private:
 	GameWindow();
@@ -62,8 +56,7 @@ private:
 	Grid grid2_;
 
 	int mainWindow_;
-//	GLUI* glui_;
-//
+
 	int pickedX_;
 	int pickedY_;
 
@@ -72,6 +65,7 @@ private:
 
 	std::map<int,int> shipsQuantity_;
 	std::string shipsToAdd_;
+	GLUI_String ipBuffer_;
 
 };
 #endif /* GAMEWINDOW_H_ */

@@ -9,6 +9,7 @@ add_executable(${name}
                     
                     GridCellTest.cpp
                     GridTest.cpp
+                    GameManagerTest.cpp
 )
 
 target_link_libraries(${name} ${GTEST_LIBS} lib_client)

@@ -21,7 +21,7 @@ void GameWindow::init(){
 	grid2_.init(10);
 	pickedX_=-1;
 	pickedY_=-1;
-
+	ipBuffer_ = "Set IP";
 	horizontal_= 0;
 
 	for(int i=1; i<6; i++)
@@ -104,8 +104,9 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 
 //Connect to server
 		GLUI_Rollout* serverRollout = getGlui()->add_rollout("Server");
-		GLUI_EditText* serverIP = getGlui()->add_edittext_to_panel(serverRollout,"Server IP: ");
+		GLUI_EditText* serverIP = getGlui()->add_edittext_to_panel(serverRollout,"Server IP: ", GLUI_EDITTEXT_TEXT, &ipBuffer_);
 		serverIP->set_w(180);
+		serverIP->set_text(ipBuffer_);
 		getGlui()->add_button_to_panel(serverRollout,"Connect");
 
 		//Picked Coordinates Display

@@ -7,5 +7,5 @@ find_package(GLUI REQUIRED)
 
 include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} ${GLUI_INCLUDE_DIRS})
 
-add_library(lib_client ship.cpp Observable.cpp GridCell.cpp Grid.cpp GameWindow.cpp GlutFunctions.cpp )
+add_library(lib_client ship.cpp Observable.cpp GridCell.cpp Grid.cpp GameWindow.cpp GlutFunctions.cpp GameManager.cpp )
 target_link_libraries(lib_client ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${GLUI_LIBRARIES})
