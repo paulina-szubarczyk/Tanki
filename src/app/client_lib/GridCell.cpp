@@ -10,12 +10,14 @@ GridCell::GridCell()
 {
 r_ = g_ = b_ = 0.0;
 x_ = y_ = 0;
+occupied_ = false;
 }
 
 GridCell::GridCell(float red, float green, float blue, int x, int y)
 {
 setColor(red, green, blue);
 setCoordinates(x, y);
+occupied_=false;
 }
 
 void GridCell::setColor(float red, float green, float blue)
@@ -67,3 +69,10 @@ float GridCell::getBlue()
 	return b_;
 }
 
+bool GridCell::getOccupied(){
+	return occupied_;
+}
+
+void GridCell::setOccupied(bool state){
+	occupied_ = state;
+}

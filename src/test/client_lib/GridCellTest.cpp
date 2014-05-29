@@ -24,6 +24,10 @@ TEST_F(GridCellTest,ConstructorTest){
 	ASSERT_FLOAT_EQ(cell.getBlue(), 0.0);
 	ASSERT_EQ(cell.getX(), 0);
 	ASSERT_EQ(cell.getY(), 0);
+	ASSERT_FALSE(cell.getOccupied());
+
+	cell.setOccupied(true);
+	ASSERT_TRUE(cell.getOccupied());
 
 	GridCell c2(0.4, 0.2, 0.1, 5, 8);
 	ASSERT_FLOAT_EQ(c2.getRed(), 0.4);

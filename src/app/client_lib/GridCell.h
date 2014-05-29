@@ -23,6 +23,9 @@ public:
 	float getRed();
 	float getGreen();
 	float getBlue();
+
+	bool getOccupied();
+	void setOccupied(bool state);
 private:
 	float r_;
 	float g_;
@@ -30,6 +33,8 @@ private:
 
 	int x_;
 	int y_;
+
+	bool occupied_;
 };
 
 
