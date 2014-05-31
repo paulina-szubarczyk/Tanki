@@ -27,7 +27,7 @@ public:
 	void init(int n);
 	std::vector<std::pair<int,int> > addNewShip(int x, int y, int size, int horizontal);
 	bool checkAddSize(int x, int y, int size, int horizontal);
-	//bool checkNeighbours(int x, int y, int size, int horizontal);
+	bool checkAvaible(int x, int y, int size, int horizontal);
 	void addBigShipHorizontal(CellPtr bigship);
 	void addBigShipVertical(CellPtr bigship);
 

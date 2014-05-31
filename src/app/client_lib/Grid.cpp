@@ -37,13 +37,33 @@ bool Grid::checkAddSize(int x, int y, int size, int horizontal){
 
 
 }
-//bool Grid::checkNeighbours(int x, int y, int size, int horizontal){
-//	if(horizontal == 0)
-//		for(int i = x; i < x + size; i++)
-//		{
-//			if(i)
-//		}
-//}
+bool Grid::checkAvaible(int x, int y, int size, int horizontal){
+	int tmpi = x;
+	int tmpj = y;
+	int endX = (x + size) < getGridSize() ? (x + size + 1) : getGridSize();
+	int endY = (y + size) < getGridSize() ? (y + size + 1) : getGridSize();
+	if(x>0)
+		tmpi = x -1;
+	if(y>0)
+		tmpj = y - 1;
+	if(horizontal == 0){
+		int tempY = (y+2)<getGridSize() ? (y+2) : getGridSize();
+
+		for(int i = tmpi; i < endX;i++){
+			for(int j = tmpj; j < tempY; j++){
+				if(grid_[i][j]->getOccupied())
+					return false;}
+		}
+	}
+	else{
+		int tempX = (x+2)<getGridSize() ? (x+2) : getGridSize();
+				for(int j = tmpj; j< endY;++j)
+					for(int i = tmpi; i < tempX; ++i)
+						if(grid_[i][j]->getOccupied())
+							return false;
+	}
+	return true;
+}
 
 std::vector<std::pair<int,int> > Grid::addNewShip(int x, int y, int size, int horizontal) {
 	//checkAddSize(x,y,size,horizontal);

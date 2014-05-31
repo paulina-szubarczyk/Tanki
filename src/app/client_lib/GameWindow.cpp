@@ -19,9 +19,9 @@ GameWindow::GameWindow(){
 void GameWindow::init(){
 	grid1_.init(connector_->getGridSize());
 	grid2_.init(connector_->getGridSize());
-	pickedX_=0;
-	pickedY_=0;
-	ipBuffer_ = "Set IP1";
+	pickedX_= 0;
+	pickedY_= 0;
+	ipBuffer_ = "Set IP";
 	horizontal_= 0;
 
 }
@@ -104,11 +104,17 @@ void GameWindow::addCallbackWrapper(int){
 	getInstance().addCallback();
 }
 void GameWindow::addCallback(){
+	bool notAdded = true;
 	if(grid1_.checkAddSize(pickedX_,pickedY_,shipSize_,horizontal_))
-	grid1_.addNewShip(pickedX_,pickedY_,shipSize_,horizontal_);
-	//std::cout<<pickedX_<<" "<<pickedY_<<" "<<shipSize_<<" "<<horizontal_<<"\n";
+		if(grid1_.checkAvaible(pickedX_,pickedY_,shipSize_,horizontal_)){
+			grid1_.addNewShip(pickedX_,pickedY_,shipSize_,horizontal_);
+			notAdded = false;
+		}
+		if(notAdded)
+			grid1_.getGrid()[pickedX_][pickedY_]->setColor(0.0,0.0,0.7);
+
+
 	selectedW_ = subW1_;
-	//grid1_.getGrid()[pickedX_][pickedY_]->setToShip();
 	glutPostRedisplay();
 }
 void GameWindow::hitCallbackWrapper(int){
