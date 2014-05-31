@@ -9,7 +9,6 @@
 
 PlayerBuilder::PlayerBuilder() {
 	shipFactory = ShipFactoryMethod::getInstance();
-
 }
 
 PlayerBuilder::~PlayerBuilder() {
