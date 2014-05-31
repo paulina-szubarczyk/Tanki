@@ -9,8 +9,6 @@
 
 PlayerBuilder::PlayerBuilder() {
 	shipFactory = ShipFactoryMethod::getInstance();
-	//MsgSenderPtr msgSender = MsgSenderPtr(new ships::MessageSender(connection_));
-	//msgSender_ = msgSender;
 
 }
 

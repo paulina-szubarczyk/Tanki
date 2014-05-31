@@ -29,6 +29,7 @@ public:
 protected:
 	GamePlayer* player_;
 	ShipFactoryMethod* shipFactory;
+
 };
 
 #endif /* PLAYERBUILDER_H_ */
