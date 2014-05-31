@@ -22,8 +22,8 @@ public:
 	void setGridSize(int n);
 	int getGridSize();
 	int getTypesNumber();
-	void setTurn();
-	void setWait();
+//	void setTurn();
+//	void setWait();
 	//std::string getShipsToAdd();
 
 

@@ -55,6 +55,19 @@ public:
 	void startCallback();
 	void connectCallback(int);
 
+	/*
+	 * Methods for the server to control the gameplay
+	 */
+
+	/*
+	 * If turn is true enables player to hit, otherwise disables the 'Hit" button
+	 */
+	void setTurn(bool turn);
+	/*
+	 * Displays info about the end of the game
+	 */
+	void endGame();
+
 private:
 	GameWindow();
 	GameWindow(const GameWindow&) = delete;

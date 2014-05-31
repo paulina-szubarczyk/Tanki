@@ -11,7 +11,7 @@
 
 class Connection{
 public:
-	int getGridSize(){}; // returns grid size
+	int getGridSize(){return 10;}; // returns grid size
 	/*
 	 * Returns map:
 	 * first is ship size
@@ -40,7 +40,14 @@ public:
 	 * std::pair<std::pair<int,int>,bool> (Coordinates, hitResult)
 	 */
 	bool getHitReply(){return true;}; //get reply for hit from server whether a ship was hit (true) or not (false)
-
+	/*
+	 * Check if player can make a move (true) or if it's opponent's turn
+	 */
+	bool getTurn(){return true;}
+	/*
+	 * Sends info that player has clicked "Start" and he's ready for the game
+	 */
+	bool sendStart();
 };
 
 #endif /* CONNECTION_H_ */

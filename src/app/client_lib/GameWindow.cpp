@@ -17,10 +17,10 @@ GameWindow::GameWindow(){
 }
 
 void GameWindow::init(){
-	grid1_.init(10);
-	grid2_.init(10);
-	pickedX_=-1;
-	pickedY_=-1;
+	grid1_.init(connector_->getGridSize());
+	grid2_.init(connector_->getGridSize());
+	pickedX_=0;
+	pickedY_=0;
 	ipBuffer_ = "Set IP1";
 	horizontal_= 0;
 
@@ -119,6 +119,7 @@ connector_->sendHit(std::pair<int,int> (pickedX_,pickedY_));
 grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(connector_->getHitReply());
 selectedW_ = subW2_;
 glutPostRedisplay();
+
 }
 void GameWindow::createGLUI(){
 
