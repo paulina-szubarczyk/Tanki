@@ -6,30 +6,33 @@
  */
 
 #include "GamePlayer.h"
+#include "Game.h"
 
-GamePlayer::GamePlayer(OutputPtr output) : output_(output), turn_(false) {
+GamePlayer::GamePlayer(OutputPtr output) : output_(output), turn_(false), hit_(false) {
 	// TODO Auto-generated constructor stub
 
 }
+
 
 GamePlayer::~GamePlayer() {
 	// TODO Auto-generated destructor stub
 }
 
-void GamePlayer::changeTurn(bool turn){
-	turn_ = turn;
-}
-
-bool GamePlayer::getTurn(){
-	return turn_;
-}
 void GamePlayer::hitField(int x, int y) {
-	if (turn_)
+	if (turn_){
+		hit_ = false;
 		fieldsUpdater_->hit(x,y);
+		if (!hit_)
+			game_->changeTurn();
+	}
 	else
 		output_->oponentTurn();
 }
 
-GameboardPtr GamePlayer::getGameboard() {
-	return gameboard_;
+void GamePlayer::shipsAdded() {
+	game_->playerPrepared();
+}
+void GamePlayer::setTurn(bool turn) {
+	turn_ = turn;
+	if (turn_) output_->playerTurn();
 }

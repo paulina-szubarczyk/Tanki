@@ -10,7 +10,11 @@
 
 #include "GameShip.h"
 #include "HitObserver.h"
-#include "hitShip_typedef.h"
+#include "ShipObserver.h"
+#include <memory>
+#include <boost/signals2/signal.hpp>
+typedef boost::signals2::signal<void (GameShip::ShipState)> SignalShipType;
+typedef std::shared_ptr<ShipObserver> ShipObserverPtr;
 
 class BigGameShip: public GameShip {
 

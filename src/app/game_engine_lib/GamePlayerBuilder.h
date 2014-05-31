@@ -26,7 +26,7 @@ public:
 
 	virtual void addPlayerShip( std::vector<int> x,
 								std::vector<int> y) ;
-	static void configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2, OutputPtr output1, OutputPtr output2);
+	static void configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2);
 protected:
 
 };

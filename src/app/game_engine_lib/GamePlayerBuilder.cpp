@@ -20,17 +20,18 @@ void GamePlayerBuilder::createGamePlayer(OutputPtr output) {
 	addPlayerGameboard(size);
 }
 void GamePlayerBuilder::addPlayerGameboard(int size) {
-	player_->gameboard_ = std::shared_ptr<Gameboard>(new Gameboard(size));
+	player_->getGameboard() = std::shared_ptr<Gameboard>(new Gameboard(size));
 }
 
-void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2, OutputPtr output1, OutputPtr output2) {
+void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2) {
 
-	player1->fieldsUpdater_= std::shared_ptr<FieldsUpdater> (new FieldsUpdater(output1, output2, player2->gameboard_));
+	player1->setFieldsUpdater(std::shared_ptr<FieldsUpdater>
+							(new FieldsUpdater(player1, player2)));
 
-	auto shipsIter = player2->ships_.begin();
+	auto shipsIter = player2->getShips().begin();
 	auto shipsIterEnd = player2->ships_.end();
 	while (shipsIterEnd != shipsIter)
-		(*shipsIter)->registerShipObserver(player1->fieldsUpdater_);
+		(*shipsIter)->registerShipObserver(player1->getFieldsUpdater());
 }
 
 
@@ -54,8 +55,8 @@ void GamePlayerBuilder::addPlayerShip( std::vector<int> x, std::vector<int> y) {
 
 	while ( xIter != x.end() ) {
 
-		player_->gameboard_->getField(*xIter,*yIter).registerHitObserver(ship);
-		player_->gameboard_->getField(*xIter,*yIter).registerHitObserver(*smallShipsIter);
+		player_->getGameboard()->getField(*xIter,*yIter).registerHitObserver(ship);
+		player_->getGameboard()->getField(*xIter,*yIter).registerHitObserver(*smallShipsIter);
 
 		++xIter;
 		++yIter;

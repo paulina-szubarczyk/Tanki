@@ -13,9 +13,11 @@
 #include <memory>
 #include "gameEngine_typedef.h"
 
+class GamePlayer;
 class FieldsUpdater: public ShipObserver {
+	typedef	std::shared_ptr<GamePlayer> PlayerPtr;
 public:
-	FieldsUpdater(OutputPtr output1, OutputPtr output2, GameboardPtr gameboard);
+	FieldsUpdater(PlayerPtr player1, PlayerPtr player2);
 	FieldsUpdater();
 	virtual ~FieldsUpdater();
 
@@ -29,9 +31,8 @@ public:
 
 private:
 	FieldType lastHit_;
-	GameboardPtr oponentGameboard_;
-	OutputPtr oponentOutput_;
-	OutputPtr playerOutput_;
+	PlayerPtr oponent_;
+	PlayerPtr player_;
 };
 
 #endif /* CLIENTFIELDUPDATER_H_ */

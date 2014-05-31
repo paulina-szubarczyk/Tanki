@@ -10,8 +10,8 @@
 
 class GamePlayerOutput {
 public:
-	GamePlayerOutput();
-	virtual ~GamePlayerOutput();
+	GamePlayerOutput() = default;
+	virtual ~GamePlayerOutput() = default;
 
 	virtual void getShips() = 0 ;
 	virtual void beginGame() = 0 ;

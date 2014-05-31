@@ -7,52 +7,33 @@
 
 #include "GameEngine.h"
 #include "GamePlayerBuilder.h"
-#include <boost/signals2/signal.hpp>
-
 
 GameEngine::GameEngine() {
-	startGame.connect(boost::bind(&GameEngine::createGame,this));
+
 }
 
 GameEngine::~GameEngine() {
 	// TODO Auto-generated destructor stub
 }
 
-void GameEngine::registerPlayer(OutputPtr output){
 
-	if (!player1_)
-		createPlayer(player1_, output);
-	else if (!player2_) {
-		createPlayer(player2_, output);
-		startGame();
-	}
-	else {
-		output->gameAlreadyOccupied();
-	}
+
+void GameEngine::createGame(OutputPtr output1, OutputPtr output2){
+	PlayerPtr player1_, player2_;
+	createPlayer(player1_, output1);
+	createPlayer(player2_, output2);
+	std::shared_ptr<Game> game( new Game(player1_,player2_));
+	player1_->setGame(game); player2_->setGame(game);
+	games_.push_back(game);
 }
 
-void GameEngine::createGame(){
-	GamePlayerBuilder::configPlayerFieldsUpdater(player1_,player2_,output1_,output2_);
-	GamePlayerBuilder::configPlayerFieldsUpdater(player2_,player1_,output2_,output1_);
-	output1_->beginGame();
-	output2_->beginGame();
-
-	player1_->changeTurn(true);
-	player2_->changeTurn(false);
-}
 
 void GameEngine::createPlayer(PlayerPtr player, OutputPtr output){
 
 	GamePlayerBuilder playerBuilder;
 	playerBuilder.createGamePlayer(output);
-	player1_ = PlayerPtr(playerBuilder.getPlayer());
+	player = PlayerPtr(playerBuilder.getPlayer());
 
 }
 
-GameEngine::PlayerPtr GameEngine::getPlayer1(){
-	return player1_;
-}
-GameEngine::PlayerPtr GameEngine::getPlayer2(){
-	return player2_;
-}
 

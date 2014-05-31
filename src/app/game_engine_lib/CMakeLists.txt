@@ -5,20 +5,22 @@ include_directories(${Message_BINARY_DIR})
 include_directories(${NetworkLib_SOURCE_DIR})
 
 add_library(game_engine 
-        Field.cpp 
-        GameShip.cpp 
-        SmallGameShip.cpp 
         BigGameShip.cpp 
-        HitObserver.cpp
+        ConnectionBridge.cpp
+        Field.cpp 
         FieldsUpdater.cpp 
-        ShipObserver.cpp 
-        Gameboard.cpp
-        ShipFactoryMethod.cpp
+        Game.cpp
+        Gameboard.cpp   
+        GameEngine.cpp     
         GamePlayer.cpp
-        PlayerBuilder.cpp
         GamePlayerBuilder.cpp
-        GameEngine.cpp
-        GamePlayerOutput.cpp
+        GameShip.cpp 
+        HitObserver.cpp
+        PlayerBuilder.cpp
+        PlayerOutput.cpp
+        ShipFactoryMethod.cpp
+        ShipObserver.cpp 
+        SmallGameShip.cpp 
 )
 target_link_libraries(game_engine network)
 

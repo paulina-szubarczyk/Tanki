@@ -6,25 +6,31 @@
  */
 
 #include "FieldsUpdater.h"
+#include "GamePlayer.h"
 
-FieldsUpdater::FieldsUpdater(OutputPtr output1, OutputPtr output2, GameboardPtr gameboard) : ShipObserver(),
-							playerOutput_(output1),oponentOutput_(output2), oponentGameboard_(gameboard) {}
+FieldsUpdater::FieldsUpdater(PlayerPtr player1, PlayerPtr player2) : ShipObserver(),
+							player_(player1),oponent_(player2) {}
 
 FieldsUpdater::~FieldsUpdater() {}
 
 void FieldsUpdater::shipHit(GameShip::ShipState state) {
 	if (state == GameShip::ShipState::HIT)	{
-		playerOutput_->oponentShipHit(lastHit_.first,lastHit_.second);
-		oponentOutput_->playerShipHit(lastHit_.first,lastHit_.second);
+		player_->setHit(true);
+		player_->getOutput()->oponentShipHit(lastHit_.first,lastHit_.second);
+		oponent_->getOutput()->playerShipHit(lastHit_.first,lastHit_.second);
 	} else if (state == GameShip::ShipState::SUNK) {
-		playerOutput_->oponentShipSunk(lastHit_.first,lastHit_.second);
-		oponentOutput_->playerShipSunk(lastHit_.first,lastHit_.second);
+		player_->setHit(true);
+		player_->getOutput()->oponentShipSunk(lastHit_.first,lastHit_.second);
+		oponent_->getOutput()->playerShipSunk(lastHit_.first,lastHit_.second);
+		if (player_->getGame()->isWinner(player_))
+			return;
 	}
+	player_->getGame()->changeTurn();
 }
 
 void FieldsUpdater::hit(int x, int y) {
 	lastHit_ = std::make_pair(x,y);
-	oponentGameboard_->hit(x,y);
+	oponent_->getGameboard()->hit(x,y);
 }
 
 FieldsUpdater::FieldType FieldsUpdater::getLastHit() const{

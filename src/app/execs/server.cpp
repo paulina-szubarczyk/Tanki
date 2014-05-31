@@ -4,8 +4,9 @@
 #include "MessagePacker.h"
 #include "MessageHandler.h"
 #include "ConnectionPool.h"
+#include "ConnectionBridge.h"
 #include "ProtobufConnectionFactory.h"
-
+#include "GameEngine.h"
 #include "message.pb.h"
 
 #include "glog/logging.h"
@@ -33,6 +34,8 @@ int main(int argc, char * argv[]) {
 	acceptor->listen("127.0.0.1", 8080);
 
 	harbour->run();
-
+	std::shared_ptr<GameEngine> gameEngine(new GameEngine());
+	std::shared_ptr<ConnectionBridge> bridge(new ConnectionBridge(connectionPool, gameEngine));
+	connectionPool->registerConnectionObserver(bridge);
 	return 0;
 }
