@@ -95,9 +95,20 @@ bool GridCell::hitCell(){
 		alreadyHit_=true;
 		return true;
 	}
+	else if(!occupied_)
+		setColor(1.0,1.0,1.0);
 	return false;
 }
 
+
 bool GridCell::getHitState(){
 	return alreadyHit_;
+}
+
+void GridCell::registerHitReply(bool reply){
+	if(reply){
+		setToShip();
+	}
+	hitCell();
+	alreadyHit_ = true;
 }

@@ -111,7 +111,15 @@ void GameWindow::addCallback(){
 	//grid1_.getGrid()[pickedX_][pickedY_]->setToShip();
 	glutPostRedisplay();
 }
-void callback(int arg){}
+void GameWindow::hitCallbackWrapper(int){
+	getInstance().hitCallback();
+}
+void GameWindow::hitCallback(){
+connector_->sendHit(std::pair<int,int> (pickedX_,pickedY_));
+grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(connector_->getHitReply());
+selectedW_ = subW2_;
+glutPostRedisplay();
+}
 void GameWindow::createGLUI(){
 
 setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_Y)));
@@ -157,7 +165,7 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 
 		//Hit picked coordinates
 		GLUI_Panel* hitPanel = getGlui()->add_panel("Hit");
-		getGlui()->add_button_to_panel(hitPanel,"Hit");
+		getGlui()->add_button_to_panel(hitPanel,"Hit",0,hitCallbackWrapper);
 
 		getGlui()->add_button("Start Game");
 		getGlui()->add_button("Quit", 0, (GLUI_Update_CB)exit);

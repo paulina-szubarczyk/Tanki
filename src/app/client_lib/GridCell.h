@@ -29,6 +29,7 @@ public:
 	bool getHitState();
 	bool setToShip();
 	bool hitCell();
+	void registerHitReply(bool reply);
 
 private:
 	float r_;

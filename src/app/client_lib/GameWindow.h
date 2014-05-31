@@ -11,6 +11,7 @@
 #include "Grid.h"
 #include "GlutFunctions.h"
 #include "GameManager.h"
+#include "Connection.h"
 #include <map>
 #include <string>
 
@@ -49,6 +50,7 @@ public:
 
 	static void addCallbackWrapper(int);
 	void addCallback();
+	static void hitCallbackWrapper(int);
 	void hitCallback();
 	void startCallback();
 	void connectCallback(int);
@@ -74,7 +76,7 @@ private:
 
 	GameManager manager_;
 	GLUI_String ipBuffer_;
-
+	std::shared_ptr<Connection> connector_;
 	//std::string shipsToAdd_;
 
 };
