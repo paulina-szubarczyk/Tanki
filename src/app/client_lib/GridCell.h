@@ -8,11 +8,10 @@
 #ifndef GRIDCELL_H_
 #define GRIDCELL_H_
 
-
-class GridCell{
+class GridCell {
 public:
 	GridCell();
-	GridCell(float red, float green, float blue,  int x, int y);
+	GridCell(float red, float green, float blue, int x, int y);
 
 	void setColor(float red, float green, float blue); //add exception in arguments out of range
 	void setCoordinates(int x, int y);
@@ -42,7 +41,5 @@ private:
 	bool occupied_;
 	bool alreadyHit_;
 };
-
-
 
 #endif /* GRIDCELL_H_ */

@@ -13,9 +13,12 @@
 
 class GameWindow;
 
-class ClientConnection{
+class ClientConnection {
 public:
-	int getGridSize(){return 10;}; // returns grid size
+	int getGridSize() {
+		return 10;
+	}
+	; // returns grid size
 	/*
 	 * Allow server to set size of grid in GameManager
 	 */
@@ -25,29 +28,37 @@ public:
 	 * first is ship size
 	 * second is quantity of ships for each ship size
 	 */
-	std::map<int,int>& getShipsConfig(){};
+	std::map<int, int>& getShipsConfig() {
+	}
+	;
 	/*
 	 * Allow server to set ships configuration in GameManager
 	 */
-	void setShipsConfig(std::map<int,int>& config);
+	void setShipsConfig(std::map<int, int>& config);
 	/*
 	 * Connect to the server
 	 */
-	void connect(std::string serverIP){};
+	void connect(std::string serverIP) {
+	}
+	;
 	/*
 	 * Send ship to server:
 	 * ship is vector of <int,int> pairs where:
 	 * first is X coordinate
 	 * second is Y coordinate
 	 */
-	void sendShip(std::vector<std::pair<int,int> > ship){};
+	void sendShip(std::vector<std::pair<int, int> > ship) {
+	}
+	;
 	/*
 	 * Send hit to server
 	 * Hit is a <int,int> pair where
 	 * first is X coordinate
 	 * second is Y coordinate
 	 */
-	void sendHit(std::pair<int,int> hitCoordinates){}; //send hit to server, arg is pair of XY coordinates
+	void sendHit(std::pair<int, int> hitCoordinates) {
+	}
+	; //send hit to server, arg is pair of XY coordinates
 
 	/*
 	 * hit coordinates are already in client
@@ -62,7 +73,9 @@ public:
 	/*
 	 * Sends info that player has clicked "Start" and he's ready for the game
 	 */
-	void sendStart(){};
+	void sendStart() {
+	}
+	;
 };
 
 #endif /* CLIENTCONNECTION_H_ */
