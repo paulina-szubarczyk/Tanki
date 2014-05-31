@@ -12,7 +12,7 @@
 
 namespace ships {
 
-class Connection;
+class ProtobufConnection;
 class IoHarbour;
 
 /**
@@ -20,7 +20,7 @@ class IoHarbour;
  */
 class ConnectionFactory {
 public:	//	Typedefs
-	typedef std::shared_ptr<Connection> ConnectionPtr;
+	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;
 	typedef std::shared_ptr<IoHarbour> HarbourPtr;
 public:
 	ConnectionFactory(HarbourPtr harbour);

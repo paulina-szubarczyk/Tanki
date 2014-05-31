@@ -7,7 +7,8 @@
 
 #include "PoolingAcceptor.h"
 #include "ConnectionPool.h"
-#include "ConnectionFactory.h"
+#include "ProtobufConnectionFactory.h"
+#include "ProtobufConnection.h"
 #include "glog/logging.h"
 namespace ships {
 
@@ -15,7 +16,7 @@ PoolingAcceptor::PoolingAcceptor(HarbourPtr harbour, PoolPtr pool, FactoryPtr fa
 	: Acceptor(harbour), pool_(pool), factory_(factory), poolSize_(poolSize), initialized_(false) {}
 
 
-bool PoolingAcceptor::onAccept(std::shared_ptr<Connection> connection,
+bool PoolingAcceptor::onAccept(std::shared_ptr<ProtobufConnection> connection,
 		const std::string & host, uint16_t port) {
 	LOG(INFO) << "[" << __FUNCTION__ << "] " << host << ":" << port;
 

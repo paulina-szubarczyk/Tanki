@@ -43,7 +43,7 @@ public:	//	Methods
 	MsgHandlerPtr getMsgHandler() const;
 	void setMsgHandler(MsgHandlerPtr msgHandler);
 
-private:	//	 Overriden abstract methods
+	//	 Overriden abstract methods
 	void onAccept(const std::string & host, uint16_t port) override;
 	void onConnect(const std::string & host, uint16_t port) override;;
 	void onSend(const std::vector<uint8_t> & buffer) override;;

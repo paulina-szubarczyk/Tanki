@@ -13,7 +13,8 @@
 namespace ships {
 
 class ConnectionPool;
-class ConnectionFactory;
+class ProtobufConnectionFactory;
+class ProtobufConnection;
 
 /**
  * A concrete Acceptor class.
@@ -23,7 +24,8 @@ class ConnectionFactory;
 class PoolingAcceptor : public Acceptor {
 public:	//	Typedefs
 	typedef std::shared_ptr<ConnectionPool> PoolPtr;
-	typedef std::shared_ptr<ConnectionFactory> FactoryPtr;
+	typedef std::shared_ptr<ProtobufConnectionFactory> FactoryPtr;
+
 
 public:
 	PoolingAcceptor(HarbourPtr harbour, PoolPtr pool, FactoryPtr factory, int poolSize = 4);
@@ -32,7 +34,7 @@ public:
 	virtual void listen(const std::string& host, const uint16_t& port);
 
 private:
-	bool onAccept(std::shared_ptr<ships::Connection> connection,
+	bool onAccept(std::shared_ptr<ships::ProtobufConnection> connection,
 			const std::string & host, uint16_t port) override;
 	void onTimer(const milliseconds& delta) override;
 	void onError(const boost::system::error_code & error) override;

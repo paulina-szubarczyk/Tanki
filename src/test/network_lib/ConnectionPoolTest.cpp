@@ -15,7 +15,7 @@
 using namespace testing;
 using namespace ships;
 namespace ships {
-class Connection {};
+class ProtobufConnection {};
 
 struct ConnectionObserverMock : public ConnectionObserver {
 
@@ -31,7 +31,7 @@ protected:
 	virtual void SetUp() {};
 	virtual void TearDown() {};
 
-	typedef std::shared_ptr<Connection> ConnectionPtr;
+	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;
 	typedef std::shared_ptr<ConnectionObserverMock> ObserverPtr;
 
 };
@@ -46,7 +46,7 @@ TEST_F(ConnectionPoolTest, CtorDtorTest) {
 TEST_F(ConnectionPoolTest, AddConnectionTest) {
 
 	ConnectionPool connectionPool;
-	ConnectionPtr connection(new Connection());
+	ConnectionPtr connection(new ProtobufConnection());
 
 	connectionPool.addConnection(connection);
 	ASSERT_EQ(connectionPool.size(), 1);
@@ -54,8 +54,8 @@ TEST_F(ConnectionPoolTest, AddConnectionTest) {
 	ASSERT_EQ(connectionPool.getConnection(), connection);
 	ASSERT_EQ(connectionPool.size(), 0);
 
-	connectionPool.addConnection(ConnectionPtr(new Connection()));
-	connectionPool.addConnection(ConnectionPtr(new Connection()));
+	connectionPool.addConnection(ConnectionPtr(new ProtobufConnection()));
+	connectionPool.addConnection(ConnectionPtr(new ProtobufConnection()));
 	ASSERT_EQ(connectionPool.size(), 2);
 	ASSERT_EQ(connectionPool.getConnection(2).size(), 2);
 	ASSERT_EQ(connectionPool.size(), 0);
@@ -69,15 +69,15 @@ TEST_F(ConnectionPoolTest, SignalTest) {
 	EXPECT_CALL(*observer, signal()).Times(1);
 
 	connectionPool.registerConnectionObserver(observer);
-	connectionPool.addConnection(ConnectionPtr(new Connection()));
+	connectionPool.addConnection(ConnectionPtr(new ProtobufConnection()));
 	connectionPool.getConnection();
 
 	EXPECT_CALL(*observer, signal()).Times(0);
 	connectionPool.setConnsToSignal(2);
-	connectionPool.addConnection(ConnectionPtr(new Connection()));
+	connectionPool.addConnection(ConnectionPtr(new ProtobufConnection()));
 
 	EXPECT_CALL(*observer, signal()).Times(1);
-	connectionPool.addConnection(ConnectionPtr(new Connection()));
+	connectionPool.addConnection(ConnectionPtr(new ProtobufConnection()));
 }
 
 

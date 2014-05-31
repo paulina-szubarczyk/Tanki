@@ -17,7 +17,7 @@
 
 namespace ships {
 
-class Connection;
+class ProtobufConnection;
 class ConnectionObserver;
 
 /**
@@ -26,7 +26,7 @@ class ConnectionObserver;
  */
 class ConnectionPool {
 public:	//	Typedefs
-	typedef std::shared_ptr<Connection> ConnectionPtr;
+	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;
 	typedef std::queue<ConnectionPtr> QueueType;
 	typedef std::shared_ptr<QueueType> QueuePtr;
 	typedef std::unique_lock<std::mutex> Lock;

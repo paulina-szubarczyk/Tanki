@@ -23,7 +23,7 @@ void ProtobufConnectionFactory::setMsgHandler(MsgHandlerPtr msgHandler) {
 
 auto ProtobufConnectionFactory::createConnection() const -> ConnectionPtr {
 
-	return std::shared_ptr<Connection>(new ProtobufConnection(harbour_, msgHandler_));
+	return std::shared_ptr<ProtobufConnection>(new ProtobufConnection(harbour_, msgHandler_));
 }
 
 } /* namespace ships */

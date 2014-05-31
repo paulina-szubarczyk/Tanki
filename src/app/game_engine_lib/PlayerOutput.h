@@ -8,13 +8,15 @@
 #ifndef PLAYEROUTPUT_H_
 #define PLAYEROUTPUT_H_
 #include "GamePlayerOutput.h"
-#include "Connection.h"
+#include "ProtobufConnection.h"
+#include "message.pb.h"
+
 class PlayerOutput : public GamePlayerOutput{
+	typedef std::shared_ptr<DataMsg> MsgPtr;
 public:
-	PlayerOutput(std::shared_ptr<ships::Connection> connection);
+	PlayerOutput(std::shared_ptr<ships::ProtobufConnection> connection);
 	virtual ~PlayerOutput();
 
-	virtual void getShips() ;
 	virtual void beginGame()  ;
 	virtual void playerTurn()  ;
 	virtual void playerShipHit(int x, int y) ;
@@ -34,7 +36,10 @@ public:
 	virtual void oponentTurn();
 
 	private:
-		std::shared_ptr<ships::Connection> connection_;
+		std::shared_ptr<ships::ProtobufConnection> connection_;
+		MsgPtr createMsg() const {
+			return MsgPtr(new DataMsg());
+		}
 };
 
 #endif /* PLAYEROUTPUT_H_ */

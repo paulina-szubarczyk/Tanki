@@ -7,6 +7,7 @@
 
 #include "ConnectionPool.h"
 #include "ConnectionObserver.h"
+#include "ProtobufConnection.h"
 
 namespace ships {
 

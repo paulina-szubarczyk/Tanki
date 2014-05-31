@@ -22,7 +22,7 @@ add_library(game_engine
         ShipObserver.cpp 
         SmallGameShip.cpp 
 )
-target_link_libraries(game_engine network)
+target_link_libraries(game_engine network message)
 
 install(TARGETS game_engine
                RUNTIME DESTINATION bin

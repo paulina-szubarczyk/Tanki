@@ -7,7 +7,7 @@
 
 #include "Acceptor.h"
 #include "IoHarbour.h"
-#include "Connection.h"
+#include "ProtobufConnection.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -59,7 +59,7 @@ void Acceptor::listen(const std::string& host, const uint16_t& port) {
 	startTimer();
 }
 
-void Acceptor::accept(std::shared_ptr<Connection> connection) {
+void Acceptor::accept(std::shared_ptr<ProtobufConnection> connection) {
 	strand_.post(std::bind(&Acceptor::dispatchAccept, shared_from_this(), connection));
 }
 
@@ -85,7 +85,7 @@ void Acceptor::startError(const boost::system::error_code& error) {
 	onError(error);
 }
 
-void Acceptor::dispatchAccept(std::shared_ptr<Connection> connection) {
+void Acceptor::dispatchAccept(std::shared_ptr<ProtobufConnection> connection) {
 
 	acceptor_.async_accept(connection->getSocket(), connection->getStrand().wrap(
 			std::bind(&Acceptor::handleAccept, shared_from_this(), _1, connection)));
@@ -100,7 +100,7 @@ void Acceptor::handleTimer(const boost::system::error_code& error) {
 }
 
 void Acceptor::handleAccept(const boost::system::error_code& error,
-		std::shared_ptr<Connection> connection) {
+		std::shared_ptr<ProtobufConnection> connection) {
 
 	if(handleError(error)) return;
 

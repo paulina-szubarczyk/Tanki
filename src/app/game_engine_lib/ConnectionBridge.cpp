@@ -8,6 +8,7 @@
 #include "ConnectionBridge.h"
 #include "Connection.h"
 #include "PlayerOutput.h"
+#include "ProtobufConnection.h"
 #include <vector>
 
 ConnectionBridge::ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn, std::shared_ptr<GameEngine> engine)
@@ -18,7 +19,7 @@ ConnectionBridge::~ConnectionBridge() {
 }
 
 void ConnectionBridge::signal() {
-	std::vector<ships::ConnectionPool::ConnectionPtr> connections = connectionPool->getConnection(2);
+	std::vector<std::shared_ptr<ships::ProtobufConnection>> connections = connectionPool->getConnection(2);
 	std::shared_ptr<PlayerOutput> output1(new PlayerOutput(connections[0]));
 	std::shared_ptr<PlayerOutput> output2(new PlayerOutput(connections[1]));
 	gameEngine->createGame(output1, output2);

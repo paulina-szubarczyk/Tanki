@@ -13,7 +13,6 @@ public:
 	GamePlayerOutput() = default;
 	virtual ~GamePlayerOutput() = default;
 
-	virtual void getShips() = 0 ;
 	virtual void beginGame() = 0 ;
 	virtual void playerTurn() = 0 ;
 	virtual void playerShipHit(int x, int y) = 0;

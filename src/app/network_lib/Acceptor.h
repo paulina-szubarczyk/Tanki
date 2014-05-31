@@ -19,7 +19,7 @@ using std::chrono::milliseconds;
 namespace ships {
 
 class IoHarbour;
-class Connection;
+class ProtobufConnection;
 
 /**
  * An abstract Acceptor class. Adapted from:
@@ -66,7 +66,7 @@ public:	//	Methods
 	 * connections will be given this connection. if multiple calls to Accept
 	 * are called at a time, then they are accepted in a fIFO order.
 	 */
-	virtual void accept(std::shared_ptr<Connection> connection);
+	virtual void accept(std::shared_ptr<ProtobufConnection> connection);
 
 	/**
 	 * Stop the Acceptor from listening.
@@ -77,11 +77,11 @@ private:	//	Methods
 	void startTimer();
 	void startError(const boost::system::error_code& error);
 
-	void dispatchAccept(std::shared_ptr<Connection> connection);
+	void dispatchAccept(std::shared_ptr<ProtobufConnection> connection);
 
 	void handleTimer(const boost::system::error_code& error);
 	void handleAccept(const boost::system::error_code& error,
-			std::shared_ptr<Connection> connection);
+			std::shared_ptr<ProtobufConnection> connection);
 	bool handleError(const boost::system::error_code& error);
 
 private:	//	Abstract methods
@@ -92,7 +92,7 @@ private:	//	Abstract methods
 	* connection's disconnect function should be called and the function
 	* should return false.
 	*/
-	virtual bool onAccept(std::shared_ptr<Connection> connection,
+	virtual bool onAccept(std::shared_ptr<ProtobufConnection> connection,
 			const std::string& host, uint16_t port) = 0;
    /**
 	* Called on each timer event.
