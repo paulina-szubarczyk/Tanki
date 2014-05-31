@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 project( NetworkLib )
 
-include_directories(${Message_BINARY_DIR})
+
+find_package(PythonLibs)
+
+include_directories(
+        ${Message_BINARY_DIR}
+        ${PYTHON_INCLUDE_DIRS}
+)
 
 add_library(network
         Acceptor.cpp
@@ -15,13 +21,15 @@ add_library(network
         MessageSender.cpp
         PoolingAcceptor.cpp
         ProtobufConnection.cpp
-        ProtobufConnectionFactory.cpp    
+        ProtobufConnectionFactory.cpp   
+        PythonInterpreter.cpp 
 )
         
 target_link_libraries(network 
         ${GLOG_LIBRARIES}
         ${Boost_LIBRARIES}
         message
+        ${PYTHON_LIBRARIES}
 )
 
 install(TARGETS network

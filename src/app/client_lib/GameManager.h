@@ -28,6 +28,7 @@ public:
 
 private:
 	std::shared_ptr<ClientConnection> connector_;
+
 	std::map<int, int> shipsQuantity_;
 	std::map<int, int>::iterator iter_;
 	int gridSize_;

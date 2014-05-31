@@ -25,11 +25,13 @@ void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	shipSize_ = manager_.getSmallestSize();
 	connector_ = connection;
 
+
 }
 
 GameManager& GameWindow::getManager() {
 	return manager_;
 }
+
 void GameWindow::mouseLeftBtnGrid1(int button, int state, int x, int y) {
 	mouseFunc(button, state, x, y, grid1_, pickedX_, pickedY_);
 }
@@ -57,6 +59,7 @@ void GameWindow::displayWrapper2() {
 void GameWindow::reshapeWrapper(int w, int h) {
 	getInstance().reshape(w, h);
 }
+
 
 void GameWindow::mouseLeftBtnGrid1Wrapper(int button, int state, int x, int y) {
 	getInstance().mouseLeftBtnGrid1(button, state, x, y);
@@ -126,12 +129,14 @@ void GameWindow::addCallback() {
 void GameWindow::hitCallbackWrapper(int) {
 	getInstance().hitCallback();
 }
+
 void GameWindow::hitCallback() {
 	connector_->sendHit(std::pair<int, int>(pickedX_, pickedY_));
 //setTurn(connector_->getTurn());
 //grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(true); //test
 	selectedW_ = subW2_;
 	glutPostRedisplay();
+
 
 }
 
@@ -150,6 +155,7 @@ void GameWindow::startCallback() {
 	if (manager_.checkReady()) {
 		connector_->sendShip(grid1_.getShips());
 		addButton_->disable();
+
 	}
 }
 void GameWindow::createGLUI() {
@@ -227,6 +233,7 @@ void GameWindow::setPlayerTurn(bool turn) {
 		hitButton_->disable();
 }
 void GameWindow::startGameWindow(int argc, char *argv[]) {
+
 
 	glutInit(&argc, argv);
 	initMyGlut();

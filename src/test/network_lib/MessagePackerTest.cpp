@@ -17,7 +17,7 @@ protected:
 	MessagePackerTest() {};
 	~MessagePackerTest() {};
 	virtual void SetUp() {};
-	virtual void TeatDown() {};
+	virtual void TearDown() {};
 
 	typedef MessagePacker<TestMsg> PackedMessageType;
 	typedef PackedMessageType::BufferType BufferType;
