@@ -128,7 +128,7 @@ void GameWindow::hitCallbackWrapper(int){
 void GameWindow::hitCallback(){
 connector_->sendHit(std::pair<int,int> (pickedX_,pickedY_));
 //setTurn(connector_->getTurn());
-grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(true); //test
+//grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(true); //test
 selectedW_ = subW2_;
 glutPostRedisplay();
 
@@ -206,15 +206,21 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 		GLUI_Master.set_glutIdleFunc(idleWrapper);
 }
 
-//void GameWindow::setTurn(bool state){
-//	if(state){
-//		hitButton_->enable();
-//	}
-//	else
-//		hitButton_->disable();
-//}
+
 void GameWindow::endGame(){
 	remaining_->set_text("END");
+}
+
+void GameWindow::setHitResult(int x, int y, bool result){
+	grid2_.getGrid()[x][y]->registerHitReply(result);
+}
+
+void GameWindow::setPlayerTurn(bool turn){
+	if(turn){
+			hitButton_->enable();
+		}
+		else
+			hitButton_->disable();
 }
 void GameWindow::startGameWindow(int argc, char *argv[]){
 
