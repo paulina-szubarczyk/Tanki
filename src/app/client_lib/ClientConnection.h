@@ -1,25 +1,39 @@
 /*
- * Connection.h
+ * ClientConnection.h
  *
  *  Created on: May 31, 2014
  *      Author: klis
  */
 
-#ifndef CONNECTION_H_
-#define CONNECTION_H_
+#ifndef CLIENTCONNECTION_H_
+#define CLIENTCONNECTION_H_
+
 #include <map>
 #include <vector>
 
-class Connection{
+class GameWindow;
+
+class ClientConnection{
 public:
 	int getGridSize(){return 10;}; // returns grid size
+	/*
+	 * Allow server to set size of grid in GameManager
+	 */
+	void setGridSize(int n);
 	/*
 	 * Returns map:
 	 * first is ship size
 	 * second is quantity of ships for each ship size
 	 */
 	std::map<int,int>& getShipsConfig(){};
-	void connect(std::string serverIP){}; //connect to server
+	/*
+	 * Allow server to set ships configuration in GameManager
+	 */
+	void setShipsConfig(std::map<int,int>& config);
+	/*
+	 * Connect to the server
+	 */
+	void connect(std::string serverIP){};
 	/*
 	 * Send ship to server:
 	 * ship is vector of <int,int> pairs where:
@@ -40,15 +54,15 @@ public:
 	 * if you want to send them back change this method so it returns
 	 * std::pair<std::pair<int,int>,bool> (Coordinates, hitResult)
 	 */
-	bool getHitReply(){return true;}; //get reply for hit from server whether a ship was hit (true) or not (false)
+	void setHitReply(int x, int y, bool result); //set reply for hit depending on whether a ship was hit (true) or missed (false)
 	/*
-	 * Check if player can make a move (true) or if it's opponent's turn
+	 * Allow server to set player's turn
 	 */
-	bool getTurn(){return true;}
+	void setTurn(bool turn);
 	/*
 	 * Sends info that player has clicked "Start" and he's ready for the game
 	 */
-	bool sendStart(){};
+	void sendStart(){};
 };
 
-#endif /* CONNECTION_H_ */
+#endif /* CLIENTCONNECTION_H_ */

@@ -11,7 +11,7 @@
 #include "Grid.h"
 #include "GlutFunctions.h"
 #include "GameManager.h"
-#include "Connection.h"
+#include "ClientConnection.h"
 #include <map>
 #include <string>
 
@@ -23,6 +23,9 @@
 
 class GameWindow: public GlutFunctions{
 public:
+	/*
+	 * Singletone
+	 */
 	static GameWindow& getInstance();
 
 	void init();
@@ -32,9 +35,8 @@ public:
 
 	void myGlutIdle();
 
-	void mouseFunc1(int button, int state, int x, int y);
-	void mouseFunc2(int button, int state, int x, int y);
-
+	void mouseLeftBtnGrid1(int button, int state, int x, int y);
+	void mouseLeftBtnGrid2(int button, int state, int x, int y);
 	void initMyGlut();
 	void createGLUI();
 	void startGameWindow(int argc, char *argv[]);
@@ -43,8 +45,8 @@ public:
 	static void displayWrapper2();
 	static void idleWrapper();
 	static void reshapeWrapper(int w, int h);
-	static void mouseFuncWrapper1(int button, int state, int x, int y);
-	static void mouseFuncWrapper2(int button, int state, int x, int y);
+	static void mouseLeftBtnGrid1Wrapper(int button, int state, int x, int y);
+	static void mouseLeftBtnGrid2Wrapper(int button, int state, int x, int y);
 
 	GameManager& getManager();
 
@@ -66,7 +68,8 @@ public:
 	/*
 	 * If turn is true enables player to hit, otherwise disables the 'Hit" button
 	 */
-	void setTurn(bool turn);
+	void setPlayerTurn(bool turn);
+	void setHitResult(int x, int y, bool result);
 	/*
 	 * Displays info about the end of the game
 	 */
@@ -95,7 +98,7 @@ private:
 
 	GameManager manager_;
 	GLUI_String ipBuffer_;
-	std::shared_ptr<Connection> connector_;
+	std::shared_ptr<ClientConnection> connector_;
 
 };
 #endif /* GAMEWINDOW_H_ */
