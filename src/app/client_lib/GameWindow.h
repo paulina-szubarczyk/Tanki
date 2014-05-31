@@ -74,6 +74,7 @@ private:
 
 	GameManager manager_;
 	GLUI_String ipBuffer_;
+
 	//std::string shipsToAdd_;
 
 };

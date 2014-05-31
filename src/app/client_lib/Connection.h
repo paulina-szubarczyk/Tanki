@@ -32,7 +32,7 @@ public:
 	 * first is X coordinate
 	 * second is Y coordinate
 	 */
-	void sendHit(std::pair<int,int>);
+	void sendHit(std::pair<int,int>); //send hit to server
 
 	std::pair<int,int> getHit(); //get hit from server
 

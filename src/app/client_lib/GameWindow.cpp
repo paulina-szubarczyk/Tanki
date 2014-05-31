@@ -21,7 +21,7 @@ void GameWindow::init(){
 	grid2_.init(10);
 	pickedX_=-1;
 	pickedY_=-1;
-	ipBuffer_ = "Set IP";
+	ipBuffer_ = "Set IP1";
 	horizontal_= 0;
 
 }
@@ -104,6 +104,7 @@ void GameWindow::addCallbackWrapper(int){
 	getInstance().addCallback();
 }
 void GameWindow::addCallback(){
+	if(grid1_.checkAddSize(pickedX_,pickedY_,shipSize_,horizontal_))
 	grid1_.addNewShip(pickedX_,pickedY_,shipSize_,horizontal_);
 	//std::cout<<pickedX_<<" "<<pickedY_<<" "<<shipSize_<<" "<<horizontal_<<"\n";
 	selectedW_ = subW1_;
@@ -118,9 +119,9 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 
 		//Connect to server
 		GLUI_Rollout* serverRollout = getGlui()->add_rollout("Server");
-		GLUI_EditText* serverIP = getGlui()->add_edittext_to_panel(serverRollout,"Server IP: ", GLUI_EDITTEXT_TEXT, &ipBuffer_);
+		GLUI_EditText* serverIP = getGlui()->add_edittext_to_panel(serverRollout,"Server IP: ", ipBuffer_);
 		serverIP->set_w(180);
-		serverIP->set_text(ipBuffer_);
+		serverIP->set_text(ipBuffer_); //causes segfault?!
 		getGlui()->add_button_to_panel(serverRollout,"Connect");
 
 		//Picked Coordinates Display
