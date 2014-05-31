@@ -32,9 +32,14 @@ public:
 	 * first is X coordinate
 	 * second is Y coordinate
 	 */
-	void sendHit(std::pair<int,int> hitCoordinates){}; //send hit to server
+	void sendHit(std::pair<int,int> hitCoordinates){}; //send hit to server, arg is pair of XY coordinates
 
-	bool getHitReply(){return true;}; //get reply for hit from server
+	/*
+	 * hit coordinates are already in client
+	 * if you want to send them back change this method so it returns
+	 * std::pair<std::pair<int,int>,bool> (Coordinates, hitResult)
+	 */
+	bool getHitReply(){return true;}; //get reply for hit from server whether a ship was hit (true) or not (false)
 
 };
 
