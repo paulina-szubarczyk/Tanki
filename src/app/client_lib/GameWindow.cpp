@@ -14,18 +14,17 @@ GameWindow& GameWindow::getInstance(){
 
 GameWindow::GameWindow(){
 	init();
+	connector_.reset(new ClientConnection);
 }
 
 void GameWindow::init(){
-	grid1_.init(connector_->getGridSize());
-	grid2_.init(connector_->getGridSize());
+	grid1_.init(manager_.getGridSize());
+	grid2_.init(manager_.getGridSize());
 	pickedX_= 0;
 	pickedY_= 0;
 	ipBuffer_ = "Set IP";
 	horizontal_= 0;
 	shipSize_ = manager_.getSmallestSize();
-	connector_.reset(new ClientConnection);
-
 
 }
 
