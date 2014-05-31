@@ -30,7 +30,7 @@ int main(int argc, char * argv[]) {
 	std::shared_ptr<ConnectionPool> connectionPool(new ConnectionPool());
 
 	std::shared_ptr<PoolingAcceptor> acceptor(new PoolingAcceptor(harbour, connectionPool, connectionFactory));
-	acceptor->listen("127.0.0.1", 7777);
+	acceptor->listen("127.0.0.1", 8080);
 
 	harbour->run();
 

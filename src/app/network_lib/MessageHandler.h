@@ -25,10 +25,10 @@ class MessageHandler : private ExecPolicy<M> {
 public:
 	typedef K KeyType;
 	typedef M MsgType;
+	typedef std::function<void(const MsgType&)> HandlerType;
 
 private:
 	typedef std::function<KeyType(const MsgType&)> ResolverType;
-	typedef std::function<void(const MsgType&)> HandlerType;
 	typedef std::map<KeyType, HandlerType> HandlerMapType;
 
 public:

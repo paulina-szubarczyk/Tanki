@@ -20,11 +20,12 @@ void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	grid2_.init(manager_.getGridSize());
 	pickedX_ = 0;
 	pickedY_ = 0;
+
 	ipBuffer_ = "Set IP";
 	horizontal_ = 0;
 	shipSize_ = manager_.getSmallestSize();
-	connector_ = connection;
 
+	connector_ = connection;
 }
 
 GameManager& GameWindow::getManager() {
@@ -144,7 +145,7 @@ void GameWindow::connectCallbackWrapper(int){
 
 
 void GameWindow::connectCallback(){
-	connector_->connect(ipAddress_, 8080);
+	connector_->connect(ipBuffer_, 8080);
 }
 
 void GameWindow::sizeChangeCallbackWrapper(int) {
@@ -158,12 +159,10 @@ void GameWindow::sizeChangeCallback() {
 void GameWindow::startCallbackWrapper(int) {
 	getInstance().startCallback();
 }
+
 void GameWindow::startCallback() {
 	if (manager_.checkReady()) {
 		connector_->sendShip(grid1_.getShips());
-		addButton_->disable();
-
-
 	}
 }
 void GameWindow::createGLUI() {
@@ -179,7 +178,7 @@ void GameWindow::createGLUI() {
 			"Server IP: ", ipBuffer_);
 	serverIP->set_w(180);
 	serverIP->set_text(ipBuffer_);
-	getGlui()->add_button_to_panel(serverRollout, "Connect", connectCallbackWrapper);
+	getGlui()->add_button_to_panel(serverRollout, "Connect", 0, connectCallbackWrapper);
 
 
 	//Picked Coordinates Display
