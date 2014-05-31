@@ -13,12 +13,12 @@
 #include <string>
 #include <sstream>
 
-class GameManager{
+class GameManager {
 
 public:
 	GameManager();
-	void setShipsQuantity(std::map<int,int>& configuration);
-	std::map<int,int>& getShipsQuantity();
+	void setShipsQuantity(std::map<int, int>& configuration);
+	std::map<int, int>& getShipsQuantity();
 	void setGridSize(int n);
 	int getGridSize();
 	void decreaseShipsQuantity(int shipSize);
@@ -26,13 +26,11 @@ public:
 	int getSmallestSize();
 	bool checkReady();
 
-
 private:
 	std::shared_ptr<ClientConnection> connector_;
-	std::map<int,int> shipsQuantity_;
-	std::map<int,int>::iterator iter_;
+	std::map<int, int> shipsQuantity_;
+	std::map<int, int>::iterator iter_;
 	int gridSize_;
 };
-
 
 #endif /* GAMEMANAGER_H_ */

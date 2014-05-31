@@ -25,7 +25,8 @@ public:
 	typedef array2D::index index;
 
 	void init(int n);
-	std::vector<std::pair<int,int> > addNewShip(int x, int y, int size, int horizontal);
+	std::vector<std::pair<int, int> > addNewShip(int x, int y, int size,
+			int horizontal);
 	bool checkAddSize(int x, int y, int size, int horizontal);
 	bool checkAvaible(int x, int y, int size, int horizontal);
 	void addBigShipHorizontal(CellPtr bigship);

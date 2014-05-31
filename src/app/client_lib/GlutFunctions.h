@@ -15,29 +15,30 @@
 #include <GL/glui.h>
 #include <memory>
 
-class GlutFunctions{
+class GlutFunctions {
 public:
 
-		void display(Grid& grid);
+	void display(Grid& grid);
 
-		void reshape(int w, int h);
+	void reshape(int w, int h);
 
-		void mouseFunc(int button, int state, int x, int y, Grid& grid, int& pickedX, int& pickedY);
-		void drawSquares(GLenum mode, Grid& grid);
+	void mouseFunc(int button, int state, int x, int y, Grid& grid,
+			int& pickedX, int& pickedY);
+	void drawSquares(GLenum mode, Grid& grid);
 
-		void processHits(GLint hits, GLuint buffer[],Grid& grid, int& pickedX, int& pickedY);
+	void processHits(GLint hits, GLuint buffer[], Grid& grid, int& pickedX,
+			int& pickedY);
 
-		GLUI* getGlui(){return glui_;}
-		void setGlui(GLUI* nglui){glui_ = nglui;}
-
-
-
+	GLUI* getGlui() {
+		return glui_;
+	}
+	void setGlui(GLUI* nglui) {
+		glui_ = nglui;
+	}
 
 private:
-		GLUI* glui_;
-
+	GLUI* glui_;
 
 };
-
 
 #endif /* GLUTFUNCTIONS_H_ */

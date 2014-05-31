@@ -21,7 +21,7 @@
  *
  */
 
-class GameWindow: public GlutFunctions{
+class GameWindow: public GlutFunctions {
 public:
 	/*
 	 * Singletone
