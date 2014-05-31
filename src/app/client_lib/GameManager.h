@@ -8,7 +8,7 @@
 #ifndef GAMEMANAGER_H_
 #define GAMEMANAGER_H_
 
-#include "Connection.h"
+#include "ClientConnection.h"
 #include <memory>
 #include <string>
 #include <sstream>
@@ -28,7 +28,7 @@ public:
 
 
 private:
-	std::shared_ptr<Connection> connector_;
+	std::shared_ptr<ClientConnection> connector_;
 	std::map<int,int> shipsQuantity_;
 	std::map<int,int>::iterator iter_;
 	int gridSize_;

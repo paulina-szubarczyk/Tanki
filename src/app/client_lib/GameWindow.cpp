@@ -24,6 +24,7 @@ void GameWindow::init(){
 	ipBuffer_ = "Set IP";
 	horizontal_= 0;
 	shipSize_ = manager_.getSmallestSize();
+	connector_.reset(new ClientConnection);
 
 
 }
@@ -31,11 +32,11 @@ void GameWindow::init(){
 GameManager& GameWindow::getManager(){
 	return manager_;
 }
-void GameWindow::mouseFunc1(int button, int state, int x, int y){
+void GameWindow::mouseLeftBtnGrid1(int button, int state, int x, int y){
 	mouseFunc(button, state, x, y, grid1_, pickedX_, pickedY_);
 }
 
-void GameWindow::mouseFunc2(int button, int state, int x, int y){
+void GameWindow::mouseLeftBtnGrid2(int button, int state, int x, int y){
 	mouseFunc(button, state, x, y, grid2_, pickedX_, pickedY_);
 }
 
@@ -59,12 +60,12 @@ void GameWindow::reshapeWrapper(int w, int h){
 	getInstance().reshape(w,h);
 }
 
-void GameWindow::mouseFuncWrapper1(int button, int state, int x, int y){
-	getInstance().mouseFunc1(button, state, x, y);
+void GameWindow::mouseLeftBtnGrid1Wrapper(int button, int state, int x, int y){
+	getInstance().mouseLeftBtnGrid1(button, state, x, y);
 }
 
-void GameWindow::mouseFuncWrapper2(int button, int state, int x, int y){
-	getInstance().mouseFunc2(button, state, x, y);
+void GameWindow::mouseLeftBtnGrid2Wrapper(int button, int state, int x, int y){
+	getInstance().mouseLeftBtnGrid2(button, state, x, y);
 }
 
 void GameWindow::idleWrapper(){
@@ -93,11 +94,11 @@ void GameWindow::initMyGlut(){
 		int subWindowWidth = 500;
 		int subWindowHeight = 500;
 		subW1_ = glutCreateSubWindow (mainWindow_, 0, 0, subWindowWidth, subWindowHeight);
-		glutMouseFunc (mouseFuncWrapper1);
+		glutMouseFunc (mouseLeftBtnGrid1Wrapper);
 		glutReshapeFunc (reshapeWrapper);
 		glutDisplayFunc(displayWrapper1);
 		subW2_ = glutCreateSubWindow (mainWindow_, subWindowWidth + 100, 0, subWindowWidth, subWindowHeight);
-		glutMouseFunc (mouseFuncWrapper2);
+		glutMouseFunc (mouseLeftBtnGrid2Wrapper);
 		glutReshapeFunc (reshapeWrapper);
 		glutDisplayFunc(displayWrapper2);
 }
@@ -126,8 +127,8 @@ void GameWindow::hitCallbackWrapper(int){
 }
 void GameWindow::hitCallback(){
 connector_->sendHit(std::pair<int,int> (pickedX_,pickedY_));
-setTurn(connector_->getTurn());
-grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(connector_->getHitReply());
+//setTurn(connector_->getTurn());
+grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(true); //test
 selectedW_ = subW2_;
 glutPostRedisplay();
 
@@ -149,7 +150,7 @@ void GameWindow::startCallback(){
 		connector_->sendStart();
 		addButton_->disable();
 
-		setTurn(connector_->getTurn());
+		//setTurn(connector_->getTurn());
 
 	}
 
@@ -205,13 +206,13 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 		GLUI_Master.set_glutIdleFunc(idleWrapper);
 }
 
-void GameWindow::setTurn(bool state){
-	if(state){
-		hitButton_->enable();
-	}
-	else
-		hitButton_->disable();
-}
+//void GameWindow::setTurn(bool state){
+//	if(state){
+//		hitButton_->enable();
+//	}
+//	else
+//		hitButton_->disable();
+//}
 void GameWindow::endGame(){
 	remaining_->set_text("END");
 }
