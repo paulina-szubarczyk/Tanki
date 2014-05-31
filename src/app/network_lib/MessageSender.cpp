@@ -66,8 +66,8 @@ void MessageSender::sendGameOver() {
 
 void MessageSender::sendGetShips() {
 	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::GET_SHIPS);
-	connection_->send(msg);
+	//msg->set_type(MessageType::GET_SHIPS);
+	//connection_->send(msg);
 }
 
 void MessageSender::setConnection(ConnectionPtr connection) {
