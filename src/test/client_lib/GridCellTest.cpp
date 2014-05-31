@@ -59,3 +59,28 @@ TEST_F(GridCellTest,SetCoordinatesTest){
 	ASSERT_EQ(cell.getX(), 7);
 	ASSERT_EQ(cell.getY(), 55);
 }
+
+TEST_F(GridCellTest, SetShipTest){
+	GridCell cell;
+	ASSERT_TRUE(cell.setToShip());
+	ASSERT_TRUE(cell.getOccupied());
+	ASSERT_FLOAT_EQ(cell.getRed(), 0.0);
+	ASSERT_FLOAT_EQ(cell.getGreen(),1.0 );
+	ASSERT_FLOAT_EQ(cell.getBlue(), 0.0);
+	ASSERT_FALSE(cell.setToShip());
+
+}
+
+TEST_F(GridCellTest, HitCellTest){
+	GridCell cell;
+	ASSERT_FALSE(cell.hitCell());
+	GridCell cell2;
+	cell2.setToShip();
+	ASSERT_TRUE(cell2.hitCell());
+	ASSERT_FLOAT_EQ(cell2.getRed(), 1.0);
+	ASSERT_FLOAT_EQ(cell2.getGreen(),0.0 );
+	ASSERT_FLOAT_EQ(cell2.getBlue(), 0.0);
+	ASSERT_TRUE(cell2.getHitState());
+	ASSERT_FALSE(cell.hitCell());
+
+}

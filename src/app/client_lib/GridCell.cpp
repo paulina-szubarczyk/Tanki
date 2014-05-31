@@ -11,6 +11,7 @@ GridCell::GridCell()
 r_ = g_ = b_ = 0.0;
 x_ = y_ = 0;
 occupied_ = false;
+alreadyHit_ = false;
 }
 
 GridCell::GridCell(float red, float green, float blue, int x, int y)
@@ -75,4 +76,28 @@ bool GridCell::getOccupied(){
 
 void GridCell::setOccupied(bool state){
 	occupied_ = state;
+}
+
+bool GridCell::setToShip(){
+	if(!occupied_)
+	{
+		setColor(0.0, 1.0, 0.0);
+		occupied_= true;
+		return true;
+	}
+	return false;
+}
+
+bool GridCell::hitCell(){
+	if(occupied_ && !alreadyHit_)
+	{
+		setColor(1.0,0.0,0.0);
+		alreadyHit_=true;
+		return true;
+	}
+	return false;
+}
+
+bool GridCell::getHitState(){
+	return alreadyHit_;
 }

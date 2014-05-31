@@ -15,15 +15,19 @@
 class GameManager{
 
 public:
+	GameManager();
 	void setShipsQuantity(std::map<int,int>& configuration);
-	void updateShipsToAdd();
+	void updateShipsToAdd(std::string shipsToAdd);
 	std::map<int,int>& getShipsQuantity();
 	void setGridSize(int n);
 	int getGridSize();
-	std::string getShipsToAdd();
+	int getTypesNumber();
+	//std::string getShipsToAdd();
+
+
 private:
 	std::map<int,int> shipsQuantity_;
-	std::string shipsToAdd_;
+	//std::string shipsToAdd_;
 	int gridSize_;
 };
 

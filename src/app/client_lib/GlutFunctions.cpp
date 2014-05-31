@@ -106,9 +106,9 @@ void GlutFunctions::processHits(GLint hits, GLuint buffer[],Grid& grid, int& pic
 	      }
 	      printf ("\n");
 
-	      //grid.getGrid()[ii][jj]->setColor(1.0,0.0,0.0);
-	      pickedX=++ii;
-	      pickedY=++jj;
+	      grid.getGrid()[ii][jj]->setColor(0.5,0.5,0.5);
+	      pickedX=ii;
+	      pickedY=jj;
 	      glui_->sync_live();
 }
 }

@@ -7,7 +7,7 @@
 
 #ifndef GRIDCELL_H_
 #define GRIDCELL_H_
-//#include <cstdlib>
+
 
 class GridCell{
 public:
@@ -26,6 +26,10 @@ public:
 
 	bool getOccupied();
 	void setOccupied(bool state);
+	bool getHitState();
+	bool setToShip();
+	bool hitCell();
+
 private:
 	float r_;
 	float g_;
@@ -35,6 +39,7 @@ private:
 	int y_;
 
 	bool occupied_;
+	bool alreadyHit_;
 };
 
 

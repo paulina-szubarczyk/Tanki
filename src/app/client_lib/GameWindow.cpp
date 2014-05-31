@@ -24,10 +24,11 @@ void GameWindow::init(){
 	ipBuffer_ = "Set IP";
 	horizontal_= 0;
 
-	for(int i=1; i<6; i++)
-		shipsQuantity_.insert(std::pair<int,int>(i,i+1));
 }
 
+GameManager& GameWindow::getManager(){
+	return manager_;
+}
 void GameWindow::mouseFunc1(int button, int state, int x, int y){
 	mouseFunc(button, state, x, y, grid1_, pickedX_, pickedY_);
 }
@@ -68,8 +69,8 @@ void GameWindow::idleWrapper(){
 	getInstance().myGlutIdle();
 }
 void GameWindow::myGlutIdle(){
-	if(glutGetWindow() != mainWindow_)
-		glutSetWindow(mainWindow_);
+	if(glutGetWindow() != selectedW_)
+		glutSetWindow(selectedW_);
 	glutPostRedisplay();
 }
 
@@ -81,6 +82,7 @@ void GameWindow::initMyGlut(){
 		glutInitWindowPosition (100, 100);
 
 		mainWindow_ = glutCreateWindow ("GRID");
+		selectedW_ = mainWindow_;
 		glClearColor (0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glFlush();
@@ -88,21 +90,33 @@ void GameWindow::initMyGlut(){
 		//subwindows & Glut functions
 		int subWindowWidth = 500;
 		int subWindowHeight = 500;
-		int subw = glutCreateSubWindow (mainWindow_, 0, 0, subWindowWidth, subWindowHeight);
+		subW1_ = glutCreateSubWindow (mainWindow_, 0, 0, subWindowWidth, subWindowHeight);
 		glutMouseFunc (mouseFuncWrapper1);
 		glutReshapeFunc (reshapeWrapper);
 		glutDisplayFunc(displayWrapper1);
-		int subw2 = glutCreateSubWindow (mainWindow_, subWindowWidth + 100, 0, subWindowWidth, subWindowHeight);
+		subW2_ = glutCreateSubWindow (mainWindow_, subWindowWidth + 100, 0, subWindowWidth, subWindowHeight);
 		glutMouseFunc (mouseFuncWrapper2);
 		glutReshapeFunc (reshapeWrapper);
 		glutDisplayFunc(displayWrapper2);
 }
+
+void GameWindow::addCallbackWrapper(int){
+	getInstance().addCallback();
+}
+void GameWindow::addCallback(){
+	grid1_.addNewShip(pickedX_,pickedY_,shipSize_,horizontal_);
+	//std::cout<<pickedX_<<" "<<pickedY_<<" "<<shipSize_<<" "<<horizontal_<<"\n";
+	selectedW_ = subW1_;
+	//grid1_.getGrid()[pickedX_][pickedY_]->setToShip();
+	glutPostRedisplay();
+}
+void callback(int arg){}
 void GameWindow::createGLUI(){
 
 setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_Y)));
 
 
-//Connect to server
+		//Connect to server
 		GLUI_Rollout* serverRollout = getGlui()->add_rollout("Server");
 		GLUI_EditText* serverIP = getGlui()->add_edittext_to_panel(serverRollout,"Server IP: ", GLUI_EDITTEXT_TEXT, &ipBuffer_);
 		serverIP->set_w(180);
@@ -114,15 +128,31 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 		GLUI_EditText* xCoordinate = getGlui()->add_edittext_to_panel(pickedPanel,"X coordinate: ", GLUI_EDITTEXT_INT, &pickedX_);
 		GLUI_EditText* yCoordinate = getGlui()->add_edittext_to_panel(pickedPanel,"Y coordinate: ", GLUI_EDITTEXT_INT, &pickedY_);
 
-		//Add ship
+		/*
+		 * Add ship rollout
+		 */
 		GLUI_Rollout* shipAdd = getGlui()->add_rollout("Add ship");
-		GLUI_Spinner* shipSize = getGlui()->add_spinner_to_panel(shipAdd,"Ship Size",GLUI_SPINNER_INT, &shipSize_);
+		GLUI_Listbox* shipSize = getGlui()->add_listbox_to_panel(shipAdd,"Ship Size", &shipSize_);
+
+		/*
+		 * Creating list of ships' sizes
+		 */
+		std::map<int,int>::iterator it;
+		it = getManager().getShipsQuantity().begin();
+		for(it;it != getManager().getShipsQuantity().end();it++){
+			std::string s = std::to_string(it->first);
+			const char* name = s.c_str();
+			shipSize->add_item(it->first, name);
+		}
+
 		GLUI_Listbox* orientationList = getGlui()->add_listbox_to_panel(shipAdd, "Orientation", &horizontal_);
 		orientationList->add_item(0, "Horizontal");
 		orientationList->add_item(1, "Vertical");
-		shipSize->set_int_limits(shipsQuantity_.begin()->first,shipsQuantity_.rbegin()->first);
 		GLUI_Panel* remainingPanel = getGlui()->add_panel_to_panel(shipAdd, "Remaining to add");
-		getGlui()->add_button_to_panel(shipAdd,"Add");
+		getGlui()->add_statictext_to_panel(remainingPanel, "Size | Quantity");
+		GLUI_EditText* remaining = getGlui()->add_edittext_to_panel(remainingPanel, "Remaining");
+		//remaining->set_text(shipsToAdd_);
+		getGlui()->add_button_to_panel(shipAdd,"Add",0,addCallbackWrapper);
 
 		//Hit picked coordinates
 		GLUI_Panel* hitPanel = getGlui()->add_panel("Hit");

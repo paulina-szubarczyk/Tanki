@@ -13,6 +13,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <GL/glui.h>
+#include <memory>
 
 class GlutFunctions{
 public:
@@ -28,6 +29,8 @@ public:
 
 		GLUI* getGlui(){return glui_;}
 		void setGlui(GLUI* nglui){glui_ = nglui;}
+
+
 
 
 private:

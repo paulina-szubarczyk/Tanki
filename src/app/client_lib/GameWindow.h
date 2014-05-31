@@ -10,6 +10,7 @@
 
 #include "Grid.h"
 #include "GlutFunctions.h"
+#include "GameManager.h"
 #include <map>
 #include <string>
 
@@ -19,7 +20,7 @@
  *
  */
 
-class GameWindow: public Grid, public GlutFunctions{
+class GameWindow: public GlutFunctions{
 public:
 	static GameWindow& getInstance();
 
@@ -44,8 +45,13 @@ public:
 	static void mouseFuncWrapper1(int button, int state, int x, int y);
 	static void mouseFuncWrapper2(int button, int state, int x, int y);
 
-	//void setShipsQuantity(std::map<int,int>& configuration);
-	//void addLineToShipsToAdd(int shipSize, int quantity);
+	GameManager& getManager();
+
+	static void addCallbackWrapper(int);
+	void addCallback();
+	void hitCallback();
+	void startCallback();
+	void connectCallback(int);
 
 private:
 	GameWindow();
@@ -56,6 +62,9 @@ private:
 	Grid grid2_;
 
 	int mainWindow_;
+	int subW1_;
+	int subW2_;
+	int selectedW_;
 
 	int pickedX_;
 	int pickedY_;
@@ -63,9 +72,9 @@ private:
 	int shipSize_;
 	int horizontal_;
 
-	std::map<int,int> shipsQuantity_;
-	std::string shipsToAdd_;
+	GameManager manager_;
 	GLUI_String ipBuffer_;
+	//std::string shipsToAdd_;
 
 };
 #endif /* GAMEWINDOW_H_ */

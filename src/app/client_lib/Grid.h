@@ -10,10 +10,11 @@
 
 #include "GridCell.h"
 //#include <vector>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "boost/multi_array.hpp"
+#include <vector>
 
-typedef boost::shared_ptr<GridCell> CellPtr;
+typedef std::shared_ptr<GridCell> CellPtr;
 typedef boost::multi_array<CellPtr, 2> array2D;
 class Grid {
 public:
@@ -24,7 +25,9 @@ public:
 	typedef array2D::index index;
 
 	void init(int n);
-	void addNewShip(CellPtr ship);
+	std::vector<std::pair<int,int> > addNewShip(int x, int y, int size, int horizontal);
+	bool checkAddSize(int x, int y, int size, int horizontal);
+	//bool checkNeighbours(int x, int y, int size, int horizontal);
 	void addBigShipHorizontal(CellPtr bigship);
 	void addBigShipVertical(CellPtr bigship);
 

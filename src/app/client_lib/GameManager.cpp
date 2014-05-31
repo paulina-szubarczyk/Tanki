@@ -7,17 +7,23 @@
 
 #include "GameManager.h"
 
-void GameManager::updateShipsToAdd(){
+GameManager::GameManager(){
+	//shipsToAdd_ = "Waiting for configuration";
+	gridSize_=10;
+	shipsQuantity_.insert(std::pair<int,int>(1,1));
+	shipsQuantity_.insert(std::pair<int,int>(2,2));
+}
+void GameManager::updateShipsToAdd(std::string shipsToAdd){
 
-	shipsToAdd_.clear();
+	shipsToAdd.clear();
 	//shipsToAdd_+="S|Q\n";
 
 	std::map<int,int>::iterator it;
 	for(it = shipsQuantity_.begin();it != shipsQuantity_.end(); ++it){
-		shipsToAdd_+= static_cast<std::ostringstream*>( &(std::ostringstream() << it->first) )->str();
-		shipsToAdd_+= ' ';
-		shipsToAdd_+= static_cast<std::ostringstream*>( &(std::ostringstream() << it->second) )->str();
-		shipsToAdd_+= '\n';
+		shipsToAdd+= static_cast<std::ostringstream*>( &(std::ostringstream() << it->first) )->str();
+		shipsToAdd+= '|';
+		shipsToAdd+= static_cast<std::ostringstream*>( &(std::ostringstream() << it->second) )->str();
+		shipsToAdd+= '\n';
 
 
 
@@ -28,6 +34,9 @@ std::map<int,int>& GameManager::getShipsQuantity(){
 	return shipsQuantity_;
 }
 
-std::string GameManager::getShipsToAdd(){
-	return shipsToAdd_;
+int GameManager::getTypesNumber(){
+	return shipsQuantity_.size();
 }
+//std::string GameManager::getShipsToAdd(){
+//	return shipsToAdd_;
+//}
