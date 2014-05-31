@@ -78,19 +78,11 @@ std::vector<std::pair<int, int> > Grid::addNewShip(int x, int y, int size,
 			grid_[x][y++]->setToShip();
 		}
 	}
+	ships_.push_back(ship);
 	return ship;
 }
 
-void Grid::addBigShipHorizontal(CellPtr bigship) {
 
-}
-
-void Grid::addBigShipVertical(CellPtr bigship) {
-
-}
-CellPtr Grid::getCell() {
-	return CellPtr(nullptr);
-}
 int Grid::getGridSize() {
 	return grid_.size();
 }

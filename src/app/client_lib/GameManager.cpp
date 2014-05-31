@@ -47,7 +47,7 @@ int GameManager::getRemainingShips(int shipSize) {
 void GameManager::setGridSize(int n) {
 	gridSize_ = n;
 	glutHideWindow();
-	GameWindow::getInstance().init();
+	GameWindow::getInstance().init(GameWindow::getInstance().getConnector());
 	GameWindow::getInstance().initMyGlut();
 
 }

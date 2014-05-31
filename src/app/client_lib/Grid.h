@@ -29,15 +29,14 @@ public:
 			int horizontal);
 	bool checkAddSize(int x, int y, int size, int horizontal);
 	bool checkAvaible(int x, int y, int size, int horizontal);
-	void addBigShipHorizontal(CellPtr bigship);
-	void addBigShipVertical(CellPtr bigship);
 
-	CellPtr getCell();
+//	CellPtr getCell();
+	std::vector<std::vector<std::pair<int, int> > >& getShips(){return ships_;}
 	int getGridSize();
 	const array2D& getGrid();
 
 private:
-
+	std::vector<std::vector<std::pair<int, int> > > ships_;
 	array2D grid_;
 
 };
