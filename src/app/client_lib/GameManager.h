@@ -8,7 +8,8 @@
 #ifndef GAMEMANAGER_H_
 #define GAMEMANAGER_H_
 
-#include <map>
+#include "Connection.h"
+#include <memory>
 #include <string>
 #include <sstream>
 
@@ -17,19 +18,19 @@ class GameManager{
 public:
 	GameManager();
 	void setShipsQuantity(std::map<int,int>& configuration);
-	void updateShipsToAdd(std::string shipsToAdd);
 	std::map<int,int>& getShipsQuantity();
 	void setGridSize(int n);
 	int getGridSize();
-	int getTypesNumber();
-//	void setTurn();
-//	void setWait();
-	//std::string getShipsToAdd();
+	void decreaseShipsQuantity(int shipSize);
+	int getRemainingShips(int shipSize);
+	int getSmallestSize();
+	bool checkReady();
 
 
 private:
+	std::shared_ptr<Connection> connector_;
 	std::map<int,int> shipsQuantity_;
-	//std::string shipsToAdd_;
+	std::map<int,int>::iterator iter_;
 	int gridSize_;
 };
 

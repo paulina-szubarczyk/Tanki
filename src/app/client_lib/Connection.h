@@ -7,7 +7,8 @@
 
 #ifndef CONNECTION_H_
 #define CONNECTION_H_
-
+#include <map>
+#include <vector>
 
 class Connection{
 public:
@@ -17,7 +18,7 @@ public:
 	 * first is ship size
 	 * second is quantity of ships for each ship size
 	 */
-	std::map<int,int> getShipsConfig(){};
+	std::map<int,int>& getShipsConfig(){};
 	void connect(std::string serverIP){}; //connect to server
 	/*
 	 * Send ship to server:
@@ -47,7 +48,7 @@ public:
 	/*
 	 * Sends info that player has clicked "Start" and he's ready for the game
 	 */
-	bool sendStart();
+	bool sendStart(){};
 };
 
 #endif /* CONNECTION_H_ */

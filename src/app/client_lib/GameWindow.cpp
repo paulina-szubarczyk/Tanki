@@ -23,6 +23,8 @@ void GameWindow::init(){
 	pickedY_= 0;
 	ipBuffer_ = "Set IP";
 	horizontal_= 0;
+	shipSize_ = manager_.getSmallestSize();
+
 
 }
 
@@ -105,15 +107,17 @@ void GameWindow::addCallbackWrapper(int){
 }
 void GameWindow::addCallback(){
 	bool notAdded = true;
-	if(grid1_.checkAddSize(pickedX_,pickedY_,shipSize_,horizontal_))
+	if(manager_.getRemainingShips(shipSize_) > 0 && grid1_.checkAddSize(pickedX_,pickedY_,shipSize_,horizontal_))
 		if(grid1_.checkAvaible(pickedX_,pickedY_,shipSize_,horizontal_)){
 			grid1_.addNewShip(pickedX_,pickedY_,shipSize_,horizontal_);
 			notAdded = false;
+			manager_.decreaseShipsQuantity(shipSize_);
+			sizeChangeCallback();
 		}
 		if(notAdded)
 			grid1_.getGrid()[pickedX_][pickedY_]->setColor(0.0,0.0,0.7);
 
-
+		remaining_->set_int_val(manager_.getRemainingShips(shipSize_));
 	selectedW_ = subW1_;
 	glutPostRedisplay();
 }
@@ -122,9 +126,32 @@ void GameWindow::hitCallbackWrapper(int){
 }
 void GameWindow::hitCallback(){
 connector_->sendHit(std::pair<int,int> (pickedX_,pickedY_));
+setTurn(connector_->getTurn());
 grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(connector_->getHitReply());
 selectedW_ = subW2_;
 glutPostRedisplay();
+
+}
+
+void GameWindow::sizeChangeCallbackWrapper(int){
+	getInstance().sizeChangeCallback();
+}
+
+void GameWindow::sizeChangeCallback(){
+	remaining_->set_int_val(manager_.getRemainingShips(shipSize_));
+}
+
+void GameWindow::startCallbackWrapper(int){
+	getInstance().startCallback();
+}
+void GameWindow::startCallback(){
+	if(manager_.checkReady()){
+		connector_->sendStart();
+		addButton_->disable();
+
+		setTurn(connector_->getTurn());
+
+	}
 
 }
 void GameWindow::createGLUI(){
@@ -148,7 +175,9 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 		 * Add ship rollout
 		 */
 		GLUI_Rollout* shipAdd = getGlui()->add_rollout("Add ship");
-		GLUI_Listbox* shipSize = getGlui()->add_listbox_to_panel(shipAdd,"Ship Size", &shipSize_);
+		remaining_ = getGlui()->add_edittext_to_panel(shipAdd, "Remaining");
+		sizeChangeCallback();
+		GLUI_Listbox* shipSize = getGlui()->add_listbox_to_panel(shipAdd,"Ship Size", &shipSize_,0, sizeChangeCallbackWrapper);
 
 		/*
 		 * Creating list of ships' sizes
@@ -164,20 +193,27 @@ setGlui(GLUI_Master.create_glui( "Control Panel", 0, glutGet(GLUT_WINDOW_X) + gl
 		GLUI_Listbox* orientationList = getGlui()->add_listbox_to_panel(shipAdd, "Orientation", &horizontal_);
 		orientationList->add_item(0, "Horizontal");
 		orientationList->add_item(1, "Vertical");
-		GLUI_Panel* remainingPanel = getGlui()->add_panel_to_panel(shipAdd, "Remaining to add");
-		getGlui()->add_statictext_to_panel(remainingPanel, "Size | Quantity");
-		GLUI_EditText* remaining = getGlui()->add_edittext_to_panel(remainingPanel, "Remaining");
-		//remaining->set_text(shipsToAdd_);
-		getGlui()->add_button_to_panel(shipAdd,"Add",0,addCallbackWrapper);
+		addButton_ = getGlui()->add_button_to_panel(shipAdd,"Add",0,addCallbackWrapper);
 
 		//Hit picked coordinates
 		GLUI_Panel* hitPanel = getGlui()->add_panel("Hit");
-		getGlui()->add_button_to_panel(hitPanel,"Hit",0,hitCallbackWrapper);
-
-		getGlui()->add_button("Start Game");
+		hitButton_ = getGlui()->add_button_to_panel(hitPanel,"Hit",0,hitCallbackWrapper);
+		hitButton_->disable();
+		getGlui()->add_button("Start Game", 0, startCallbackWrapper);
 		getGlui()->add_button("Quit", 0, (GLUI_Update_CB)exit);
 		getGlui()->set_main_gfx_window(mainWindow_);
 		GLUI_Master.set_glutIdleFunc(idleWrapper);
+}
+
+void GameWindow::setTurn(bool state){
+	if(state){
+		hitButton_->enable();
+	}
+	else
+		hitButton_->disable();
+}
+void GameWindow::endGame(){
+	remaining_->set_text("END");
 }
 void GameWindow::startGameWindow(int argc, char *argv[]){
 

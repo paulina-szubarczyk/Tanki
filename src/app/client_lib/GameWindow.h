@@ -52,8 +52,12 @@ public:
 	void addCallback();
 	static void hitCallbackWrapper(int);
 	void hitCallback();
+	static void startCallbackWrapper(int);
 	void startCallback();
-	void connectCallback(int);
+	static void connectCallback(int);
+	void connectCallback();
+	static void sizeChangeCallbackWrapper(int);
+	void sizeChangeCallback();
 
 	/*
 	 * Methods for the server to control the gameplay
@@ -80,7 +84,9 @@ private:
 	int subW1_;
 	int subW2_;
 	int selectedW_;
-
+	GLUI_EditText* remaining_;
+	GLUI_Button* hitButton_;
+	GLUI_Button* addButton_;
 	int pickedX_;
 	int pickedY_;
 
@@ -90,7 +96,6 @@ private:
 	GameManager manager_;
 	GLUI_String ipBuffer_;
 	std::shared_ptr<Connection> connector_;
-	//std::string shipsToAdd_;
 
 };
 #endif /* GAMEWINDOW_H_ */

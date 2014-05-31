@@ -8,35 +8,46 @@
 #include "GameManager.h"
 
 GameManager::GameManager(){
-	//shipsToAdd_ = "Waiting for configuration";
+/*
+ * Testing values
+ */
 	gridSize_=10;
-	shipsQuantity_.insert(std::pair<int,int>(1,1));
-	shipsQuantity_.insert(std::pair<int,int>(2,2));
-}
-void GameManager::updateShipsToAdd(std::string shipsToAdd){
-
-	shipsToAdd.clear();
-	//shipsToAdd_+="S|Q\n";
-
-	std::map<int,int>::iterator it;
-	for(it = shipsQuantity_.begin();it != shipsQuantity_.end(); ++it){
-		shipsToAdd+= static_cast<std::ostringstream*>( &(std::ostringstream() << it->first) )->str();
-		shipsToAdd+= '|';
-		shipsToAdd+= static_cast<std::ostringstream*>( &(std::ostringstream() << it->second) )->str();
-		shipsToAdd+= '\n';
-
-
-
-	}
+	shipsQuantity_.insert(std::pair<int,int>(5,1));
+	shipsQuantity_.insert(std::pair<int,int>(2,3));
+	shipsQuantity_.insert(std::pair<int,int>(3,2));
+//	setGridSize(connector_->getGridSize());
+//	setShipsQuantity(connector_->getShipsConfig());
 }
 
+bool GameManager::checkReady(){
+	for(iter_ = shipsQuantity_.begin(); iter_ != shipsQuantity_.end();++iter_)
+		if(iter_->second != 0)
+			return false;
+	return true;
+}
 std::map<int,int>& GameManager::getShipsQuantity(){
 	return shipsQuantity_;
 }
 
-int GameManager::getTypesNumber(){
-	return shipsQuantity_.size();
+int GameManager::getSmallestSize(){
+	iter_=shipsQuantity_.begin();
+	return iter_->first;
 }
-//std::string GameManager::getShipsToAdd(){
-//	return shipsToAdd_;
-//}
+
+void GameManager::decreaseShipsQuantity(int shipSize){
+	iter_ = shipsQuantity_.find(shipSize);
+	(iter_->second)--;
+}
+
+int GameManager::getRemainingShips(int shipSize){
+	iter_ = shipsQuantity_.find(shipSize);
+	return iter_->second;
+}
+
+void GameManager::setGridSize(int n){
+	gridSize_ = n;
+}
+
+void GameManager::setShipsQuantity(std::map<int,int>& configuration){
+	shipsQuantity_ = configuration;
+}

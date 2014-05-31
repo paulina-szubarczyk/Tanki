@@ -11,10 +11,10 @@
 void GlutFunctions::drawSquares(GLenum mode, Grid& grid) //draw grid
 {
    GLuint i, j;
-   for (i = 0; i < 10; i++) { //change 10 to gridSize()
+   for (i = 0; i < grid.getGridSize(); i++) { //change 10 to gridSize()
       if (mode == GL_SELECT)
          glLoadName (i);
-      for (j = 0; j < 10; j ++) {
+      for (j = 0; j < grid.getGridSize(); j ++) {
          if (mode == GL_SELECT)
             glPushName (j);
 
