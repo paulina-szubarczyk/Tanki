@@ -25,6 +25,8 @@ int main(int argc, char** argv) {
 
 //	Ship s;
 //	s.testShip(argc, argv);
+	std::shared_ptr<ClientConnection> connection;
+	GameWindow::getInstance().init(connection);
 	GameWindow::getInstance().startGameWindow(argc, argv);
 //	google::InitGoogleLogging(argv[0]);
 //

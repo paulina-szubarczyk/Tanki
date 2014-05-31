@@ -28,7 +28,7 @@ public:
 	 */
 	static GameWindow& getInstance();
 
-	void init();
+	void init(std::shared_ptr<ClientConnection> connection);
 
 	void display1();
 	void display2();
@@ -60,6 +60,7 @@ public:
 	void connectCallback();
 	static void sizeChangeCallbackWrapper(int);
 	void sizeChangeCallback();
+	std::shared_ptr<ClientConnection> getConnector(){return connector_;}
 
 	/*
 	 * Methods for the server to control the gameplay

@@ -13,11 +13,9 @@ GameWindow& GameWindow::getInstance() {
 }
 
 GameWindow::GameWindow() {
-	init();
-	connector_.reset(new ClientConnection);
 }
 
-void GameWindow::init() {
+void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	grid1_.init(manager_.getGridSize());
 	grid2_.init(manager_.getGridSize());
 	pickedX_ = 0;
@@ -25,6 +23,7 @@ void GameWindow::init() {
 	ipBuffer_ = "Set IP";
 	horizontal_ = 0;
 	shipSize_ = manager_.getSmallestSize();
+	connector_ = connection;
 
 }
 
@@ -149,7 +148,7 @@ void GameWindow::startCallbackWrapper(int) {
 }
 void GameWindow::startCallback() {
 	if (manager_.checkReady()) {
-		connector_->sendStart();
+		connector_->sendShip(grid1_.getShips());
 		addButton_->disable();
 	}
 }

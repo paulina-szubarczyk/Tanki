@@ -23,14 +23,7 @@ public:
 	 * Allow server to set size of grid in GameManager
 	 */
 	void setGridSize(int n);
-	/*
-	 * Returns map:
-	 * first is ship size
-	 * second is quantity of ships for each ship size
-	 */
-	std::map<int, int>& getShipsConfig() {
-	}
-	;
+
 	/*
 	 * Allow server to set ships configuration in GameManager
 	 */
@@ -38,7 +31,7 @@ public:
 	/*
 	 * Connect to the server
 	 */
-	void connect(std::string serverIP) {
+	void connect(std::string ip, unsigned short port) {
 	}
 	;
 	/*
@@ -47,7 +40,7 @@ public:
 	 * first is X coordinate
 	 * second is Y coordinate
 	 */
-	void sendShip(std::vector<std::pair<int, int> > ship) {
+	void sendShip(std::vector<std::vector<std::pair<int, int> > >ship) {
 	}
 	;
 	/*
@@ -70,12 +63,10 @@ public:
 	 * Allow server to set player's turn
 	 */
 	void setTurn(bool turn);
-	/*
-	 * Sends info that player has clicked "Start" and he's ready for the game
-	 */
-	void sendStart() {
-	}
-	;
+
+private:
+	std::string ip_;
+	unsigned short port_;
 };
 
 #endif /* CLIENTCONNECTION_H_ */
