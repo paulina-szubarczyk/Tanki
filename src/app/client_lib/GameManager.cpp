@@ -15,8 +15,7 @@ GameManager::GameManager(){
 	shipsQuantity_.insert(std::pair<int,int>(5,1));
 	shipsQuantity_.insert(std::pair<int,int>(2,3));
 	shipsQuantity_.insert(std::pair<int,int>(3,2));
-//	setGridSize(connector_->getGridSize());
-//	setShipsQuantity(connector_->getShipsConfig());
+
 }
 
 bool GameManager::checkReady(){
@@ -48,6 +47,9 @@ void GameManager::setGridSize(int n){
 	gridSize_ = n;
 }
 
+int GameManager::getGridSize(){
+	return gridSize_;
+}
 void GameManager::setShipsQuantity(std::map<int,int>& configuration){
 	shipsQuantity_ = configuration;
 }

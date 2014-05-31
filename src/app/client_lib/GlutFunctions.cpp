@@ -6,7 +6,7 @@
  */
 
 #include "GlutFunctions.h"
-
+#include "GameWindow.h"
 
 void GlutFunctions::drawSquares(GLenum mode, Grid& grid) //draw grid
 {
@@ -58,7 +58,8 @@ void GlutFunctions::mouseFunc(int button, int state, int x, int y, Grid& grid,in
 /*  create picking region near cursor location      */
    gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
                   0.1, 0.1, viewport);
-   gluOrtho2D (0.0, 10.0, 0.0, 10.0);
+   //gluOrtho2D (0.0, 10.0, 0.0, 10.0);
+   gluOrtho2D (0.0, (float)grid.getGridSize(), 0.0, (float)grid.getGridSize());
    drawSquares(GL_SELECT, grid);
 
    glMatrixMode (GL_PROJECTION);
@@ -82,7 +83,8 @@ void GlutFunctions::reshape(int w, int h){
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D (0.0, 10.0, 0.0, 10.0);
+	float size = GameWindow::getInstance().getManager().getGridSize();
+	gluOrtho2D (0.0, size, 0.0, size);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
