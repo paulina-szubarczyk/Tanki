@@ -17,16 +17,34 @@ protected:
 	virtual void TeatDown() {};
 };
 
-TEST_F(GameManagerTest, updateShipsToAddTest){
-	GameManager manager;
-	for(int i=1; i<6; i++)
-			manager.getShipsQuantity().insert(std::pair<int,int>(i,i));
-//	manager.updateShipsToAdd();
-//	std::cout<<manager.getShipsToAdd();
-//	std::string test = "1 1\n2 2\n3 3\n4 4\n5 5\n";
-//	std::map<int,int>::iterator it;
-//
-//	ASSERT_EQ(test,manager.getShipsToAdd());
+TEST_F(GameManagerTest, decreaseShipsQuantityTest){
+	std::shared_ptr<GameManager> manager(new GameManager);
+	ASSERT_EQ(manager->getRemainingShips(5),1);
+	manager->decreaseShipsQuantity(5);
+	ASSERT_EQ(manager->getRemainingShips(5),0);
+
+}
+
+TEST_F(GameManagerTest, getSmallestSizeTest){
+	std::shared_ptr<GameManager> manager(new GameManager);
+	ASSERT_EQ(manager->getRemainingShips(5),1);
+	ASSERT_EQ(manager->getSmallestSize(),2);
+
+}
+TEST_F(GameManagerTest, checkReadyTest){
+	std::shared_ptr<GameManager> manager(new GameManager);
+	manager->decreaseShipsQuantity(5);
+	ASSERT_FALSE(manager->checkReady());
+	for(int i = 0; i < 3; i++){
+		manager->decreaseShipsQuantity(2);
+		ASSERT_FALSE(manager->checkReady());
+	}
+	for(int i = 0; i < 2; i++){
+			ASSERT_FALSE(manager->checkReady());
+			manager->decreaseShipsQuantity(3);
+		}
+	ASSERT_TRUE(manager->checkReady());
+
 }
 
 

@@ -8,21 +8,21 @@
 #include "GlutFunctions.h"
 #include "GameWindow.h"
 
-void GlutFunctions::drawSquares(GLenum mode, Grid& grid) //draw grid
+void GlutFunctions::drawSquares(GLenum mode, GridPtr grid) //draw grid
 		{
 	GLuint i, j;
-	for (i = 0; i < grid.getGridSize(); i++) { //change 10 to gridSize()
+	for (i = 0; i < grid->getGridSize(); i++) { //drawing grid of specified size
 		if (mode == GL_SELECT)
 			glLoadName(i);
-		for (j = 0; j < grid.getGridSize(); j++) {
+		for (j = 0; j < grid->getGridSize(); j++) {
 			if (mode == GL_SELECT)
 				glPushName(j);
 
 			//draw filled squares
 			glPolygonMode(GL_FRONT, GL_FILL);
-			glColor3f((GLfloat) grid.getGrid()[i][j]->getRed(),
-					(GLfloat) grid.getGrid()[i][j]->getGreen(),
-					(GLfloat) grid.getGrid()[i][j]->getBlue());
+			glColor3f((GLfloat) grid->getGrid()[i][j]->getRed(),
+					(GLfloat) grid->getGrid()[i][j]->getGreen(),
+					(GLfloat) grid->getGrid()[i][j]->getBlue());
 			glRecti(i, j, i + 1, j + 1);
 
 			//draw black lines
@@ -35,7 +35,7 @@ void GlutFunctions::drawSquares(GLenum mode, Grid& grid) //draw grid
 	}
 }
 
-void GlutFunctions::mouseFunc(int button, int state, int x, int y, Grid& grid,
+void GlutFunctions::mouseFunc(int button, int state, int x, int y, GridPtr grid,
 		int& pickedX, int& pickedY) {
 	int BUFSIZE = 512;
 	GLuint selectBuf[BUFSIZE];
@@ -61,8 +61,8 @@ void GlutFunctions::mouseFunc(int button, int state, int x, int y, Grid& grid,
 	gluPickMatrix((GLdouble) x, (GLdouble)(viewport[3] - y), 0.1, 0.1,
 			viewport);
 	//gluOrtho2D (0.0, 10.0, 0.0, 10.0);
-	gluOrtho2D(0.0, (float) grid.getGridSize(), 0.0,
-			(float) grid.getGridSize());
+	gluOrtho2D(0.0, (float) grid->getGridSize(), 0.0,
+			(float) grid->getGridSize());
 	drawSquares(GL_SELECT, grid);
 
 	glMatrixMode(GL_PROJECTION);
@@ -74,7 +74,7 @@ void GlutFunctions::mouseFunc(int button, int state, int x, int y, Grid& grid,
 	glutPostRedisplay();
 }
 
-void GlutFunctions::display(Grid& grid) {
+void GlutFunctions::display(GridPtr grid) {
 	glClear (GL_COLOR_BUFFER_BIT);
 	drawSquares(GL_RENDER, grid);
 	glFlush();
@@ -90,7 +90,7 @@ void GlutFunctions::reshape(int w, int h) {
 	glLoadIdentity();
 }
 
-void GlutFunctions::processHits(GLint hits, GLuint buffer[], Grid& grid,
+void GlutFunctions::processHits(GLint hits, GLuint buffer[], GridPtr grid,
 		int& pickedX, int& pickedY) {
 	unsigned int i, j;
 	GLuint ii, jj, names, *ptr;
@@ -112,7 +112,7 @@ void GlutFunctions::processHits(GLint hits, GLuint buffer[], Grid& grid,
 		}
 		//printf("\n");
 
-		grid.getGrid()[ii][jj]->setColor(0.5, 0.5, 0.5);
+		grid->getGrid()[ii][jj]->setColor(0.5, 0.5, 0.5);
 		pickedX = ii;
 		pickedY = jj;
 		glui_->sync_live();

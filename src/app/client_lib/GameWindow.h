@@ -25,6 +25,7 @@
 
 class GameWindow: public GlutFunctions {
 public:
+	typedef std::shared_ptr<Grid> GridPtr;
 	/*
 	 * Singletone
 	 */
@@ -83,8 +84,10 @@ private:
 	GameWindow(const GameWindow&) = delete;
 	GameWindow& operator=(const GameWindow&) = delete;
 
-	Grid grid1_;
-	Grid grid2_;
+//	Grid grid1_;
+//	Grid grid2_;
+	GridPtr grid1_;
+	GridPtr grid2_;
 
 	int mainWindow_;
 	int subW1_;

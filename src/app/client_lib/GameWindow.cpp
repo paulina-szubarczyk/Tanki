@@ -17,8 +17,10 @@ GameWindow::GameWindow() {
 
 void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	manager_.reset(new GameManager);
-	grid1_.init(manager_->getGridSize());
-	grid2_.init(manager_->getGridSize());
+	grid1_.reset(new Grid(manager_->getGridSize()));
+	grid2_.reset(new Grid(manager_->getGridSize()));
+//	grid1_->init(manager_->getGridSize());
+//	grid2_->init(manager_->getGridSize());
 	pickedX_ = 0;
 	pickedY_ = 0;
 
@@ -113,15 +115,15 @@ void GameWindow::addCallbackWrapper(int) {
 void GameWindow::addCallback() {
 	bool notAdded = true;
 	if (manager_->getRemainingShips(shipSize_) > 0
-			&& grid1_.checkAddSize(pickedX_, pickedY_, shipSize_, horizontal_))
-		if (grid1_.checkAvaible(pickedX_, pickedY_, shipSize_, horizontal_)) {
-			grid1_.addNewShip(pickedX_, pickedY_, shipSize_, horizontal_);
+			&& grid1_->checkAddSize(pickedX_, pickedY_, shipSize_, horizontal_))
+		if (grid1_->checkAvaible(pickedX_, pickedY_, shipSize_, horizontal_)) {
+			grid1_->addNewShip(pickedX_, pickedY_, shipSize_, horizontal_);
 			notAdded = false;
 			manager_->decreaseShipsQuantity(shipSize_);
 			sizeChangeCallback();
 		}
 	if (notAdded)
-		grid1_.getGrid()[pickedX_][pickedY_]->setColor(0.0, 0.0, 0.7);
+		grid1_->getGrid()[pickedX_][pickedY_]->setColor(0.0, 0.0, 0.7);
 
 	remaining_->set_int_val(manager_->getRemainingShips(shipSize_));
 	selectedW_ = subW1_;
@@ -160,13 +162,10 @@ void GameWindow::startCallbackWrapper(int) {
 }
 
 void GameWindow::startCallback() {
-<<<<<<< HEAD
-	//if (manager_.checkReady()) {
-=======
+
 	if (manager_->checkReady()) {
->>>>>>> Added exception LOG & changed manager_ to shared_ptr
 		connector_->sendShip(grid1_.getShips());
-	//}
+	}
 }
 void GameWindow::createGLUI() {
 
@@ -234,7 +233,7 @@ void GameWindow::endGame() {
 }
 
 void GameWindow::setHitResult(int x, int y, bool result) {
-	grid2_.getGrid()[x][y]->registerHitReply(result);
+	grid2_->getGrid()[x][y]->registerHitReply(result);
 }
 
 void GameWindow::setPlayerTurn(bool turn) {

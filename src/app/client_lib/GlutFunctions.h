@@ -19,15 +19,16 @@
 class GlutFunctions {
 public:
 
-	void display(Grid& grid);
+	typedef std::shared_ptr<Grid> GridPtr;
+	void display(GridPtr grid);
 
 	void reshape(int w, int h);
 
-	void mouseFunc(int button, int state, int x, int y, Grid& grid,
+	void mouseFunc(int button, int state, int x, int y, GridPtr grid,
 			int& pickedX, int& pickedY);
-	void drawSquares(GLenum mode, Grid& grid);
+	void drawSquares(GLenum mode, GridPtr grid);
 
-	void processHits(GLint hits, GLuint buffer[], Grid& grid, int& pickedX,
+	void processHits(GLint hits, GLuint buffer[], GridPtr grid, int& pickedX,
 			int& pickedY);
 
 	GLUI* getGlui() {
