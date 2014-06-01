@@ -56,7 +56,7 @@ public:
 	void hitCallback();
 	static void startCallbackWrapper(int);
 	void startCallback();
-	static void connectCallback(int);
+	static void connectCallbackWrapper(int);
 	void connectCallback();
 	static void sizeChangeCallbackWrapper(int);
 	void sizeChangeCallback();

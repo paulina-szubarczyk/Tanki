@@ -136,7 +136,13 @@ void GameWindow::hitCallback() {
 
 
 }
+void GameWindow::connectCallbackWrapper(int){
+	getInstance().connectCallback();
+}
 
+void GameWindow::connectCallback(){
+	connector_->connect(ipAddress_, 8080);
+}
 void GameWindow::sizeChangeCallbackWrapper(int) {
 	getInstance().sizeChangeCallback();
 }
@@ -167,7 +173,7 @@ void GameWindow::createGLUI() {
 			"Server IP: ", ipBuffer_);
 	serverIP->set_w(180);
 	serverIP->set_text(ipBuffer_); //causes segfault?!
-	getGlui()->add_button_to_panel(serverRollout, "Connect");
+	getGlui()->add_button_to_panel(serverRollout, "Connect", connectCallbackWrapper);
 
 	//Picked Coordinates Display
 	GLUI_Panel* pickedPanel = getGlui()->add_panel("Picked Coordinates");
