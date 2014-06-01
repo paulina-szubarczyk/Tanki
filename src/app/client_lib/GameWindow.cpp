@@ -19,8 +19,6 @@ void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	manager_.reset(new GameManager);
 	grid1_.reset(new Grid(manager_->getGridSize()));
 	grid2_.reset(new Grid(manager_->getGridSize()));
-//	grid1_->init(manager_->getGridSize());
-//	grid2_->init(manager_->getGridSize());
 	pickedX_ = 0;
 	pickedY_ = 0;
 

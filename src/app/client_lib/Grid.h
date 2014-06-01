@@ -20,9 +20,6 @@ class Grid {
 public:
 	Grid();
 	Grid(int n);
-	//virtual ~Grid();
-
-	typedef array2D::index index;
 
 	void init(int n);
 	std::vector<std::pair<int, int> > addNewShip(int x, int y, int size,
@@ -30,7 +27,6 @@ public:
 	bool checkAddSize(int x, int y, int size, int horizontal);
 	bool checkAvaible(int x, int y, int size, int horizontal);
 
-//	CellPtr getCell();
 	std::vector<std::vector<std::pair<int, int> > >& getShips(){return ships_;}
 	int getGridSize();
 	const array2D& getGrid();
