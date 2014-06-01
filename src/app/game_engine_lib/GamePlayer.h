@@ -19,7 +19,7 @@ class GamePlayer {
 public:
 	typedef std::shared_ptr<FieldsUpdater> FieldsUpdaterPtr;
 	GamePlayer(OutputPtr output);
-	virtual ~GamePlayer();
+	virtual ~GamePlayer() = default;
 
 	void hitField(int x, int y);
 
@@ -43,9 +43,13 @@ public:
 		ships_ = ships;
 	}
 
-	GameboardPtr& getGameboard()  {
+	GameboardPtr getGameboard() const{
 		return gameboard_;
 	}
+
+	void setGameboard(GameboardPtr gameboard) {
+			gameboard_ = gameboard;;
+		}
 
 	bool isTurn() const {
 		return turn_;

@@ -36,8 +36,9 @@ auto MessageHandler<K, M, ExecPolicy>::resolveType(const MsgType& message) const
 template<typename K, typename M, template<typename M> class ExecPolicy>
 bool MessageHandler<K, M, ExecPolicy>::addMsgHandler(KeyType type, HandlerType handler) {
 
-	if(msgHandlers_.find(type) != msgHandlers_.end())
+	if(msgHandlers_.find(type) != msgHandlers_.end()) {
 		return false;
+	}
 
 	msgHandlers_.insert({type, handler});
 	return true;

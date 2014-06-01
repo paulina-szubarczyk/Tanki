@@ -10,15 +10,23 @@
 #include "GamePlayerBuilder.h"
 #include "Game.h"
 
+namespace ships {
+	class PlayerInput;
+}
+
+using namespace ships;
+
+typedef std::shared_ptr<PlayerInput> InputPtr;
+
 class GameEngine {
+	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 public:
 	GameEngine() = default;
 	virtual ~GameEngine() = default;
-	typedef std::shared_ptr<GamePlayer> PlayerPtr;
-	void createGame(OutputPtr output1, OutputPtr output2);
+
+	void createGame(OutputPtr output1, InputPtr input1, OutputPtr output2, InputPtr input2);
 
 protected:
-	void createPlayer (PlayerPtr player, OutputPtr output);
 	std::vector<std::shared_ptr<Game>> games_;
 
 };

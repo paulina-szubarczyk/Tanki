@@ -32,6 +32,7 @@ void ClientOutput::sendShip(std::vector<std::vector<std::pair<int, int>>> shipVe
 			newShip->add_y(segment.second);
 		}
 	}
+	send(msg);
 }
 
 void ClientOutput::sendHit(std::pair<int, int> hitCoordinates) {

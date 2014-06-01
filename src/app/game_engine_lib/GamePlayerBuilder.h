@@ -8,27 +8,30 @@
 #ifndef GAMEPLAYERBUILDER_H_
 #define GAMEPLAYERBUILDER_H_
 
-#include "PlayerBuilder.h"
 #include "FieldsUpdater.h"
 
-class GamePlayerBuilder : public PlayerBuilder {
+class PlayerOutput;
+class BigGameShip;
+
+class GamePlayerBuilder {
 public:
 	typedef std::shared_ptr<BigGameShip> ShipPtr;
 	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 
-	GamePlayerBuilder() = default;
-	virtual ~GamePlayerBuilder() = default;
+	GamePlayerBuilder() = delete;
+	virtual ~GamePlayerBuilder() = delete;
 
-	void createGamePlayer(OutputPtr output);
-	virtual void addPlayerGameboard(int size);
-	virtual void addPlayerShips(std::vector<std::vector<int>> y,
+	static PlayerPtr createGamePlayer(OutputPtr output);
+	static void addPlayerGameboard(PlayerPtr player, int size);
+
+
+	static void addPlayerShips(PlayerPtr player, std::vector<std::vector<int>> y,
 								std::vector<std::vector<int>> x) ;
 
-	virtual void addPlayerShip( std::vector<int> x,
-								std::vector<int> y) ;
-	static void configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2);
-protected:
+	static void addPlayerShip(PlayerPtr player, std::vector<int> x,
+								std::vector<int> y);
 
+	static void configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2);
 };
 
 #endif /* GAMEPLAYERBUILDER_H_ */

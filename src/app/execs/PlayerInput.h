@@ -9,20 +9,24 @@
 #define PLAYERINPUT_H_
 
 #include "Input.h"
-#include "GamePlayer.h"
+
+#include <vector>
+
+class GamePlayer;
 
 
 namespace ships {
 
 class PlayerInput : public Input {
-	typedef MsgHandlerType::HandlerType HandlerType;
 	typedef std::shared_ptr<GamePlayer> PlayerPtr;
+	typedef std::vector<std::vector<int>> ShipVec;
+	typedef std::function<void(PlayerPtr,const ShipVec&, const ShipVec&)>  AddShipHandlerType;;
 
 public:
 	PlayerInput(MsgHandlerPtr msgHandler);
 	~PlayerInput() = default;
 
-	bool registerAddShipMethod(HandlerType handler);
+	bool registerAddShipMethod(PlayerPtr player, AddShipHandlerType handler);
 	void setGamePlayer(PlayerPtr player);
 };
 

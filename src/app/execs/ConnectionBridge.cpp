@@ -7,6 +7,7 @@
 
 #include "ConnectionBridge.h"
 #include "Connection.h"
+#include "PlayerInput.h"
 #include "PlayerOutput.h"
 #include "ProtobufConnection.h"
 #include <vector>
@@ -23,9 +24,14 @@ void ConnectionBridge::signal() {
 
 	auto connections =	connectionPool->getConnection(2);
 
+	auto input0 = std::make_shared<PlayerInput>(connections[0]->getMsgHandler());
+	auto input1 = std::make_shared<PlayerInput>(connections[1]->getMsgHandler());
+
 	LOG(INFO) << "Relaying " << connections.size() << " connections";
 	gameEngine->createGame(
 			std::make_shared<PlayerOutput>(connections[0]),
-			std::make_shared<PlayerOutput>(connections[1])
+			input0,
+			std::make_shared<PlayerOutput>(connections[1]),
+			input1
 	);
 }

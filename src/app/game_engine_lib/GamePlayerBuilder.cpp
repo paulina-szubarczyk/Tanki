@@ -6,19 +6,27 @@
  */
 
 #include "GamePlayerBuilder.h"
+#include "BigGameShip.h"
+#include "Gameboard.h"
+#include "GamePlayer.h"
+#include "ShipFactoryMethod.h"
 
 #include "glog/logging.h"
 
-void GamePlayerBuilder::createGamePlayer(OutputPtr output) {
-	LOG(INFO) << "Creating game player";
-	createPlayer(output);
+auto GamePlayerBuilder::createGamePlayer(OutputPtr output) -> PlayerPtr {
+
+	LOG(INFO) << "Creating game player";;
+	auto player = std::make_shared<GamePlayer>(output);
+
 	//TODO size should be taken from a python configure script;
 	int size = 10;
-	addPlayerGameboard(size);
+	addPlayerGameboard(player, size);
+
+	return player;
 }
-void GamePlayerBuilder::addPlayerGameboard(int size) {
+void GamePlayerBuilder::addPlayerGameboard(PlayerPtr player, int size) {
 	LOG(INFO) << "Adding gameboard";
-	player_->getGameboard() = std::shared_ptr<Gameboard>(new Gameboard(size));
+	player->setGameboard(std::make_shared<Gameboard>(size));
 }
 
 void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2) {
@@ -33,18 +41,18 @@ void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr 
 }
 
 
-void GamePlayerBuilder::addPlayerShips(std::vector<std::vector<int>> y,	std::vector<std::vector<int>> x) {
+void GamePlayerBuilder::addPlayerShips(PlayerPtr player, std::vector<std::vector<int>> y,	std::vector<std::vector<int>> x) {
 	auto xIter = x.begin();
 	auto yIter = y.begin();
 	while ( xIter != x.end() ) {
-		addPlayerShip(*xIter,*yIter);
+		addPlayerShip(player, *xIter++,*yIter++);
 	}
 	// check with rules if thats all ships, send info if not
 }
-void GamePlayerBuilder::addPlayerShip( std::vector<int> x, std::vector<int> y) {
+void GamePlayerBuilder::addPlayerShip(PlayerPtr player, std::vector<int> x, std::vector<int> y) {
 
-	ShipPtr ship = ShipPtr(dynamic_cast<BigGameShip*>(shipFactory->creatShip("BigShip",x.size())));
-	player_->ships_.push_back(ship);
+	ShipPtr ship = ShipPtr(dynamic_cast<BigGameShip*>(ShipFactoryMethod::getInstance()->creatShip("BigShip",x.size())));
+	player->ships_.push_back(ship);
 
 	//Adding fieldObserver
 	auto xIter = x.begin();
@@ -53,8 +61,8 @@ void GamePlayerBuilder::addPlayerShip( std::vector<int> x, std::vector<int> y) {
 
 	while ( xIter != x.end() ) {
 
-		player_->getGameboard()->getField(*xIter,*yIter).registerHitObserver(ship);
-		player_->getGameboard()->getField(*xIter,*yIter).registerHitObserver(*smallShipsIter);
+		player->getGameboard()->getField(*xIter,*yIter).registerHitObserver(ship);
+		player->getGameboard()->getField(*xIter,*yIter).registerHitObserver(*smallShipsIter);
 
 		++xIter;
 		++yIter;

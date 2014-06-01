@@ -145,7 +145,7 @@ void GameWindow::connectCallbackWrapper(int){
 
 
 void GameWindow::connectCallback(){
-	connector_->connect(ipBuffer_, 8081);
+	connector_->connect(ipBuffer_, 8090);
 }
 
 void GameWindow::sizeChangeCallbackWrapper(int) {
@@ -161,9 +161,9 @@ void GameWindow::startCallbackWrapper(int) {
 }
 
 void GameWindow::startCallback() {
-	if (manager_.checkReady()) {
+	//if (manager_.checkReady()) {
 		connector_->sendShip(grid1_.getShips());
-	}
+	//}
 }
 void GameWindow::createGLUI() {
 

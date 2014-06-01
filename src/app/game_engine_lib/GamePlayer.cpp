@@ -8,15 +8,7 @@
 #include "GamePlayer.h"
 #include "Game.h"
 
-GamePlayer::GamePlayer(OutputPtr output) : output_(output), turn_(false), hit_(false) {
-	// TODO Auto-generated constructor stub
-
-}
-
-
-GamePlayer::~GamePlayer() {
-	// TODO Auto-generated destructor stub
-}
+GamePlayer::GamePlayer(OutputPtr output) : output_(output), turn_(false), hit_(false) {}
 
 void GamePlayer::hitField(int x, int y) {
 	if (turn_){

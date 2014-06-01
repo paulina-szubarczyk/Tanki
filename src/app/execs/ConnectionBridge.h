@@ -12,8 +12,9 @@
 #include "ConnectionPool.h"
 #include "GameEngine.h"
 
+using namespace ships;
 
-class ConnectionBridge : public ships::ConnectionObserver {
+class ConnectionBridge : public ConnectionObserver {
 public:
 	ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn, std::shared_ptr<GameEngine> engine);
 	virtual ~ConnectionBridge() = default;
