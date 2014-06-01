@@ -55,11 +55,11 @@ public:
 
 	void shipsAdded() ;
 
-	const std::shared_ptr<Game>& getGame() const {
+	std::shared_ptr<Game> getGame() const {
 		return game_;
 	}
 
-	void setGame(const std::shared_ptr<Game>& game) {
+	void setGame(std::shared_ptr<Game> game) {
 		game_ = game;
 	}
 

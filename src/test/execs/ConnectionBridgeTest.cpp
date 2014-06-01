@@ -12,7 +12,7 @@ protected:
 	ConnectionBridgeTest() {};
 	~ConnectionBridgeTest() {};
 	virtual void SetUp() {};
-	virtual void TeatDown() {};
+	virtual void TearDown() {};
 };
 
 // Wywoluje inne metody i konstruktory

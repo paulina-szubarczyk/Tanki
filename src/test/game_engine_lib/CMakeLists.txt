@@ -7,8 +7,7 @@ include_directories(${Message_BINARY_DIR})
 include_directories(${NetworkLib_SOURCE_DIR})
 
 add_executable(${name}
-        BigGameShipTest.cpp 
-        ConnectionBridgeTest.cpp
+        BigGameShipTest.cpp
         FieldTest.cpp 
         FieldsUpdaterTest.cpp 
         GameTest.cpp
@@ -16,7 +15,6 @@ add_executable(${name}
         GameEngineTest.cpp     
         GamePlayerTest.cpp
         GamePlayerBuilderTest.cpp
-        PlayerOutputTest.cpp
         ShipFactoryMethodTest.cpp
         SmallGameShipTest.cpp 
 )

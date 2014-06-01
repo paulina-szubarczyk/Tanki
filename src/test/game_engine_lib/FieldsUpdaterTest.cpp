@@ -7,7 +7,6 @@
 #include "gtest/gtest.h"
 #include "FieldsUpdater.h"
 #include "GamePlayer.h"
-#include "PlayerOutput.h"
 #include "ProtobufConnection.h"
 #include <boost/signals2/signal.hpp>
 #include "array"

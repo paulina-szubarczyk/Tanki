@@ -7,6 +7,8 @@
 
 #include "PlayerInput.h"
 
+#include "glog/logging.h"
+
 #include <functional>
 
 namespace plh = std::placeholders;
@@ -25,12 +27,15 @@ void PlayerInput::setGamePlayer(PlayerPtr player) {
 
 	msgHandler_->addMsgHandler(MessageType::HIT, std::bind(
 			[](const MsgType& msg, PlayerPtr player) {
+
+		LOG(INFO) << "Received HIT";
 		player->hitField(msg.x(), msg.y());
 	}, plh::_1, player));
 
 
 //	msgHandler_->addMsgHandler(MessageType::SURRENDER, std::bind(
 //			[](const MsgType& msg, PlayerPtr player) {
+//		LOG(INFO) << "Received SURRENDER";
 //		player->surrender();
 //	}, plh::_1, player));
 }

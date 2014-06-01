@@ -15,7 +15,7 @@ class PlayerOutput : public GamePlayerOutput{
 	typedef std::shared_ptr<DataMsg> MsgPtr;
 public:
 	PlayerOutput(std::shared_ptr<ships::ProtobufConnection> connection);
-	virtual ~PlayerOutput();
+	virtual ~PlayerOutput() = default;
 
 	virtual void beginGame()  ;
 	virtual void playerTurn()  ;

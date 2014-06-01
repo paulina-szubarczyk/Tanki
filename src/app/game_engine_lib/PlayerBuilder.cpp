@@ -7,11 +7,14 @@
 
 #include "PlayerBuilder.h"
 
-PlayerBuilder::PlayerBuilder() {
-	shipFactory = ShipFactoryMethod::getInstance();
-}
+#include "glog/logging.h"
 
-PlayerBuilder::~PlayerBuilder() {
-	// TODO Auto-generated destructor stub
-}
+PlayerBuilder::PlayerBuilder()
+	: shipFactory(ShipFactoryMethod::getInstance()) {}
 
+
+void PlayerBuilder::createPlayer(OutputPtr output) {
+
+	LOG(INFO) << "Creating a player";
+	player_ = new GamePlayer(output);
+}

@@ -9,6 +9,8 @@
 #include "ConnectionObserver.h"
 #include "ProtobufConnection.h"
 
+#include "glog/logging.h"
+
 namespace ships {
 
 ConnectionPool::ConnectionPool() : queue_(new QueueType()), connsToSignal_(1) {}
@@ -18,6 +20,7 @@ size_t ConnectionPool::size() {
 }
 
 void ConnectionPool::registerConnectionObserver(ObserverPtr observer) {
+	LOG(INFO) << "Registering observer";
 	signal_.connect(SignalType::slot_type(&ConnectionObserver::signal, observer.get()).track_foreign(observer));
 }
 
@@ -25,14 +28,19 @@ void ConnectionPool::registerConnectionObserver(ObserverPtr observer) {
 
 void ships::ConnectionPool::addConnection(ConnectionPtr connection) {
 	Lock lock(mutex_);
+	LOG(INFO) << "Adding connection";
 	queue_->push(connection);
 
-	if(queue_->size() >= connsToSignal_)
+	if(queue_->size() >= connsToSignal_) {
+		LOG(INFO) << "Signaling";
+		lock.unlock();
 		signal_();
+	}
 }
 
 auto ships::ConnectionPool::getConnection() -> ConnectionPtr {
 	Lock lock(mutex_);
+	LOG(INFO) << "Returning a connection";
 	auto head =  queue_->front();
 	queue_->pop();
 	return head;
@@ -48,6 +56,7 @@ void ships::ConnectionPool::setConnsToSignal(size_t connsToSignal) {
 
 auto ships::ConnectionPool::getConnection(int num) -> std::vector<ConnectionPtr>{
 	Lock lock(mutex_);
+	LOG(INFO) << "Returning " << num << " connections";
 	std::vector<ConnectionPtr> conns;
 	while(num > 0 && !queue_->empty()) {
 		conns.push_back(queue_->front());

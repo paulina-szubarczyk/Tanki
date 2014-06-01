@@ -7,19 +7,17 @@
 
 #include "GamePlayerBuilder.h"
 
-GamePlayerBuilder::GamePlayerBuilder() : PlayerBuilder() {
-
-}
-
-GamePlayerBuilder::~GamePlayerBuilder() {}
+#include "glog/logging.h"
 
 void GamePlayerBuilder::createGamePlayer(OutputPtr output) {
+	LOG(INFO) << "Creating game player";
 	createPlayer(output);
-	//size from Rules;
-	int size;
+	//TODO size should be taken from a python configure script;
+	int size = 10;
 	addPlayerGameboard(size);
 }
 void GamePlayerBuilder::addPlayerGameboard(int size) {
+	LOG(INFO) << "Adding gameboard";
 	player_->getGameboard() = std::shared_ptr<Gameboard>(new Gameboard(size));
 }
 

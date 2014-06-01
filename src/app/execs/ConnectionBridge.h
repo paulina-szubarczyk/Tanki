@@ -16,7 +16,7 @@
 class ConnectionBridge : public ships::ConnectionObserver {
 public:
 	ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn, std::shared_ptr<GameEngine> engine);
-	virtual ~ConnectionBridge();
+	virtual ~ConnectionBridge() = default;
 
 	virtual void signal();
 

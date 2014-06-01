@@ -7,6 +7,8 @@
 
 #include "ClientOutput.h"
 
+#include "glog/logging.h"
+
 namespace ships {
 
 
@@ -14,11 +16,13 @@ ClientOutput::ClientOutput(ConnectionPtr connection)
 	:connection_(connection) {}
 
 void ClientOutput::connect(std::string serverIP, unsigned short port) {
+	LOG(INFO) << "Connecting";
 	connection_->connect(serverIP, port);
 }
 
 void ClientOutput::sendShip(std::vector<std::vector<std::pair<int, int>>> shipVec) {
 
+	LOG(INFO) << "Sending ADD_SHIP";
 	auto msg = createMsg(MessageType::ADD_SHIP);
 
 	for(const auto& ship : shipVec) {
@@ -32,6 +36,7 @@ void ClientOutput::sendShip(std::vector<std::vector<std::pair<int, int>>> shipVe
 
 void ClientOutput::sendHit(std::pair<int, int> hitCoordinates) {
 
+	LOG(INFO) << "Sending HIT";
 	auto msg = createMsg(MessageType::HIT);
 	msg->set_x(hitCoordinates.first);
 	msg->set_y(hitCoordinates.second);

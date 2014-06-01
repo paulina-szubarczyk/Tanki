@@ -145,7 +145,7 @@ void GameWindow::connectCallbackWrapper(int){
 
 
 void GameWindow::connectCallback(){
-	connector_->connect(ipBuffer_, 8080);
+	connector_->connect(ipBuffer_, 8081);
 }
 
 void GameWindow::sizeChangeCallbackWrapper(int) {

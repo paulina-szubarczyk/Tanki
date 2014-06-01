@@ -30,6 +30,9 @@ int main(int argc, char** argv) {
 	std::shared_ptr<MessageHandler<MessageType, DataMsg>> msgHandler(new MessageHandler<MessageType, DataMsg>());
 	std::shared_ptr<ProtobufConnection> connection = std::make_shared<ProtobufConnection>(harbour, msgHandler);
 
+//	TODO
+//	connection->connect("127.0.0.1", 8081);
+
 	std::shared_ptr<ClientOutput> clientOutput = std::make_shared<ClientOutput>(connection);
 	std::shared_ptr<ClientInput> clientInput = std::make_shared<ClientInput>(clientOutput, msgHandler);
 

@@ -16,8 +16,8 @@ public:
 	typedef std::shared_ptr<BigGameShip> ShipPtr;
 	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 
-	GamePlayerBuilder();
-	virtual ~GamePlayerBuilder();
+	GamePlayerBuilder() = default;
+	virtual ~GamePlayerBuilder() = default;
 
 	void createGamePlayer(OutputPtr output);
 	virtual void addPlayerGameboard(int size);

@@ -12,8 +12,8 @@
 
 class GameEngine {
 public:
-	GameEngine();
-	virtual ~GameEngine();
+	GameEngine() = default;
+	virtual ~GameEngine() = default;
 	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 	void createGame(OutputPtr output1, OutputPtr output2);
 

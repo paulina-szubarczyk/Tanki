@@ -6,7 +6,6 @@ include_directories(${NetworkLib_SOURCE_DIR})
 
 add_library(game_engine 
         BigGameShip.cpp 
-        ConnectionBridge.cpp
         Field.cpp 
         FieldsUpdater.cpp 
         Game.cpp
@@ -17,7 +16,6 @@ add_library(game_engine
         GameShip.cpp 
         HitObserver.cpp
         PlayerBuilder.cpp
-        PlayerOutput.cpp
         ShipFactoryMethod.cpp
         ShipObserver.cpp 
         SmallGameShip.cpp 

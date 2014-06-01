@@ -14,10 +14,9 @@
 class PlayerBuilder {
 public:
 	PlayerBuilder();
-	virtual ~PlayerBuilder();
+	virtual ~PlayerBuilder() = default;
 
-
-	void createPlayer(OutputPtr output) {player_ = new GamePlayer(output);};
+	void createPlayer(OutputPtr output);
 	GamePlayer* getPlayer() {return player_;};
 	virtual void addPlayerGameboard(int size) = 0;
 	virtual void addPlayerShips(std::vector<std::vector<int>> y,
