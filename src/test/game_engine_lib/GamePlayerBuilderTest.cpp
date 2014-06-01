@@ -15,5 +15,11 @@ protected:
 	virtual void TeatDown() {};
 };
 
+TEST_F( GamePlayerBuilderTest, ConstructorTest){ }
+TEST_F( GamePlayerBuilderTest, createGamePlayeTest){ }
+TEST_F( GamePlayerBuilderTest, addPlayerGameboardTest){ }
+TEST_F( GamePlayerBuilderTest, addPlayerShipsTest){ }
+TEST_F( GamePlayerBuilderTest, addPlayerShipTest){ }
+TEST_F( GamePlayerBuilderTest, configPlayerFieldsUpdaterTest){ }
 
 

@@ -7,13 +7,18 @@ include_directories(${Message_BINARY_DIR})
 include_directories(${NetworkLib_SOURCE_DIR})
 
 add_executable(${name}
-                    BigGameShipTest.cpp 
-                    FieldsUpdaterTest.cpp 
-                    FieldTest.cpp 
-                    GameboardTest.cpp 
-                    SmallGameShipTest.cpp
-                    ShipFactoryMethodTest.cpp
-                    GamePlayerTest.cpp
+        BigGameShipTest.cpp 
+        ConnectionBridgeTest.cpp
+        FieldTest.cpp 
+        FieldsUpdaterTest.cpp 
+        GameTest.cpp
+        GameboardTest.cpp   
+        GameEngineTest.cpp     
+        GamePlayerTest.cpp
+        GamePlayerBuilderTest.cpp
+        PlayerOutputTest.cpp
+        ShipFactoryMethodTest.cpp
+        SmallGameShipTest.cpp 
 )
 
 target_link_libraries(${name} ${GTEST_LIBS} game_engine network)

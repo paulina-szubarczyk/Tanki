@@ -6,6 +6,9 @@
  */
 #include "gtest/gtest.h"
 #include "FieldsUpdater.h"
+#include "GamePlayer.h"
+#include "PlayerOutput.h"
+#include "ProtobufConnection.h"
 #include <boost/signals2/signal.hpp>
 #include "array"
 
@@ -18,7 +21,8 @@ protected:
 };
 
 TEST_F(FieldsUpdaterTest, ConstructorTest){
-//	FieldsUpdater field;
+//	PlayerOutput output()
+//	FieldsUpdater field()
 }
 
 TEST_F(FieldsUpdaterTest, HitTest){
@@ -34,5 +38,11 @@ TEST_F(FieldsUpdaterTest, HitTest){
 //	EXPECT_FALSE(fieldsUpd->getLastHit() == pole1);
 }
 
+TEST_F(FieldsUpdaterTest, ShipHitTest){
+}
 
+TEST_F(FieldsUpdaterTest, GetLastHitTest){
+}
 
+TEST_F(FieldsUpdaterTest, ShipsNotHitTest){
+}

@@ -54,7 +54,7 @@ TEST_F(BigGameShipTest, AddShipTest){
 	}
 	EXPECT_EQ(bigship1.getSize(),4);
 }
-TEST_F(BigGameShipTest, GameShipStateTest){
+TEST_F(BigGameShipTest, GameShipStateAndHitTest){
 
 	std::vector<TestShipPtr> ships;
 	for (int i=0; i<4; ++i)

@@ -110,7 +110,23 @@ void PlayerOutput::oponentNotReady() {
 	connection_->send(msg);
 }
 
+void PlayerOutput::oponentMissHit(int x, int y) {
+	MsgPtr msg = createMsg();
+	msg->set_type(MessageType::MISS_REPLAY);
+	msg->set_x(x);
+	msg->set_y(y);
+	msg->set_this_(true);
+	connection_->send(msg);
+}
 
+void PlayerOutput::playerMissHit(int x, int y) {
+	MsgPtr msg = createMsg();
+	msg->set_type(MessageType::MISS_REPLAY);
+	msg->set_x(x);
+	msg->set_y(y);
+	msg->set_this_(true);
+	connection_->send(msg);
+}
 
 void PlayerOutput::oponentTurn() {
 	MsgPtr msg = createMsg();

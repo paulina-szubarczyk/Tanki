@@ -21,8 +21,10 @@ public:
 	virtual void playerTurn()  ;
 	virtual void playerShipHit(int x, int y) ;
 	virtual void playerShipSunk(int x, int y) ;
+	virtual void playerMissHit(int x, int y) ;
 	virtual void oponentShipHit(int x, int y) ;
 	virtual void oponentShipSunk(int x, int y) ;
+	virtual void oponentMissHit(int x, int y) ;
 	virtual void oponentWin() ;
 	virtual void playerWin() ;
 

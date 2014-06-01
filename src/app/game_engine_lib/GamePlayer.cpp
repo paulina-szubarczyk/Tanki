@@ -22,8 +22,10 @@ void GamePlayer::hitField(int x, int y) {
 	if (turn_){
 		hit_ = false;
 		fieldsUpdater_->hit(x,y);
-		if (!hit_)
+		if (!hit_){
+			fieldsUpdater_->shipsNotHit(x,y);
 			game_->changeTurn();
+		}
 	}
 	else
 		output_->oponentTurn();

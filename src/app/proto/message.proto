@@ -15,6 +15,7 @@ enum MessageType {
 	SUNK = 14;
 	SUNK_REPLAY = 15;
 	ERROR = 16;
+	MISS_REPLAY = 17;
 } 
 
 message ShipMsg { 

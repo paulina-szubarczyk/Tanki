@@ -13,6 +13,11 @@
 #include <memory>
 #include "gameEngine_typedef.h"
 
+/**
+ * Class which interact with Gameboard fields
+ * Observ oponent ship. Registered in GamePlayerBuilder::configFieldsUpdater
+ */
+
 class GamePlayer;
 class FieldsUpdater: public ShipObserver {
 	typedef	std::shared_ptr<GamePlayer> PlayerPtr;
@@ -21,14 +26,18 @@ public:
 	FieldsUpdater();
 	virtual ~FieldsUpdater();
 
+	/// ship observer method, call after oponent ship hit in calling output method
 	virtual void shipHit(GameShip::ShipState state) override;
 
 	typedef std::pair<int,int> FieldType;
 
-
+	/// method call by player to send his move
 	void hit(int x, int y);
+	/// is used to check which field was hit
 	FieldType getLastHit() const;
 
+	/// method call when empty field was hitten, in calling output method
+	void shipsNotHit(int x,int y);
 private:
 	FieldType lastHit_;
 	PlayerPtr oponent_;

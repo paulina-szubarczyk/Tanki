@@ -36,3 +36,8 @@ void FieldsUpdater::hit(int x, int y) {
 FieldsUpdater::FieldType FieldsUpdater::getLastHit() const{
 	return lastHit_;
 }
+
+void FieldsUpdater::shipsNotHit(int x,int y){
+	player_->getOutput()->oponentMissHit(lastHit_.first,lastHit_.second);
+	oponent_->getOutput()->playerMissHit(lastHit_.first,lastHit_.second);
+}

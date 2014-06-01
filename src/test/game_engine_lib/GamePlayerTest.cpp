@@ -17,6 +17,8 @@ protected:
 TEST_F(GamePlayerTest, ConstructorTest){
 //	GamePlayer player;
 }
-
+TEST_F(GamePlayerTest, hitFieldTest){
+//	GamePlayer player;
+}
 
 
