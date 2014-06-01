@@ -13,6 +13,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <GL/glui.h>
+#include <glog/logging.h>
 #include <memory>
 
 class GlutFunctions {

@@ -16,19 +16,20 @@ GameWindow::GameWindow() {
 }
 
 void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
-	grid1_.init(manager_.getGridSize());
-	grid2_.init(manager_.getGridSize());
+	manager_.reset(new GameManager);
+	grid1_.init(manager_->getGridSize());
+	grid2_.init(manager_->getGridSize());
 	pickedX_ = 0;
 	pickedY_ = 0;
 
 	ipBuffer_ = "Set IP";
 	horizontal_ = 0;
-	shipSize_ = manager_.getSmallestSize();
+	shipSize_ = manager_->getSmallestSize();
 
 	connector_ = connection;
 }
 
-GameManager& GameWindow::getManager() {
+std::shared_ptr<GameManager> GameWindow::getManager() {
 	return manager_;
 }
 
@@ -111,18 +112,18 @@ void GameWindow::addCallbackWrapper(int) {
 }
 void GameWindow::addCallback() {
 	bool notAdded = true;
-	if (manager_.getRemainingShips(shipSize_) > 0
+	if (manager_->getRemainingShips(shipSize_) > 0
 			&& grid1_.checkAddSize(pickedX_, pickedY_, shipSize_, horizontal_))
 		if (grid1_.checkAvaible(pickedX_, pickedY_, shipSize_, horizontal_)) {
 			grid1_.addNewShip(pickedX_, pickedY_, shipSize_, horizontal_);
 			notAdded = false;
-			manager_.decreaseShipsQuantity(shipSize_);
+			manager_->decreaseShipsQuantity(shipSize_);
 			sizeChangeCallback();
 		}
 	if (notAdded)
 		grid1_.getGrid()[pickedX_][pickedY_]->setColor(0.0, 0.0, 0.7);
 
-	remaining_->set_int_val(manager_.getRemainingShips(shipSize_));
+	remaining_->set_int_val(manager_->getRemainingShips(shipSize_));
 	selectedW_ = subW1_;
 	glutPostRedisplay();
 }
@@ -132,10 +133,8 @@ void GameWindow::hitCallbackWrapper(int) {
 
 void GameWindow::hitCallback() {
 	connector_->sendHit(std::pair<int, int>(pickedX_, pickedY_));
-//setTurn(connector_->getTurn());
-//grid2_.getGrid()[pickedX_][pickedY_]->registerHitReply(true); //test
-		selectedW_ = subW2_;
-		glutPostRedisplay();
+	selectedW_ = subW2_;
+	glutPostRedisplay();
 
 
 }
@@ -153,7 +152,7 @@ void GameWindow::sizeChangeCallbackWrapper(int) {
 }
 
 void GameWindow::sizeChangeCallback() {
-	remaining_->set_int_val(manager_.getRemainingShips(shipSize_));
+	remaining_->set_int_val(manager_->getRemainingShips(shipSize_));
 }
 
 void GameWindow::startCallbackWrapper(int) {
@@ -161,7 +160,11 @@ void GameWindow::startCallbackWrapper(int) {
 }
 
 void GameWindow::startCallback() {
+<<<<<<< HEAD
 	//if (manager_.checkReady()) {
+=======
+	if (manager_->checkReady()) {
+>>>>>>> Added exception LOG & changed manager_ to shared_ptr
 		connector_->sendShip(grid1_.getShips());
 	//}
 }
@@ -201,8 +204,8 @@ void GameWindow::createGLUI() {
 	 * Creating list of ships' sizes
 	 */
 	std::map<int, int>::iterator it;
-	it = getManager().getShipsQuantity().begin();
-	for (it; it != getManager().getShipsQuantity().end(); it++) {
+	it = getManager()->getShipsQuantity().begin();
+	for (it; it != getManager()->getShipsQuantity().end(); it++) {
 		std::string s = std::to_string(it->first);
 		const char* name = s.c_str();
 		shipSize->add_item(it->first, name);

@@ -84,7 +84,7 @@ void GlutFunctions::reshape(int w, int h) {
 	glViewport(0, 0, w, h);
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();
-	float size = GameWindow::getInstance().getManager().getGridSize();
+	float size = GameWindow::getInstance().getManager()->getGridSize();
 	gluOrtho2D(0.0, size, 0.0, size);
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity();
@@ -95,20 +95,22 @@ void GlutFunctions::processHits(GLint hits, GLuint buffer[], Grid& grid,
 	unsigned int i, j;
 	GLuint ii, jj, names, *ptr;
 
-	printf("hits = %d\n", hits);
+	LOG(INFO)<<"Picked cell. Picked coordinates are:";
+	//printf("hits = %d\n", hits);
 	ptr = (GLuint *) buffer;
 	for (i = 0; i < hits; i++) { /*  for each hit  */
 		names = *ptr;
 		ptr += 3;
 		for (j = 0; j < names; j++) { /*  for each name */
-			printf("%d ", *ptr);
+			LOG(INFO)<<" "<<*ptr;
+			//printf("%d ", *ptr);
 			if (j == 0) /*  set row and column  */
 				ii = *ptr;
 			else if (j == 1)
 				jj = *ptr;
 			ptr++;
 		}
-		printf("\n");
+		//printf("\n");
 
 		grid.getGrid()[ii][jj]->setColor(0.5, 0.5, 0.5);
 		pickedX = ii;

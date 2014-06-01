@@ -24,4 +24,5 @@ target_link_libraries(lib_client
         ${OPENGL_LIBRARIES} 
         ${GLUT_LIBRARY} 
         ${GLUI_LIBRARIES}
+        ${GLOG_LIBRARIES}
 )

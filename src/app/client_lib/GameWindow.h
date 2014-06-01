@@ -12,6 +12,8 @@
 #include "GlutFunctions.h"
 #include "GameManager.h"
 #include "ClientConnection.h"
+#include <glog/logging.h>
+#include <exception>
 #include <map>
 #include <string>
 
@@ -48,7 +50,7 @@ public:
 	static void mouseLeftBtnGrid1Wrapper(int button, int state, int x, int y);
 	static void mouseLeftBtnGrid2Wrapper(int button, int state, int x, int y);
 
-	GameManager& getManager();
+	std::shared_ptr<GameManager> getManager();
 
 	static void addCallbackWrapper(int);
 	void addCallback();
@@ -97,7 +99,7 @@ private:
 	int shipSize_;
 	int horizontal_;
 
-	GameManager manager_;
+	std::shared_ptr<GameManager> manager_;
 	GLUI_String ipBuffer_;
 	std::shared_ptr<ClientConnection> connector_;
 
