@@ -10,23 +10,30 @@
 
 class GridCell {
 public:
+	//Default constructor, sets cell's color to black and coordinates to 0
 	GridCell();
+	//Constructor, sets cell's color and coordinates
 	GridCell(float red, float green, float blue, int x, int y);
 
-	void setColor(float red, float green, float blue); //add exception in arguments out of range
+	//Set color
+	void setColor(float red, float green, float blue);
+	//Set coordinates
 	void setCoordinates(int x, int y);
-
+	//Get coordinates
 	int getX();
 	int getY();
-
+	//Get color
 	float getRed();
 	float getGreen();
 	float getBlue();
-
+	//Get/set "occupied" state
 	bool getOccupied();
 	void setOccupied(bool state);
+	//Check if cell was already hit
 	bool getHitState();
+	//Set cell as a ship
 	bool setToShip();
+
 	bool hitCell();
 	void registerHitReply(bool reply);
 

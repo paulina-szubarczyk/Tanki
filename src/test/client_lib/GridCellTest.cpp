@@ -84,3 +84,13 @@ TEST_F(GridCellTest, HitCellTest){
 	ASSERT_FALSE(cell.hitCell());
 
 }
+
+TEST_F(GridCellTest, RegisterReplyTest){
+
+	GridCell cell;
+	ASSERT_FALSE(cell.getHitState());
+	cell.registerHitReply(false);
+	ASSERT_TRUE(cell.getHitState());
+
+
+}
