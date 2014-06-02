@@ -6,7 +6,7 @@
  */
 #include "gtest/gtest.h"
 #include "Gameboard.h"
-
+using namespace game;
 class GameboardTest : public ::testing::Test {
 protected:
 	GameboardTest() {};

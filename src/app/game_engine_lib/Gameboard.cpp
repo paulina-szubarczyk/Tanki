@@ -8,6 +8,8 @@
 #include "Gameboard.h"
 #include <iostream>
 #include <vector>
+
+namespace game {
 Gameboard::Gameboard() {
 	// TODO Auto-generated constructor stub
 
@@ -50,4 +52,6 @@ Field& Gameboard::getField(int position) {
 
 Field& Gameboard::getField(int position1, int position2) {
 	return fields_[countPosition(position1, position2)];
+}
+
 }

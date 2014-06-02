@@ -9,17 +9,17 @@
 #define SHIPFACTORYMETHOD_H_
 #include <map>
 #include <memory>
-#include "GameShip.h"
-
+#include "IShip.h"
+namespace game {
 class ShipFactoryMethod {
 public:
 	virtual ~ShipFactoryMethod();
 
-	typedef GameShip* (*CreateShipFun) (int size);
+	typedef IShip* (*CreateShipFun) (int size);
 
 	static ShipFactoryMethod* getInstance(void);
 	void registerShip(std::string shipName, CreateShipFun createShip);
-	GameShip* creatShip(std::string shipName, int shipSize);
+	IShip* creatShip(std::string shipName, int shipSize);
 private:
 
 	ShipFactoryMethod();
@@ -27,5 +27,5 @@ private:
 	static ShipFactoryMethod* instance_;
 	std::map<std::string, CreateShipFun> creator_;
 };
-
+}
 #endif /* SHIPFACTORYMETHOD_H_ */

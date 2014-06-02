@@ -1,32 +1,32 @@
 /*
- * BigGameShip.cpp
+ * BigShip.cpp
  *
  *  Created on: May 11, 2014
  *      Author: paulina
  */
 
-#include "BigGameShip.h"
-#include "SmallGameShip.h"
+#include "BigShip.h"
+#include "SmallShip.h"
+namespace game {
+BigShip::BigShip() : IShip(){};
 
-BigGameShip::BigGameShip() : GameShip(){};
-
-GameShip::ShipState BigGameShip::getState() const {
+IShip::ShipState BigShip::getState() const {
 	return state_;
 }
 
-std::size_t BigGameShip::getSize() const {
+std::size_t BigShip::getSize() const {
 	return ships_.size();
 }
 
-void BigGameShip::addShip(ShipPtr ship){
+void BigShip::addShip(ShipPtr ship){
 	ships_.push_back(ship);
 }
 
-void BigGameShip::addShips(std::vector<ShipPtr> ships){
+void BigShip::addShips(std::vector<ShipPtr> ships){
 	ships_ = ships;
 }
 
-void BigGameShip::hit() {
+void BigShip::hit() {
 	for (auto ship = ships_.begin(); ship != ships_.end(); ++ship){
 		if ((*ship)->getState() == ShipState::FLOAT){
 			state_ = ShipState::HIT;
@@ -38,19 +38,20 @@ void BigGameShip::hit() {
 	hitShip(state_);
 }
 
-void BigGameShip::registerShipObserver(ShipObserverPtr shipObserver){
+void BigShip::registerShipObserver(ShipObserverPtr shipObserver){
 	hitShip.connect(SignalShipType::slot_type( &ShipObserver::shipHit, shipObserver.get(), _1).track_foreign(shipObserver));
 }
 
-GameShip* BigGameShip::createBigGameShip(int size){
-	BigGameShip* ship = (new BigGameShip());
+IShip* BigShip::createBigGameShip(int size){
+	BigShip* ship = (new BigShip());
 	for (int i = 0; i < size; ++i){
-		ShipPtr smallShip(new SmallGameShip());
+		ShipPtr smallShip(new SmallShip());
 		ship->addShip(smallShip);
 	}
 	return ship;
 }
 
-std::vector<BigGameShip::ShipPtr> BigGameShip::getShips(){
+std::vector<BigShip::ShipPtr> BigShip::getShips(){
 	return ships_;
+}
 }

@@ -14,7 +14,7 @@
 namespace py = boost::python;
 py::object configureFunction_;
 
-namespace ships {
+namespace game {
 
 PyGameConfig::PyGameConfig(const std::string& filename, const std::string& funcName) {
 

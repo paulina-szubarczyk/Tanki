@@ -60,7 +60,7 @@ TEST_F(IoHarbourTest, ConstantRunTest) {
 	std::thread thread([&]() { running = true; ioHarbour.run(); });
 	std::thread timedJoin([&]() { thread.join(); running = false; });
 	std::this_thread::sleep_for(std::chrono::milliseconds(5));
-	ASSERT_TRUE(running);
+	EXPECT_TRUE(running);
 	ioHarbour.stop();
 	timedJoin.detach();
 	thread.detach();

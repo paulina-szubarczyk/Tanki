@@ -10,7 +10,7 @@
 #include "ProtobufConnection.h"
 #include <boost/signals2/signal.hpp>
 #include "array"
-
+using namespace game;
 class FieldsUpdaterTest : public ::testing::Test {
 protected:
 	FieldsUpdaterTest() {};

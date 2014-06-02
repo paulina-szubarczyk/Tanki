@@ -7,11 +7,11 @@
 
 #ifndef GAMEOUTPUT_H_
 #define GAMEOUTPUT_H_
-
-class GamePlayerOutput {
+namespace game {
+class IPlayerOutput {
 public:
-	GamePlayerOutput() = default;
-	virtual ~GamePlayerOutput() = default;
+	IPlayerOutput() = default;
+	virtual ~IPlayerOutput() = default;
 
 	virtual void beginGame() = 0 ;
 	virtual void playerTurn() = 0 ;
@@ -33,5 +33,5 @@ public:
 	virtual void oponentNotReady() = 0;
 	virtual void oponentTurn() = 0;
 };
-
+}
 #endif /* GAMEOUTPUT_H_ */

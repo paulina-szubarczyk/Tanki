@@ -8,75 +8,52 @@
 #ifndef GAMEPLAYER_H_
 #define GAMEPLAYER_H_
 
-#include "BigGameShip.h"
-#include "gameEngine_typedef.h"
-#include "FieldsUpdater.h"
-#include "Game.h"
 #include <vector>
+#include <memory>
+
+namespace game {
+
+class Gameboard;
+class IPlayerOutput;
+class Game;
+class BigGame;
+class FieldsUpdater;
+class Gameboard;
+class IPlayerOutput;
+class BigShip;
 
 class GamePlayer {
-	friend class GamePlayerBuilder;
+	friend class PlayerFactory;
 public:
+
+	typedef std::shared_ptr<Gameboard> GameboardPtr;
+	typedef	std::shared_ptr<IPlayerOutput> OutputPtr;
 	typedef std::shared_ptr<FieldsUpdater> FieldsUpdaterPtr;
+
 	GamePlayer(OutputPtr output);
 	virtual ~GamePlayer() = default;
 
 	void hitField(int x, int y);
-
-	const OutputPtr& getOutput() const {
-		return output_;
-	}
-
-	FieldsUpdaterPtr& getFieldsUpdater()  {
-		return fieldsUpdater_;
-	}
-
-	void setFieldsUpdater(const FieldsUpdaterPtr& fieldsUpdater) {
-		fieldsUpdater_ = fieldsUpdater;
-	}
-
-	std::vector<std::shared_ptr<BigGameShip> >& getShips()  {
-		return ships_;
-	}
-
-	void setShips(const std::vector<std::shared_ptr<BigGameShip> >& ships) {
-		ships_ = ships;
-	}
-
-	GameboardPtr getGameboard() const{
-		return gameboard_;
-	}
-
-	void setGameboard(GameboardPtr gameboard) {
-			gameboard_ = gameboard;;
-		}
-
-	bool isTurn() const {
-		return turn_;
-	}
-
-	void setTurn(bool turn);
-
 	void shipsAdded() ;
+	bool isHit() const ;
+	bool isTurn() const ;
 
-	std::shared_ptr<Game> getGame() const {
-		return game_;
-	}
+	OutputPtr getOutput() const ;
+	FieldsUpdaterPtr getFieldsUpdater() ;
+	std::shared_ptr<Game> getGame() const;
+	GameboardPtr getGameboard() const;
+	std::vector<std::shared_ptr<BigShip> >& getShips() ;
 
-	void setGame(std::shared_ptr<Game> game) {
-		game_ = game;
-	}
+	void setFieldsUpdater(const FieldsUpdaterPtr& fieldsUpdater) ;
+	void setShips(const std::vector<std::shared_ptr<BigShip> >& ships) ;
+	void setGameboard(GameboardPtr gameboard) ;
+	void setTurn(bool turn);
+	void setGame(std::shared_ptr<Game> game) ;
+	void setHit(bool hit) ;
 
-	bool isHit() const {
-		return hit_;
-	}
-
-	void setHit(bool hit) {
-		hit_ = hit;
-	}
 
 private:
-	std::vector<std::shared_ptr<BigGameShip>> ships_;
+	std::vector<std::shared_ptr<BigShip>> ships_;
 	GameboardPtr gameboard_;
 	FieldsUpdaterPtr fieldsUpdater_;
 	OutputPtr output_;
@@ -84,5 +61,5 @@ private:
 	bool turn_;
 	bool hit_;
 };
-
+}
 #endif /* GAMEPLAYER_H_ */

@@ -10,16 +10,16 @@ include_directories(
         ${PYTHON_INCLUDE_DIRS})
 
 add_library(game_engine 
-        BigGameShip.cpp 
+        BigShip.cpp 
         Field.cpp 
         FieldsUpdater.cpp 
         Game.cpp
         Gameboard.cpp   
-        GameEngine.cpp     
+        GamesManager.cpp     
         GamePlayer.cpp
-        GamePlayerBuilder.cpp
+        PlayerFactory.cpp
         ShipFactoryMethod.cpp
-        SmallGameShip.cpp 
+        SmallShip.cpp 
         PyGameConfig.cpp
 )
 target_link_libraries(game_engine 

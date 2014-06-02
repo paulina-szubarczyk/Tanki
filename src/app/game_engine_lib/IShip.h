@@ -11,15 +11,15 @@
 #include <memory>
 #include <vector>
 #include "HitObserver.h"
-
-class GameShip: public HitObserver {
+namespace game {
+class IShip: public HitObserver {
 public:
 	enum ShipState { FLOAT, SUNK, HIT };
-	typedef std::shared_ptr<GameShip> ShipPtr;
+	typedef std::shared_ptr<IShip> ShipPtr;
 
 public:
-	GameShip() : state_(ShipState::FLOAT) {};
-	virtual ~GameShip() = default;
+	IShip() : state_(ShipState::FLOAT) {};
+	virtual ~IShip() = default;
 
 	virtual ShipState getState() const = 0;
 	virtual std::size_t getSize() const = 0;
@@ -30,4 +30,5 @@ public:
 protected:
 	ShipState state_;
 };
+}
 #endif /* ABSTRACTSHIP_H_ */

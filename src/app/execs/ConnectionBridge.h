@@ -10,20 +10,20 @@
 
 #include "ConnectionObserver.h"
 #include "ConnectionPool.h"
-#include "GameEngine.h"
+#include "GamesManager.h"
 
 using namespace ships;
 
 class ConnectionBridge : public ConnectionObserver {
 public:
-	ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn, std::shared_ptr<GameEngine> engine);
+	ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn, std::shared_ptr<game::GamesManager> engine);
 	virtual ~ConnectionBridge() = default;
 
 	virtual void signal();
 
 private:
 	std::shared_ptr<ships::ConnectionPool> connectionPool;
-	std::shared_ptr<GameEngine> gameEngine;
+	std::shared_ptr<game::GamesManager> gamesManager;
 };
 
 #endif /* CONNECTIONBRIDGE_H_ */

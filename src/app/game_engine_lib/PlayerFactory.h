@@ -1,5 +1,5 @@
 /*
- * GamePlayerBuilder.h
+ * PlayerFactory.h
  *
  *  Created on: May 17, 2014
  *      Author: paulina
@@ -10,16 +10,19 @@
 
 #include "FieldsUpdater.h"
 
-class PlayerOutput;
-class BigGameShip;
+namespace game {
 
-class GamePlayerBuilder {
+class IPlayerOutput;
+class BigShip;
+
+typedef std::shared_ptr<IPlayerOutput> OutputPtr;
+class PlayerFactory {
 public:
-	typedef std::shared_ptr<BigGameShip> ShipPtr;
+	typedef std::shared_ptr<BigShip> ShipPtr;
 	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 
-	GamePlayerBuilder() = delete;
-	virtual ~GamePlayerBuilder() = delete;
+	PlayerFactory() = delete;
+	virtual ~PlayerFactory() = delete;
 
 	static PlayerPtr createGamePlayer(OutputPtr output);
 	static void addPlayerGameboard(PlayerPtr player, int size);
@@ -33,5 +36,5 @@ public:
 
 	static void configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2);
 };
-
+}
 #endif /* GAMEPLAYERBUILDER_H_ */

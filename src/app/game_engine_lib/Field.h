@@ -7,15 +7,15 @@
 
 #ifndef FIELD_H_
 #define FIELD_H_
-#include "hit_typedef.h"
+
 #include "HitObserver.h"
 #include <memory>
 #include <boost/signals2/signal.hpp>
-
+namespace game {
 typedef boost::signals2::signal<void (void)> SignalHitType;
 typedef std::shared_ptr<HitObserver> HitObserverPtr;
 
-class SmallGameShip;
+class SmallShip;
 class Field {
 public:
 	Field();
@@ -34,6 +34,7 @@ private:
 
 inline bool operator<(const Field &f1, const Field &f2){
 	return f1.getPosition() < f2.getPosition();
+}
 }
 
 #endif /* FIELD_H_ */

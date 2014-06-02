@@ -6,7 +6,7 @@
  */
 #include "gtest/gtest.h"
 #include "Field.h"
-
+using namespace game;
 class FieldTest : public ::testing::Test {
 protected:
 	FieldTest() {};

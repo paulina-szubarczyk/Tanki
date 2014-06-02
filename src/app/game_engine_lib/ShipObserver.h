@@ -8,14 +8,21 @@
 #ifndef SHIPOBSERVER_H_
 #define SHIPOBSERVER_H_
 
-#include "GameShip.h"
+#include "IShip.h"
+#include <memory>
+#include <boost/signals2/signal.hpp>
+namespace game {
+class ShipObserver;
+typedef boost::signals2::signal<void (IShip::ShipState)> SignalShipType;
+typedef std::shared_ptr<ShipObserver> ShipObserverPtr;
 
 class ShipObserver {
 public:
 	ShipObserver() = default;
 	virtual ~ShipObserver() = default;
 
-	virtual void shipHit(GameShip::ShipState state) = 0;
+	virtual void shipHit(IShip::ShipState state) = 0;
 };
+}
 
 #endif /* SHIPOBSERVER_H_ */

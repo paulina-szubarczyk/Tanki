@@ -12,13 +12,14 @@
 
 #include <vector>
 
-class GamePlayer;
-
+namespace game {
+	class GamePlayer;
+}
 
 namespace ships {
 
 class PlayerInput : public Input {
-	typedef std::shared_ptr<GamePlayer> PlayerPtr;
+	typedef std::shared_ptr<game::GamePlayer> PlayerPtr;
 	typedef std::vector<std::vector<int>> ShipVec;
 	typedef std::function<void(PlayerPtr,const ShipVec&, const ShipVec&)>  AddShipHandlerType;;
 

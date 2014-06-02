@@ -6,16 +6,19 @@
  */
 
 #include "Game.h"
-#include "GameShip.h"
-#include "GamePlayerBuilder.h"
+#include "IShip.h"
+#include "PlayerFactory.h"
 #include "GamePlayer.h"
+#include "IPlayerOutput.h"
+#include "BigShip.h"
 
+namespace game {
 Game::Game(PlayerPtr player1, PlayerPtr player2) : player1_(player1), player2_(player2), prepared_(0) {}
 
 void Game::initGame()
 {
-	GamePlayerBuilder::configPlayerFieldsUpdater(player1_,player2_);
-	GamePlayerBuilder::configPlayerFieldsUpdater(player2_,player1_);
+	PlayerFactory::configPlayerFieldsUpdater(player1_,player2_);
+	PlayerFactory::configPlayerFieldsUpdater(player2_,player1_);
 
 
 	player1_->getOutput()->beginGame();
@@ -43,7 +46,7 @@ void Game::playerPrepared() {
 bool Game::isWinner(PlayerPtr player) {
 	bool winner = true;
 	for (auto ship = player->getShips().begin(); ship!=player->getShips().end(); ++ship)
-		if (ship->get()->getState() != GameShip::ShipState::SUNK)
+		if (ship->get()->getState() != IShip::ShipState::SUNK)
 		{	winner = false;
 			break;
 		}
@@ -67,4 +70,5 @@ void Game::changeTurn() {
 		player2_->setTurn(false);
 		player1_->setTurn(true);
 	}
+}
 }

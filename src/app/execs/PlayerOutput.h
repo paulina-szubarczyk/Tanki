@@ -7,11 +7,11 @@
 
 #ifndef PLAYEROUTPUT_H_
 #define PLAYEROUTPUT_H_
-#include "GamePlayerOutput.h"
+#include "IPlayerOutput.h"
 #include "ProtobufConnection.h"
 #include "message.pb.h"
 
-class PlayerOutput : public GamePlayerOutput{
+class PlayerOutput : public game::IPlayerOutput{
 	typedef std::shared_ptr<DataMsg> MsgPtr;
 public:
 	PlayerOutput(std::shared_ptr<ships::ProtobufConnection> connection);

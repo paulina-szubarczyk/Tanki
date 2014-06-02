@@ -11,12 +11,11 @@
 #include "ShipObserver.h"
 #include <utility>
 #include <memory>
-#include "gameEngine_typedef.h"
-
 /**
  * Class which interact with Gameboard fields
  * Observ oponent ship. Registered in GamePlayerBuilder::configFieldsUpdater
  */
+namespace game {
 
 class GamePlayer;
 class FieldsUpdater: public ShipObserver {
@@ -27,7 +26,7 @@ public:
 	virtual ~FieldsUpdater();
 
 	/// ship observer method, call after oponent ship hit in calling output method
-	virtual void shipHit(GameShip::ShipState state) override;
+	virtual void shipHit(IShip::ShipState state) override;
 
 	typedef std::pair<int,int> FieldType;
 
@@ -43,5 +42,5 @@ private:
 	PlayerPtr oponent_;
 	PlayerPtr player_;
 };
-
+}
 #endif /* CLIENTFIELDUPDATER_H_ */

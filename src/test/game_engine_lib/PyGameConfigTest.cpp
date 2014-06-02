@@ -9,8 +9,7 @@
 
 #include "PyGameConfig.h"
 
-using namespace ships;
-
+using namespace game;
 class PyGameConfigTest : public ::testing::Test {
 protected:
 	PyGameConfigTest() {};

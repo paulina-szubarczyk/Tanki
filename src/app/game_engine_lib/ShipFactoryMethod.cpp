@@ -6,7 +6,7 @@
  */
 
 #include "ShipFactoryMethod.h"
-
+namespace game {
 ShipFactoryMethod* ShipFactoryMethod::instance_ = nullptr;
 ShipFactoryMethod::ShipFactoryMethod() {
 }
@@ -22,7 +22,7 @@ ShipFactoryMethod*  ShipFactoryMethod::getInstance(void) {
 void ShipFactoryMethod::registerShip(std::string shipName, CreateShipFun createShip){
 	creator_[shipName] = createShip;
 }
-GameShip* ShipFactoryMethod::creatShip(std::string shipName, int shipSize){
+IShip* ShipFactoryMethod::creatShip(std::string shipName, int shipSize){
 	return creator_[shipName](shipSize);
 }
-
+}

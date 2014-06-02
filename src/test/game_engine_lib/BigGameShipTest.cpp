@@ -5,9 +5,10 @@
 // *      Author: paulina
 // */
 #include "gtest/gtest.h"
-#include "BigGameShip.h"
-#include "SmallGameShip.h"
+#include "BigShip.h"
+#include "SmallShip.h"
 #include <iostream>
+using namespace game;
 
 class BigGameShipTest : public ::testing::Test {
 protected:
@@ -16,7 +17,7 @@ protected:
 	virtual void SetUp() {};
 	virtual void TeatDown() {};
 
-	class TestUnitShip : public GameShip {
+	class TestUnitShip : public IShip {
 	public:
 		TestUnitShip() = default;
 
@@ -26,14 +27,14 @@ protected:
 
 		virtual ShipState getState() const { return state_;}
 		virtual void hit() {
-			state_ = GameShip::ShipState::SUNK; }
+			state_ = IShip::ShipState::SUNK; }
 	};
 
-	typedef std::shared_ptr<GameShip> TestShipPtr;
+	typedef std::shared_ptr<IShip> TestShipPtr;
 };
 TEST_F(BigGameShipTest, ConstructorTest){
-	BigGameShip ship;
-	EXPECT_EQ(ship.getState(), GameShip::ShipState::FLOAT);
+	BigShip ship;
+	EXPECT_EQ(ship.getState(), IShip::ShipState::FLOAT);
 	EXPECT_EQ(ship.getSize(),0);
 }
 
@@ -43,7 +44,7 @@ TEST_F(BigGameShipTest, AddShipsTest){
 	for (int i=0; i<4; ++i)
 		ships.push_back(TestShipPtr(new TestUnitShip()));
 
-	BigGameShip bigship;
+	BigShip bigship;
 	bigship.addShips(ships);
 	EXPECT_EQ(bigship.getSize(),4);
 }
@@ -54,7 +55,7 @@ TEST_F(BigGameShipTest, AddShipTest){
 	for (int i=0; i<4; ++i)
 		ships.push_back(TestShipPtr(new TestUnitShip()));
 
-	BigGameShip bigship1;
+	BigShip bigship1;
 	for (int i=0; i<4; ++i){
 		bigship1.addShip(ships[i]);
 	}
@@ -66,29 +67,29 @@ TEST_F(BigGameShipTest, GameShipStateAndHitTest){
 	for (int i=0; i<4; ++i)
 		ships.push_back(TestShipPtr(new TestUnitShip()));
 
-	BigGameShip bigship;
+	BigShip bigship;
 	bigship.addShips(ships);
 
-	EXPECT_TRUE(bigship.getState() == GameShip::ShipState::FLOAT);
+	EXPECT_TRUE(bigship.getState() == IShip::ShipState::FLOAT);
 
 	for (int i=0; i<3; ++i){
 		ships[i]->hit();
 		bigship.hit();
-		EXPECT_TRUE(bigship.getState() == GameShip::ShipState::HIT);
+		EXPECT_TRUE(bigship.getState() == IShip::ShipState::HIT);
 	}
 	ships[3]->hit();
 	bigship.hit();
-	EXPECT_TRUE(bigship.getState() == GameShip::ShipState::SUNK);
+	EXPECT_TRUE(bigship.getState() == IShip::ShipState::SUNK);
 }
 TEST_F(BigGameShipTest, RegisterShipObserverTest){
-	std::shared_ptr<BigGameShip> ship(new BigGameShip());
+	std::shared_ptr<BigShip> ship(new BigShip());
 
 	class TestShipObserver : public ShipObserver{
 	public:
 		TestShipObserver() : ShipObserver(), id_(0), state_(0) {};
 		TestShipObserver(int id) : ShipObserver(), id_(id), state_(0) {};
 		~TestShipObserver() = default;
-		void shipHit(GameShip::ShipState state) {
+		void shipHit(IShip::ShipState state) {
 			++state_ ;
 		}
 		int getState() {return state_; }
@@ -100,21 +101,21 @@ TEST_F(BigGameShipTest, RegisterShipObserverTest){
 	std::shared_ptr<TestShipObserver> tsobs(new TestShipObserver());
 	ship->registerShipObserver(tsobs);
 	EXPECT_EQ(tsobs->getState(), 0);
-	ship->hitShip(GameShip::ShipState::HIT);
+	ship->hitShip(IShip::ShipState::HIT);
 	EXPECT_EQ(tsobs->getState(), 1);
 
 	std::shared_ptr<TestShipObserver> tsobs2(new TestShipObserver(1));
 	ship->registerShipObserver(tsobs2);
 	EXPECT_EQ(tsobs2->getState(), 0);
 	EXPECT_EQ(tsobs->getState(), 1);
-	ship->hitShip(GameShip::ShipState::SUNK);
+	ship->hitShip(IShip::ShipState::SUNK);
 	EXPECT_EQ(tsobs->getState(), 2);
 	EXPECT_EQ(tsobs2->getState(), 1);
 }
 
 TEST_F(BigGameShipTest, CreateShipTest){
 
-	std::shared_ptr<BigGameShip> bigship(dynamic_cast<BigGameShip*>(BigGameShip::createBigGameShip(4)));
+	std::shared_ptr<BigShip> bigship(dynamic_cast<BigShip*>(BigShip::createBigGameShip(4)));
 	EXPECT_EQ(bigship->getSize(),4);
 }
 

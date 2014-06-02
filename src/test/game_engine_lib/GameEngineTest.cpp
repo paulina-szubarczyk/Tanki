@@ -5,9 +5,9 @@
  *      Author: paulina
  */
 
-#include "GameEngine.h"
+#include "GamesManager.h"
 #include "gtest/gtest.h"
-
+using namespace game;
 class GameEngineTest : public ::testing::Test {
 protected:
 	GameEngineTest() {};

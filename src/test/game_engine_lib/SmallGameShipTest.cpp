@@ -5,8 +5,8 @@
 // *      Author: paulina
 // */
 #include "gtest/gtest.h"
-#include "SmallGameShip.h"
-
+#include "SmallShip.h"
+using namespace game;
 class SmallGameShipTest : public ::testing::Test {
 protected:
 	SmallGameShipTest() {};
@@ -15,22 +15,22 @@ protected:
 	virtual void TeatDown() {};
 };
 TEST_F(SmallGameShipTest, ConstructorTest){
-	SmallGameShip ship;
-	EXPECT_EQ(ship.getState(),GameShip::ShipState::FLOAT);
+	SmallShip ship;
+	EXPECT_EQ(ship.getState(),IShip::ShipState::FLOAT);
 	EXPECT_EQ(ship.getSize(),1);
 }
 
 TEST_F(SmallGameShipTest, GameShipStateTest){
 
-	SmallGameShip ship;
-	EXPECT_EQ(ship.getState(), SmallGameShip::ShipState::FLOAT);
+	SmallShip ship;
+	EXPECT_EQ(ship.getState(), SmallShip::ShipState::FLOAT);
 	ship.hit();
-	EXPECT_EQ(ship.getState(), SmallGameShip::ShipState::SUNK);
+	EXPECT_EQ(ship.getState(), SmallShip::ShipState::SUNK);
 }
 
 TEST_F(SmallGameShipTest, CreateShipTest){
-	std::shared_ptr<SmallGameShip> ship(dynamic_cast<SmallGameShip*>(SmallGameShip::createSmallGameShip(0)));
-	EXPECT_EQ(ship->getState(),GameShip::ShipState::FLOAT);
+	std::shared_ptr<SmallShip> ship(dynamic_cast<SmallShip*>(SmallShip::createSmallGameShip(0)));
+	EXPECT_EQ(ship->getState(),IShip::ShipState::FLOAT);
 	EXPECT_EQ(ship->getSize(),1);
 }
 

@@ -8,28 +8,30 @@
 #ifndef BIGGAMESHIP_H_
 #define BIGGAMESHIP_H_
 
-#include "GameShip.h"
+#include "IShip.h"
 #include "HitObserver.h"
 #include "ShipObserver.h"
 #include <memory>
 #include <boost/signals2/signal.hpp>
-typedef boost::signals2::signal<void (GameShip::ShipState)> SignalShipType;
+
+namespace game {
+typedef boost::signals2::signal<void (IShip::ShipState)> SignalShipType;
 typedef std::shared_ptr<ShipObserver> ShipObserverPtr;
 
-class BigGameShip: public GameShip {
-	using GameShip::ShipState;
-	using GameShip::ShipPtr;
+class BigShip: public IShip {
+	using IShip::ShipState;
+	using IShip::ShipPtr;
 
 public:
-	BigGameShip();
-	virtual ~BigGameShip() = default;
+	BigShip();
+	virtual ~BigShip() = default;
 
 	SignalShipType hitShip;
 	void registerShipObserver(ShipObserverPtr shipObserver);
 
 	virtual void hit() override;
 
-	static GameShip* createBigGameShip(int size);
+	static IShip* createBigGameShip(int size);
 	virtual ShipState getState() const override;
 	virtual std::size_t getSize() const override;
 
@@ -40,5 +42,5 @@ public:
 private:
 	std::vector<ShipPtr> ships_;
 };
-
+}
 #endif /* BIGGAMESHIP_H_ */

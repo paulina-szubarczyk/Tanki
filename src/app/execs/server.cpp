@@ -4,7 +4,7 @@
 #include "ConnectionPool.h"
 #include "ConnectionBridge.h"
 #include "ProtobufConnectionFactory.h"
-#include "GameEngine.h"
+#include "GamesManager.h"
 #include "MessageHandler.h"
 
 #include "message.pb.h"
@@ -37,8 +37,8 @@ int main(int argc, char * argv[]) {
 	connectionPool->setConnsToSignal(2);
 	auto acceptor = std::make_shared<PoolingAcceptor>(harbour, connectionPool, connectionFactory);
 
-	//	Setup GameEngine and connect it to server
-	auto gameEngine = std::make_shared<GameEngine>();
+	//	Setup GamesManager and connect it to server
+	auto gameEngine = std::make_shared<game::GamesManager>();
 	auto bridge = std::make_shared<ConnectionBridge>(connectionPool, gameEngine);
 	connectionPool->registerConnectionObserver(bridge);
 

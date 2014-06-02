@@ -5,15 +5,15 @@
  *      Author: paulina
  */
 
-#include "GameEngine.h"
-#include "GamePlayerBuilder.h"
+#include "GamesManager.h"
+#include "PlayerFactory.h"
 #include "PlayerInput.h"
 #include "GamePlayer.h"
 
 #include "glog/logging.h"
 
-
-void GameEngine::createGame(const std::vector<OutputPtr>& outputs, const std::vector<InputPtr>& inputs) {
+namespace game {
+void GamesManager::createGame(const std::vector<OutputPtr>& outputs, const std::vector<InputPtr>& inputs) {
 
 	LOG(INFO) << "Creating a game";
 	CHECK_EQ(outputs.size(), inputs.size()) << "Game requires 2 inputs and 2 outputs";
@@ -25,9 +25,9 @@ void GameEngine::createGame(const std::vector<OutputPtr>& outputs, const std::ve
 	std::vector<PlayerPtr> players;
 	for(;outputIt != outputs.end(); ++inputIt, ++outputIt) {
 
-		auto player = GamePlayerBuilder::createGamePlayer(*outputIt);
+		auto player = PlayerFactory::createGamePlayer(*outputIt);
 		(*inputIt)->setGamePlayer(player);
-		(*inputIt)->registerAddShipMethod(GamePlayerBuilder::addPlayerShips);
+		(*inputIt)->registerAddShipMethod(PlayerFactory::addPlayerShips);
 		players.push_back(player);
 	}
 
@@ -39,6 +39,7 @@ void GameEngine::createGame(const std::vector<OutputPtr>& outputs, const std::ve
 
 	games_.push_back(game);
 	LOG(INFO) << "Game created";
+}
 }
 
 

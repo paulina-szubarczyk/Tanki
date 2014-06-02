@@ -6,8 +6,8 @@
  */
 
 #include "Field.h"
-#include "SmallGameShip.h"
-
+#include "SmallShip.h"
+namespace game {
 Field::Field():position_(0) {}
 Field::Field(int position):position_(position) {}
 Field::~Field() {}
@@ -19,4 +19,5 @@ int Field::getPosition() const  {
 
 void Field::registerHitObserver(HitObserverPtr hitObserver){
 	hit.connect(SignalHitType::slot_type( &HitObserver::hit, hitObserver.get()).track_foreign(hitObserver));
+}
 }

@@ -5,6 +5,7 @@
 // *      Author: paulina
 // */
 #include "gtest/gtest.h"
+//using namespace game;
 
 class GamePlayerBuilderTest : public ::testing::Test {
 protected:

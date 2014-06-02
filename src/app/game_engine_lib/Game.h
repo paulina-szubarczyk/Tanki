@@ -11,9 +11,9 @@
 #include <memory>
 #include <boost/signals2/signal.hpp>
 
+namespace game {
 
 class GamePlayer;
-
 class Game {
 	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 public:
@@ -35,5 +35,5 @@ private:
 	int prepared_;
 	std::mutex player_;
 };
-
+}
 #endif /* GAME_H_ */

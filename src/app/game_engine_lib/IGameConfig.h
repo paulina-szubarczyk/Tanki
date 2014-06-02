@@ -11,7 +11,7 @@
 #include <string>
 #include <map>
 
-namespace ships {
+namespace game {
 
 struct IGameConfig {
 	IGameConfig() = default;

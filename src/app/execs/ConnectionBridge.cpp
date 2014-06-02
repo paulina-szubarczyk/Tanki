@@ -15,8 +15,8 @@
 #include "glog/logging.h"
 
 ConnectionBridge::ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn,
-		std::shared_ptr<GameEngine> engine) :
-		connectionPool(conn), gameEngine(engine) {}
+		std::shared_ptr<game::GamesManager> engine) :
+		connectionPool(conn), gamesManager(engine) {}
 
 void ConnectionBridge::signal() {
 
@@ -30,11 +30,11 @@ void ConnectionBridge::signal() {
 			std::make_shared<PlayerInput>(connections[1]->getMsgHandler())
 	};
 
-	std::vector<std::shared_ptr<GamePlayerOutput>> outputs = {
+	std::vector<std::shared_ptr<game::IPlayerOutput>> outputs = {
 			std::make_shared<PlayerOutput>(connections[0]),
 			std::make_shared<PlayerOutput>(connections[1])
 	};
 
 	LOG(INFO) << "Relaying " << connections.size() << " connections";
-	gameEngine->createGame(outputs, inputs);
+	gamesManager->createGame(outputs, inputs);
 }

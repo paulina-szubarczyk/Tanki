@@ -9,7 +9,7 @@
 #define GAMEBOARD_H_
 
 #include "Field.h"
-
+namespace game {
 class Gameboard {
 public:
 	Gameboard();
@@ -29,5 +29,5 @@ private:
 	std::vector<Field> fields_;
 	std::size_t size_;
 };
-
+}
 #endif /* GAMEBOARD_H_ */

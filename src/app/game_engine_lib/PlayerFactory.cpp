@@ -1,19 +1,20 @@
 /*
- * GamePlayerBuilder.cpp
+ * PlayerFactory.cpp
  *
  *  Created on: May 17, 2014
  *      Author: paulina
  */
 
-#include "GamePlayerBuilder.h"
-#include "BigGameShip.h"
+#include "PlayerFactory.h"
+#include "BigShip.h"
 #include "Gameboard.h"
 #include "GamePlayer.h"
 #include "ShipFactoryMethod.h"
+#include "IPlayerOutput.h"
 
 #include "glog/logging.h"
-
-auto GamePlayerBuilder::createGamePlayer(OutputPtr output) -> PlayerPtr {
+namespace game {
+auto PlayerFactory::createGamePlayer(OutputPtr output) -> PlayerPtr {
 
 	LOG(INFO) << "Creating game player";;
 	auto player = std::make_shared<GamePlayer>(output);
@@ -24,12 +25,12 @@ auto GamePlayerBuilder::createGamePlayer(OutputPtr output) -> PlayerPtr {
 
 	return player;
 }
-void GamePlayerBuilder::addPlayerGameboard(PlayerPtr player, int size) {
+void PlayerFactory::addPlayerGameboard(PlayerPtr player, int size) {
 	LOG(INFO) << "Adding gameboard";
 	player->setGameboard(std::make_shared<Gameboard>(size));
 }
 
-void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2) {
+void  PlayerFactory::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2) {
 
 	player1->setFieldsUpdater(std::shared_ptr<FieldsUpdater>
 							(new FieldsUpdater(player1, player2)));
@@ -41,7 +42,7 @@ void  GamePlayerBuilder::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr 
 }
 
 
-void GamePlayerBuilder::addPlayerShips(PlayerPtr player, std::vector<std::vector<int>> y,	std::vector<std::vector<int>> x) {
+void PlayerFactory::addPlayerShips(PlayerPtr player, std::vector<std::vector<int>> y,	std::vector<std::vector<int>> x) {
 	auto xIter = x.begin();
 	auto yIter = y.begin();
 	while ( xIter != x.end() ) {
@@ -49,9 +50,9 @@ void GamePlayerBuilder::addPlayerShips(PlayerPtr player, std::vector<std::vector
 	}
 	// check with rules if thats all ships, send info if not
 }
-void GamePlayerBuilder::addPlayerShip(PlayerPtr player, std::vector<int> x, std::vector<int> y) {
+void PlayerFactory::addPlayerShip(PlayerPtr player, std::vector<int> x, std::vector<int> y) {
 
-	ShipPtr ship = ShipPtr(dynamic_cast<BigGameShip*>(ShipFactoryMethod::getInstance()->creatShip("BigShip",x.size())));
+	ShipPtr ship = ShipPtr(dynamic_cast<BigShip*>(ShipFactoryMethod::getInstance()->creatShip("BigShip",x.size())));
 	player->ships_.push_back(ship);
 
 	//Adding fieldObserver
@@ -68,5 +69,6 @@ void GamePlayerBuilder::addPlayerShip(PlayerPtr player, std::vector<int> x, std:
 		++yIter;
 		++smallShipsIter;
 	}
+}
 }
 

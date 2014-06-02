@@ -6,9 +6,9 @@
  */
 #include "gtest/gtest.h"
 #include "ShipFactoryMethod.h"
-#include "SmallGameShip.h"
-#include "BigGameShip.h"
-
+#include "SmallShip.h"
+#include "BigShip.h"
+using namespace game;
 class ShipFactoryTest : public ::testing::Test {
 protected:
 	ShipFactoryTest() {};
@@ -24,16 +24,16 @@ TEST_F( ShipFactoryTest, SingletonTest) {
 
 TEST_F( ShipFactoryTest, RegisterShipTest) {
 	ShipFactoryMethod* shipFactory = ShipFactoryMethod::getInstance();
-	shipFactory->registerShip("SmallShip",&SmallGameShip::createSmallGameShip);
-	shipFactory->registerShip("BigShip",&BigGameShip::createBigGameShip);
+	shipFactory->registerShip("SmallShip",&SmallShip::createSmallGameShip);
+	shipFactory->registerShip("BigShip",&BigShip::createBigGameShip);
 
-	std::shared_ptr<SmallGameShip> smallShip(dynamic_cast<SmallGameShip*>(shipFactory->creatShip("SmallShip",1)));
+	std::shared_ptr<SmallShip> smallShip(dynamic_cast<SmallShip*>(shipFactory->creatShip("SmallShip",1)));
 
-	EXPECT_EQ(smallShip->getState(),GameShip::ShipState::FLOAT);
+	EXPECT_EQ(smallShip->getState(),IShip::ShipState::FLOAT);
 	EXPECT_EQ(smallShip->getSize(),1);
 
-	std::shared_ptr<BigGameShip> bigShip(dynamic_cast<BigGameShip*>(shipFactory->creatShip("BigShip", 0)));
-	EXPECT_EQ(bigShip->getState(), GameShip::ShipState::FLOAT);
+	std::shared_ptr<BigShip> bigShip(dynamic_cast<BigShip*>(shipFactory->creatShip("BigShip", 0)));
+	EXPECT_EQ(bigShip->getState(), IShip::ShipState::FLOAT);
 	EXPECT_EQ(bigShip->getSize(),0);
 
 	bigShip->addShip(smallShip);

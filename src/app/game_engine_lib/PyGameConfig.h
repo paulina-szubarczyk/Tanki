@@ -10,7 +10,7 @@
 
 #include "IGameConfig.h"
 
-namespace ships {
+namespace game {
 
 class PyGameConfig : public IGameConfig {
 public:
