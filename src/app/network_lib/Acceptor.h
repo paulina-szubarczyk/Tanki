@@ -16,7 +16,7 @@ using namespace boost::asio;
 using std::chrono::steady_clock;
 using std::chrono::milliseconds;
 
-namespace ships {
+namespace net {
 
 class IoHarbour;
 class ProtobufConnection;
@@ -116,6 +116,6 @@ private:	//	Fields
 	int error_;
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* aCCEPTOR_H_ */

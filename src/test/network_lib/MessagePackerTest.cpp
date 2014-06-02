@@ -10,6 +10,8 @@
 #include "test.pb.h"
 #include <memory>
 
+using namespace net;
+
 namespace {
 
 class MessagePackerTest : public ::testing::Test {

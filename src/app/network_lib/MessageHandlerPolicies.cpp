@@ -8,7 +8,7 @@
 #include "MessageHandlerPolicies.h"
 #include <boost/asio.hpp>
 
-namespace ships {
+namespace net {
 
 template<typename MsgType>
 RelayExecutePolicy<MsgType>::RelayExecutePolicy(ServicePtr service)
@@ -30,4 +30,4 @@ void RelayExecutePolicy<MsgType>::setService(ServicePtr service) {
 	service_ = service;
 }
 
-} /* namespace ships */
+} /* namespace net */

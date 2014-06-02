@@ -12,7 +12,7 @@
 
 #include "message.pb.h"
 
-namespace ships {
+namespace net {
 
 class IoHarbour;
 class ProtobufConnection;
@@ -45,6 +45,6 @@ private:
 
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* PROTOBUFCONNECTIONFACTORY_H_ */

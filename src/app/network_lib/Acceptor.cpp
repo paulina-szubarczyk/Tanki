@@ -11,7 +11,7 @@
 
 #include "boost/lexical_cast.hpp"
 
-namespace ships {
+namespace net {
 
 using namespace std::placeholders;
 
@@ -126,4 +126,4 @@ bool Acceptor::handleError(const boost::system::error_code& error) {
 	return false;
 }
 
-} /* namespace ships */
+} /* namespace net */

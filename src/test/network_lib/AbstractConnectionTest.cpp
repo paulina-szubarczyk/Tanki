@@ -13,7 +13,7 @@
 
 namespace {
 
-using namespace ships;
+using namespace net;
 using namespace boost::asio;
 
 struct AbstractConnectionMock : public Connection {

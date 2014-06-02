@@ -10,7 +10,7 @@
 
 #include "Acceptor.h"
 
-namespace ships {
+namespace net {
 
 class ConnectionPool;
 class ProtobufConnectionFactory;
@@ -34,7 +34,7 @@ public:
 	virtual void listen(const std::string& host, const uint16_t& port);
 
 private:
-	bool onAccept(std::shared_ptr<ships::ProtobufConnection> connection,
+	bool onAccept(std::shared_ptr<net::ProtobufConnection> connection,
 			const std::string & host, uint16_t port) override;
 	void onTimer(const milliseconds& delta) override;
 	void onError(const boost::system::error_code & error) override;
@@ -47,6 +47,6 @@ private:
 	bool initialized_;
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* POOLINGACCEPTOR_H_ */

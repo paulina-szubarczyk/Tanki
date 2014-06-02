@@ -14,7 +14,7 @@
 
 #include <thread>
 
-using namespace ships;
+using namespace net;
 using namespace game;
 
 int main(int argc, char * argv[]) {

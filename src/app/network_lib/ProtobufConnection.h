@@ -14,7 +14,7 @@
 #include "MessagePacker.h"
 #include "message.pb.h"
 
-namespace ships {
+namespace net {
 
 /**
  * A concrete connection class. It handles Google Protocol Buffer-based connections.
@@ -62,6 +62,6 @@ private:	//	Methods
 	MsgHandlerPtr msgHandler_;
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* SERVERCONNECTION_H_ */

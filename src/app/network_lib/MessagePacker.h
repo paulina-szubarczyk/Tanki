@@ -11,6 +11,8 @@
 #include <memory>
 #include <cstdint>
 
+namespace net {
+
 /**
  *  PackedMessage implements simple "packing" of protocol buffers Messages into
  *  a string prepended by a header specifying the message length.
@@ -63,6 +65,8 @@ private:
 
 	MsgPtr msg_;
 };
+
+} // namespace net
 
 #endif /* PACKEDMESSAGE_H */
 

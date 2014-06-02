@@ -12,7 +12,7 @@
 
 using namespace std::placeholders;
 
-namespace ships {
+namespace net {
 
 ProtobufConnection::ProtobufConnection(HarbourPtr harbour)
 	: Connection(harbour),
@@ -104,4 +104,4 @@ void ProtobufConnection::handleReceiveBody(const boost::system::error_code & err
 	startReceive();
 }
 
-} /* namespace ships */
+} /* namespace net */

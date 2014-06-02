@@ -8,7 +8,7 @@
 #ifndef CONNECTIONOBSERVER_H_
 #define CONNECTIONOBSERVER_H_
 
-namespace ships {
+namespace net {
 
 /**
  * Connection Observer interface. Should be implemented by any class observing a Connection Pool.

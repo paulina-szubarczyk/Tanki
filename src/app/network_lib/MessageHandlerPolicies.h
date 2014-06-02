@@ -13,7 +13,7 @@
 
 namespace boost { namespace asio { class io_service; } }
 
-namespace ships {
+namespace net {
 
 /**
  * A direct execute policy for the MessageHandler class. It directly executes the handlers
@@ -52,6 +52,6 @@ private:
 	ServicePtr service_;
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* MESSAGEHANDLERPOLICIES_H_ */

@@ -15,7 +15,7 @@
 
 #include <boost/signals2/signal.hpp>
 
-namespace ships {
+namespace net {
 
 class ProtobufConnection;
 class ConnectionObserver;
@@ -73,6 +73,6 @@ private:
 	SignalType signal_;
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* CONNECTIONPOOL_H_ */

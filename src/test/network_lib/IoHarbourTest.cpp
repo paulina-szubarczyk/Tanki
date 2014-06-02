@@ -13,7 +13,7 @@
 
 namespace {
 
-using namespace ships;
+using namespace net;
 using namespace boost::asio;
 
 class IoHarbourTest : public ::testing::Test {

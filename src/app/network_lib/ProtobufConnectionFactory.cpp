@@ -9,7 +9,7 @@
 #include "ProtobufConnection.h"
 #include "IoHarbour.h"
 
-namespace ships {
+namespace net {
 
 ProtobufConnectionFactory::ProtobufConnectionFactory(HarbourPtr harbour)
 	: harbour_(harbour), msgHandler_(nullptr) {}
@@ -35,4 +35,4 @@ void ProtobufConnectionFactory::setHarbour(HarbourPtr harbour) {
 	harbour_ = harbour;
 }
 
-} /* namespace ships */
+} /* namespace net */

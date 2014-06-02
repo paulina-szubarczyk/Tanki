@@ -14,8 +14,6 @@
 
 namespace plh = std::placeholders;
 
-namespace ships {
-
 ClientInput::ClientInput(ConnectionPtr connection, MsgHandlerPtr msgHandler)
 	: Input(msgHandler)  {
 
@@ -55,6 +53,3 @@ ClientInput::ClientInput(ConnectionPtr connection, MsgHandlerPtr msgHandler)
 
 		}, plh::_1, connection));
 }
-
-
-} /* namespace ships */

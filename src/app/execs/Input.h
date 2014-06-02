@@ -13,7 +13,7 @@
 
 #include <memory>
 
-using namespace ships;
+using namespace net;
 
 class Input {
 protected:

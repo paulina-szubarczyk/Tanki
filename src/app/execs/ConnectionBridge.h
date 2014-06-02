@@ -12,7 +12,7 @@
 #include "ConnectionPool.h"
 #include "GamesManager.h"
 
-using namespace ships;
+using namespace net;
 
 class ConnectionBridge : public ConnectionObserver {
 public:

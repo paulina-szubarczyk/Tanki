@@ -22,7 +22,7 @@
 
 #include <glog/logging.h>
 
-using namespace ships;
+using namespace net;
 
 int main(int argc, char** argv) {
 	google::InitGoogleLogging(argv[0]);

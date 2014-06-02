@@ -15,7 +15,7 @@
 
 using namespace boost::asio;
 
-namespace ships {
+namespace net {
 
 /**
  * boost::asio::io_service wrapper class. Adapted from:
@@ -24,7 +24,7 @@ namespace ships {
 class IoHarbour : public std::enable_shared_from_this<IoHarbour> {
 public:
 	IoHarbour();
-	virtual ~IoHarbour();
+	virtual ~IoHarbour() = default;
 
 	io_service& getService();
 	bool hasStopped();
@@ -70,6 +70,6 @@ private:
 	WorkPtr work_;
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* IOHARBOUR_H_ */

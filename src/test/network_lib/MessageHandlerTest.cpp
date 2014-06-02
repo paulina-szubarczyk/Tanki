@@ -11,7 +11,7 @@
 namespace {
 
 using namespace google::protobuf;
-using namespace ships;
+using namespace net;
 
 class MessageHandlerTest : public ::testing::Test {
 protected:

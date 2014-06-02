@@ -9,9 +9,6 @@
 
 #include "glog/logging.h"
 
-namespace ships {
-
-
 ClientOutput::ClientOutput(ConnectionPtr connection)
 	:connection_(connection) {}
 
@@ -53,5 +50,3 @@ auto ClientOutput::createMsg(MessageType type) const -> MsgPtr {
 void ClientOutput::send(MsgPtr msg) const {
 	connection_->send(msg);
 }
-
-} /* namespace ships */

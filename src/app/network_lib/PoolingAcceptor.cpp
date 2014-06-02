@@ -10,7 +10,7 @@
 #include "ProtobufConnectionFactory.h"
 #include "ProtobufConnection.h"
 #include "glog/logging.h"
-namespace ships {
+namespace net {
 
 PoolingAcceptor::PoolingAcceptor(HarbourPtr harbour, PoolPtr pool, FactoryPtr factory, int poolSize)
 	: Acceptor(harbour), pool_(pool), factory_(factory), poolSize_(poolSize), initialized_(false) {}
@@ -47,4 +47,4 @@ void PoolingAcceptor::initialize() {
 	initialized_ = true;
 }
 
-} /* namespace ships */
+} /* namespace net */

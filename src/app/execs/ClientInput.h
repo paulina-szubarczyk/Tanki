@@ -11,7 +11,7 @@
 #include "Input.h"
 #include "ClientConnection.h"
 
-namespace ships {
+using namespace net;
 
 class ClientInput : public Input {
 typedef std::shared_ptr<ClientConnection> ConnectionPtr;
@@ -20,7 +20,5 @@ public:
 	virtual ~ClientInput() = default;
 
 };
-
-} /* namespace ships */
 
 #endif /* CLIENTINPUT_H_ */

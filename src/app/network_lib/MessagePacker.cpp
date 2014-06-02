@@ -9,6 +9,8 @@
 #include "test.pb.h"
 #include "message.pb.h"
 
+namespace net {
+
 template<class MsgType, class BuffType>
 const unsigned MessagePacker<MsgType, BuffType>::HEADER_SIZE = 4;
 
@@ -71,3 +73,5 @@ void MessagePacker<MsgType, BuffType>::encodeHeader(BuffType& buf, unsigned size
 
 template class MessagePacker<TestMsg>;
 template class MessagePacker<DataMsg>;
+
+} // namespace net

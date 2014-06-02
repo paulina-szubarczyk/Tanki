@@ -13,7 +13,7 @@
 #include <functional>
 #include <map>
 
-namespace ships {
+namespace net {
 
 /**
  * MessageHandler allows handling protobuf messages based on their type field.
@@ -75,6 +75,6 @@ private:
 
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* MESSAGEHANDLER_H_ */

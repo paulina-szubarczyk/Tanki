@@ -13,8 +13,9 @@
 #include <memory>
 
 using namespace testing;
-using namespace ships;
-namespace ships {
+using namespace net;
+
+namespace net {
 class ProtobufConnection {};
 
 struct ConnectionObserverMock : public ConnectionObserver {

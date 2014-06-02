@@ -14,7 +14,7 @@
 
 using namespace std::placeholders;
 
-namespace ships {
+namespace net {
 
 Connection::Connection(HarbourPtr harbour)
 	: harbour_(harbour),
@@ -215,4 +215,4 @@ void Connection::handleTimer(const boost::system::error_code& error) {
 	startTimer();
 }
 
-} /* namespace ships */
+} /* namespace net */

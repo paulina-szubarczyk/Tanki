@@ -20,7 +20,7 @@ using std::chrono::duration_cast;
 using std::chrono::milliseconds;
 using std::chrono::steady_clock;
 
-namespace ships {
+namespace net {
 
 class IoHarbour;
 class Acceptior;
@@ -148,6 +148,6 @@ protected:	//	Fields
 	std::vector<uint8_t> receiveBuffer_;
 };
 
-} /* namespace ships */
+} /* namespace net */
 
 #endif /* CONNECTION_H_ */

@@ -12,7 +12,7 @@
 
 #include "stdexcept"
 
-namespace ships {
+namespace net {
 
 template<typename K, typename M, template<typename M> class ExecPolicy>
 void MessageHandler<K, M, ExecPolicy>::setTypeMethod(ResolverType fun) {
@@ -69,4 +69,4 @@ auto MessageHandler<K, M, ExecPolicy>::clone() const -> ThisTypePtr {
 
 template class MessageHandler<MessageType, DataMsg, DirectExecutePolicy>;
 
-} /* namespace ships */
+} /* namespace net */

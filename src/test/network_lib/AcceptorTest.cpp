@@ -15,7 +15,7 @@
 
 namespace {
 
-using namespace ships;
+using namespace net;
 using namespace boost::asio;
 using namespace testing;
 

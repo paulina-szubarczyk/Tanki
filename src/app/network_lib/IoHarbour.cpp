@@ -7,14 +7,10 @@
 
 #include "IoHarbour.h"
 
-namespace ships {
+namespace net {
 
 IoHarbour::IoHarbour()
 	: work_(new io_service::work(ioService_)) {}
-
-IoHarbour::~IoHarbour() {
-	// TODO Auto-generated destructor stub
-}
 
 io_service& IoHarbour::getService() {
 
@@ -37,17 +33,18 @@ void IoHarbour::post(std::function<void()> fun) {
 	ioService_.post(fun);
 }
 
-} /* namespace ships */
-
-bool ships::IoHarbour::hasStopped() {
+bool IoHarbour::hasStopped() {
 	return ioService_.stopped();
 }
 
-void ships::IoHarbour::stop() {
+void IoHarbour::stop() {
 	work_.reset();
 	ioService_.stop();
 }
 
-void ships::IoHarbour::reset() {
+void IoHarbour::reset() {
 	ioService_.reset();
 }
+
+} /* namespace net */
+

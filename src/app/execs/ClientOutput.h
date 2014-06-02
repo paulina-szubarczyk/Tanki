@@ -12,7 +12,7 @@
 #include "ProtobufConnection.h"
 #include "message.pb.h"
 
-namespace ships {
+using namespace net;
 
 class ClientOutput: public ClientConnection {
 	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;
@@ -31,7 +31,5 @@ private:
 	void send(MsgPtr msg) const;
 	ConnectionPtr connection_;
 };
-
-} /* namespace ships */
 
 #endif /* CLIENTOUTPUT_H_ */
