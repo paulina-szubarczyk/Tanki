@@ -7,11 +7,13 @@
 
 #ifndef SHIPOBSERVER_H_
 #define SHIPOBSERVER_H_
+
 #include "GameShip.h"
+
 class ShipObserver {
 public:
-	ShipObserver();
-	virtual ~ShipObserver();
+	ShipObserver() = default;
+	virtual ~ShipObserver() = default;
 
 	virtual void shipHit(GameShip::ShipState state) = 0;
 };

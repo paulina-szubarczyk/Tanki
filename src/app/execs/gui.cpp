@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 	if(argc > 2) {
 		std::stringstream sstream;
 		sstream << "gui" << argv[2] << ".log";
-		google::SetLogDestination(google::WARNING, sstream.str().c_str());
+		google::SetLogDestination(google::INFO, sstream.str().c_str());
 	}
 
 

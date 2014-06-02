@@ -1,21 +1,22 @@
 /*
- * PythonInterpreter.cpp
+ * PyGameConfig.cpp
  *
- *  Created on: May 31, 2014
+ *  Created on: Jun 2, 2014
  *      Author: Adam Kosiorek
  */
 
-#include "PythonInterpreter.h"
+#include "PyGameConfig.h"
 
 #include "glog/logging.h"
 #include <Python.h>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 py::object configureFunction_;
 
 namespace ships {
 
-ConfigureScript::ConfigureScript(const std::string& filename, const std::string& funcName) {
+PyGameConfig::PyGameConfig(const std::string& filename, const std::string& funcName) {
 
 	Py_Initialize();
 
@@ -25,14 +26,14 @@ ConfigureScript::ConfigureScript(const std::string& filename, const std::string&
 	py::exec_file(filename.c_str(), main_module, main_namespace);
 
 	configureFunction_ = main_namespace[funcName.c_str()];
-
 }
 
-ConfigureScript::~ConfigureScript() {
-	// TODO Auto-generated destructor stub
+PyGameConfig::~PyGameConfig() {
+
+	Py_Finalize();
 }
 
-std::map<std::string, std::string> ConfigureScript::getConfiguration() {
+std::map<std::string, std::string> PyGameConfig::getConfiguration() const {
 
 	std::map<std::string, std::string> configParamMap;
 	py::list configParamList = py::extract<py::list>(configureFunction_())();
@@ -47,5 +48,4 @@ std::map<std::string, std::string> ConfigureScript::getConfiguration() {
 }
 
 } /* namespace ships */
-
 

@@ -7,7 +7,6 @@
 
 #include "SmallGameShip.h"
 #include "Field.h"
-#include <iostream>
 
 SmallGameShip::SmallGameShip() : GameShip() {}
 

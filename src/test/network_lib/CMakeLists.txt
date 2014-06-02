@@ -11,7 +11,6 @@ add_executable(${name}
                     ConnectionTest.cpp
                     MessagePackerTest.cpp
                     ConnectionPoolTest.cpp
-                    PythonInterpreterTest.cpp
 )
 
 target_link_libraries(${name} ${GTEST_LIBS} network)

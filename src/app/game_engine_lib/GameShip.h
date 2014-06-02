@@ -17,16 +17,15 @@ public:
 	enum ShipState { FLOAT, SUNK, HIT };
 	typedef std::shared_ptr<GameShip> ShipPtr;
 
-	GameShip();
+public:
+	GameShip() : state_(ShipState::FLOAT) {};
 	virtual ~GameShip() = default;
 
-	static  GameShip* createGameShip() {};
-	virtual ShipState getState() const {} ;
-	virtual std::size_t getSize() const {};
-	virtual void hit() override;
+	virtual ShipState getState() const = 0;
+	virtual std::size_t getSize() const = 0;
 
-	virtual void addShip(ShipPtr ship) {};
-	virtual void addShips(std::vector<ShipPtr> ships) {};
+	virtual void addShip(ShipPtr ship) = 0;
+	virtual void addShips(std::vector<ShipPtr> ships) = 0;
 
 protected:
 	ShipState state_;

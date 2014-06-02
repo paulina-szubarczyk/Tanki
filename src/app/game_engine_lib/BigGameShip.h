@@ -17,12 +17,12 @@ typedef boost::signals2::signal<void (GameShip::ShipState)> SignalShipType;
 typedef std::shared_ptr<ShipObserver> ShipObserverPtr;
 
 class BigGameShip: public GameShip {
+	using GameShip::ShipState;
+	using GameShip::ShipPtr;
 
 public:
 	BigGameShip();
 	virtual ~BigGameShip() = default;
-	using GameShip::ShipState;
-	using GameShip::ShipPtr;
 
 	SignalShipType hitShip;
 	void registerShipObserver(ShipObserverPtr shipObserver);

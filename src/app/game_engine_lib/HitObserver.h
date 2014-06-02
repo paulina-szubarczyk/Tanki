@@ -10,9 +10,10 @@
 
 class HitObserver {
 public:
-	HitObserver();
-	virtual void hit() = 0;
+	HitObserver() = default;
 	virtual ~HitObserver() = default;
+
+	virtual void hit() = 0;
 };
 
 #endif /* HITTENOBSERVER_H_ */

@@ -18,11 +18,17 @@ protected:
 
 	class TestUnitShip : public GameShip {
 	public:
-		TestUnitShip() : GameShip() {} ;
-		virtual GameShip::ShipState getState() const { return state_;}
+		TestUnitShip() = default;
+
+		virtual std::size_t getSize() const {};
+		virtual void addShip(ShipPtr ship) {};
+		virtual void addShips(std::vector<ShipPtr> ships) {};
+
+		virtual ShipState getState() const { return state_;}
 		virtual void hit() {
 			state_ = GameShip::ShipState::SUNK; }
 	};
+
 	typedef std::shared_ptr<GameShip> TestShipPtr;
 };
 TEST_F(BigGameShipTest, ConstructorTest){

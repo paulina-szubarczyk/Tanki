@@ -16,7 +16,7 @@ using namespace ships;
 
 int main(int argc, char * argv[]) {
 	google::InitGoogleLogging(argv[0]);
-	google::SetLogDestination(google::WARNING, "server.log");
+	google::SetLogDestination(google::INFO, "server.log");
 
 	// Setup IoHarbour
 	auto harbour = std::make_shared<IoHarbour>();

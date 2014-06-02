@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 project( GameEngineLib )
 
-include_directories(${Message_BINARY_DIR})
-include_directories(${NetworkLib_SOURCE_DIR})
-include_directories(${Execs_SOURCE_DIR})
+find_package(PythonLibs)
+
+include_directories(
+        ${Message_BINARY_DIR}
+        ${NetworkLib_SOURCE_DIR}
+        ${Execs_SOURCE_DIR}
+        ${PYTHON_INCLUDE_DIRS})
 
 add_library(game_engine 
         BigGameShip.cpp 
@@ -14,14 +18,15 @@ add_library(game_engine
         GameEngine.cpp     
         GamePlayer.cpp
         GamePlayerBuilder.cpp
-        GameShip.cpp 
-        HitObserver.cpp
-        PlayerBuilder.cpp
         ShipFactoryMethod.cpp
-        ShipObserver.cpp 
         SmallGameShip.cpp 
+        PyGameConfig.cpp
 )
-target_link_libraries(game_engine network message)
+target_link_libraries(game_engine 
+        network 
+        message 
+        ${PYTHON_LIBRARIES}
+)
 
 install(TARGETS game_engine
                RUNTIME DESTINATION bin

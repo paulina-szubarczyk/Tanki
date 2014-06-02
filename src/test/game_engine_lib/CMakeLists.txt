@@ -17,6 +17,7 @@ add_executable(${name}
         GamePlayerBuilderTest.cpp
         ShipFactoryMethodTest.cpp
         SmallGameShipTest.cpp 
+        PyGameConfigTest.cpp
 )
 
 target_link_libraries(${name} ${GTEST_LIBS} game_engine network)
