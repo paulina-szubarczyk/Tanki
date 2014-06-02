@@ -145,8 +145,11 @@ void GameWindow::connectCallbackWrapper(int){
 
 
 void GameWindow::connectCallback(){
-
-	connector_->connect(ipBuffer_, port_);
+	try{
+	connector_->connect(ipBuffer_, port_);}
+	catch(exception &e){
+		LOG(ERROR)<<"[Client] Host not found.";
+	}
 
 }
 
