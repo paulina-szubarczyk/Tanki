@@ -104,6 +104,7 @@ private:
 
 	std::shared_ptr<GameManager> manager_;
 	GLUI_String ipBuffer_;
+	unsigned short port_;
 	std::shared_ptr<ClientConnection> connector_;
 
 	unsigned short port_;

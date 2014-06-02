@@ -23,6 +23,7 @@ void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	pickedY_ = 0;
 
 	ipBuffer_ = "Set IP";
+	port_ = 8080;
 	horizontal_ = 0;
 	shipSize_ = manager_->getSmallestSize();
 
@@ -144,7 +145,9 @@ void GameWindow::connectCallbackWrapper(int){
 
 
 void GameWindow::connectCallback(){
+
 	connector_->connect(ipBuffer_, port_);
+
 }
 
 void GameWindow::sizeChangeCallbackWrapper(int) {
@@ -178,6 +181,9 @@ void GameWindow::createGLUI() {
 			"Server IP: ", ipBuffer_);
 	serverIP->set_w(180);
 	serverIP->set_text(ipBuffer_);
+	GLUI_EditText* serverPort = getGlui()->add_edittext_to_panel(serverRollout,
+				"Port: ", GLUI_EDITTEXT_INT, &port_);
+	serverPort->set_w(180);
 	getGlui()->add_button_to_panel(serverRollout, "Connect", 0, connectCallbackWrapper);
 
 
