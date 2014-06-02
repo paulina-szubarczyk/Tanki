@@ -17,6 +17,7 @@ GameWindow::GameWindow() {
 
 void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	manager_.reset(new GameManager);
+	shipSize_ = manager_->getSmallestSize();
 	grid1_.reset(new Grid(manager_->getGridSize()));
 	grid2_.reset(new Grid(manager_->getGridSize()));
 	pickedX_ = 0;
@@ -25,7 +26,7 @@ void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	ipBuffer_ = "Set IP";
 	port_ = 8080;
 	horizontal_ = 0;
-	shipSize_ = manager_->getSmallestSize();
+
 
 	connector_ = connection;
 }
@@ -147,7 +148,7 @@ void GameWindow::connectCallbackWrapper(int){
 void GameWindow::connectCallback(){
 	try{
 	connector_->connect(ipBuffer_, port_);}
-	catch(exception &e){
+	catch(std::exception &e){
 		LOG(ERROR)<<"[Client] Host not found.";
 	}
 
@@ -168,7 +169,7 @@ void GameWindow::startCallbackWrapper(int) {
 void GameWindow::startCallback() {
 
 	if (manager_->checkReady()) {
-		connector_->sendShip(grid1_.getShips());
+		connector_->sendShip(grid1_->getShips());
 	}
 }
 void GameWindow::createGLUI() {
@@ -251,7 +252,7 @@ void GameWindow::setPlayerTurn(bool turn) {
 }
 void GameWindow::startGameWindow(int argc, char *argv[]) {
 
-	port_ = atoi(argv[1]);
+	//port_ = atoi(argv[1]);
 	glutInit(&argc, argv);
 	initMyGlut();
 	createGLUI();

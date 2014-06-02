@@ -107,7 +107,6 @@ private:
 	unsigned short port_;
 	std::shared_ptr<ClientConnection> connector_;
 
-	unsigned short port_;
 
 };
 #endif /* GAMEWINDOW_H_ */
