@@ -145,7 +145,7 @@ void GameWindow::connectCallbackWrapper(int){
 
 
 void GameWindow::connectCallback(){
-	connector_->connect(ipBuffer_, 8090);
+	connector_->connect(ipBuffer_, port_);
 }
 
 void GameWindow::sizeChangeCallbackWrapper(int) {
@@ -242,6 +242,7 @@ void GameWindow::setPlayerTurn(bool turn) {
 }
 void GameWindow::startGameWindow(int argc, char *argv[]) {
 
+	port_ = atoi(argv[1]);
 	glutInit(&argc, argv);
 	initMyGlut();
 	createGLUI();

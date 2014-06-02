@@ -101,5 +101,7 @@ private:
 	GLUI_String ipBuffer_;
 	std::shared_ptr<ClientConnection> connector_;
 
+	unsigned short port_;
+
 };
 #endif /* GAMEWINDOW_H_ */

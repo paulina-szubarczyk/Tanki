@@ -24,14 +24,17 @@ void ConnectionBridge::signal() {
 
 	auto connections =	connectionPool->getConnection(2);
 
-	auto input0 = std::make_shared<PlayerInput>(connections[0]->getMsgHandler());
-	auto input1 = std::make_shared<PlayerInput>(connections[1]->getMsgHandler());
+
+	std::vector<std::shared_ptr<PlayerInput>> inputs = {
+			std::make_shared<PlayerInput>(connections[0]->getMsgHandler()),
+			std::make_shared<PlayerInput>(connections[1]->getMsgHandler())
+	};
+
+	std::vector<std::shared_ptr<GamePlayerOutput>> outputs = {
+			std::make_shared<PlayerOutput>(connections[0]),
+			std::make_shared<PlayerOutput>(connections[1])
+	};
 
 	LOG(INFO) << "Relaying " << connections.size() << " connections";
-	gameEngine->createGame(
-			std::make_shared<PlayerOutput>(connections[0]),
-			input0,
-			std::make_shared<PlayerOutput>(connections[1]),
-			input1
-	);
+	gameEngine->createGame(outputs, inputs);
 }

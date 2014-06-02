@@ -10,13 +10,7 @@
 #include "GamePlayerBuilder.h"
 #include "GamePlayer.h"
 
-Game::Game(std::shared_ptr<GamePlayer> player1,std::shared_ptr<GamePlayer> player2) : player1_(player1), player2_(player2), prepared_(0){
-
-}
-
-Game::~Game() {
-	// TODO Auto-generated destructor stub
-}
+Game::Game(PlayerPtr player1, PlayerPtr player2) : player1_(player1), player2_(player2), prepared_(0) {}
 
 void Game::initGame()
 {
@@ -31,11 +25,11 @@ void Game::initGame()
 	player2_->setTurn(false);
 }
 
-std::shared_ptr<GamePlayer> Game::getPlayer1(){
+auto Game::getPlayer1() -> PlayerPtr {
 	return player1_;
 }
 
-std::shared_ptr<GamePlayer> Game::getPlayer2(){
+auto Game::getPlayer2() -> PlayerPtr {
 	return player2_;
 }
 
@@ -46,7 +40,7 @@ void Game::playerPrepared() {
     	initGame();
 }
 
-bool Game::isWinner(std::shared_ptr<GamePlayer> player) {
+bool Game::isWinner(PlayerPtr player) {
 	bool winner = true;
 	for (auto ship = player->getShips().begin(); ship!=player->getShips().end(); ++ship)
 		if (ship->get()->getState() != GameShip::ShipState::SUNK)

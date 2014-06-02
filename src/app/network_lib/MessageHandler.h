@@ -30,10 +30,11 @@ public:
 private:
 	typedef std::function<KeyType(const MsgType&)> ResolverType;
 	typedef std::map<KeyType, HandlerType> HandlerMapType;
+	typedef std::shared_ptr<MessageHandler> ThisTypePtr;
 
 public:
-	MessageHandler();
-	virtual ~MessageHandler();
+	MessageHandler() = default;
+	virtual ~MessageHandler() = default;
 
 	/**
 	 * Sets a type resolution method
@@ -60,6 +61,13 @@ public:
 	 * Handles a message
 	 */
 	void handleMsg(const MsgType& message) const;
+
+	/**
+	 * Returns a deep copy (or a clone)
+	 */
+	ThisTypePtr clone() const;
+
+
 
 private:
 	ResolverType typeFun_;

@@ -8,31 +8,40 @@
 #ifndef PROTOBUFCONNECTIONFACTORY_H_
 #define PROTOBUFCONNECTIONFACTORY_H_
 
-#include "ConnectionFactory.h"
 #include "MessageHandler.h"
 
 #include "message.pb.h"
 
 namespace ships {
 
+class IoHarbour;
+class ProtobufConnection;
+
 /**
  * ProtobufConnection object factory. It inject IoHarbour and, if provided,
  * a MessageHandler object to the connections it creates.
  */
-class ProtobufConnectionFactory: public ConnectionFactory {
+class ProtobufConnectionFactory {
 public:	//	Typedefs
-	typedef std::shared_ptr<MessageHandler<MessageType, DataMsg>> MsgHandlerPtr;
+	typedef MessageHandler<MessageType, DataMsg> MsgHandlerType;
+	typedef std::shared_ptr<MsgHandlerType> MsgHandlerPtr;
+	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;
+	typedef std::shared_ptr<IoHarbour> HarbourPtr;
 public:
 	ProtobufConnectionFactory(HarbourPtr harbour);
 	virtual ~ProtobufConnectionFactory() = default;
 
-	virtual ConnectionPtr createConnection() const override;
+	virtual ConnectionPtr createConnection() const;
 
 	MsgHandlerPtr getMsgHandler() const;
 	void setMsgHandler(MsgHandlerPtr msgHandler);
 
+	HarbourPtr getHarbour() const;
+	void setHarbour(HarbourPtr harbour);
+
 private:
 	MsgHandlerPtr msgHandler_;
+	HarbourPtr harbour_;
 
 };
 

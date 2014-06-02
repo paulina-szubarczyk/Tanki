@@ -17,21 +17,34 @@
 #include "ClientOutput.h"
 #include "ClientInput.h"
 
+#include <thread>
+#include <sstream>
+
 #include <glog/logging.h>
 
 using namespace ships;
 
 int main(int argc, char** argv) {
 	google::InitGoogleLogging(argv[0]);
+	if(argc > 2) {
+		std::stringstream sstream;
+		sstream << "gui" << argv[2] << ".log";
+		google::SetLogDestination(google::WARNING, sstream.str().c_str());
+	}
 
 
 	std::shared_ptr<IoHarbour> harbour(new IoHarbour());
+	std::thread thread([&]() {
+		harbour->run();
+	});
 
-	std::shared_ptr<MessageHandler<MessageType, DataMsg>> msgHandler(new MessageHandler<MessageType, DataMsg>());
+	auto msgHandler = std::make_shared<MessageHandler<MessageType, DataMsg>>();
+	msgHandler->setTypeMethod([](const DataMsg& msg) -> MessageType {
+
+		return msg.type();
+	});
+
 	std::shared_ptr<ProtobufConnection> connection = std::make_shared<ProtobufConnection>(harbour, msgHandler);
-
-//	TODO
-	connection->connect("127.0.0.1", 8092);
 
 	std::shared_ptr<ClientOutput> clientOutput = std::make_shared<ClientOutput>(connection);
 	std::shared_ptr<ClientInput> clientInput = std::make_shared<ClientInput>(clientOutput, msgHandler);

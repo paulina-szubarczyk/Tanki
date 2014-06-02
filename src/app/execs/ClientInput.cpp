@@ -34,6 +34,12 @@ ClientInput::ClientInput(ConnectionPtr connection, MsgHandlerPtr msgHandler)
 			connection->setHitReply(msg.x(), msg.y(), msg.this_());
 		}, plh::_1, connection));
 
+	msgHandler_->addMsgHandler(MessageType::BEGIN, std::bind(
+				[](const MsgType& msg, ConnectionPtr connection) {
+
+			LOG(INFO) << "Received BEGIN";
+		}, plh::_1, connection));
+
 	msgHandler_->addMsgHandler(MessageType::CONFIG, std::bind(
 				[](const MsgType& msg, ConnectionPtr connection) {
 

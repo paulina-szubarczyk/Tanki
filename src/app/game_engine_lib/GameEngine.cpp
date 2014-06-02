@@ -13,28 +13,29 @@
 #include "glog/logging.h"
 
 
-void GameEngine::createGame(OutputPtr output1, InputPtr input1, OutputPtr output2, InputPtr input2) {
+void GameEngine::createGame(const std::vector<OutputPtr>& outputs, const std::vector<InputPtr>& inputs) {
 
 	LOG(INFO) << "Creating a game";
+	CHECK_EQ(outputs.size(), inputs.size()) << "Game requires 2 inputs and 2 outputs";
+	CHECK_EQ(outputs.size(), 2) << "Game requires 2 inputs and 2 outputs";
 
-	PlayerPtr player1 = GamePlayerBuilder::createGamePlayer(output1);
-	PlayerPtr player2 = GamePlayerBuilder::createGamePlayer(output2);
 
-	LOG(ERROR) << 1;
-	input1->setGamePlayer(player1);
-	LOG(ERROR) << 2;
-	input1->registerAddShipMethod(player1, GamePlayerBuilder::addPlayerShips);
+	auto outputIt = outputs.begin();
+	auto inputIt = inputs.begin();
+	std::vector<PlayerPtr> players;
+	for(;outputIt != outputs.end(); ++inputIt, ++outputIt) {
 
-	LOG(ERROR) << 3;
-	input2->setGamePlayer(player2);
-	LOG(ERROR) << 4;
-	input2->registerAddShipMethod(player2, GamePlayerBuilder::addPlayerShips);
-	LOG(ERROR) << 5;
+		auto player = GamePlayerBuilder::createGamePlayer(*outputIt);
+		(*inputIt)->setGamePlayer(player);
+		(*inputIt)->registerAddShipMethod(GamePlayerBuilder::addPlayerShips);
+		players.push_back(player);
+	}
 
-	auto game = std::make_shared<Game>(player1, player2);
 
-	player1->setGame(game);
-	player2->setGame(game);
+	auto game = std::make_shared<Game>(players[0], players[1]);
+	for(auto player : players) {
+		player->setGame(game);
+	}
 
 	games_.push_back(game);
 	LOG(INFO) << "Game created";

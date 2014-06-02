@@ -11,6 +11,7 @@
 #include "glog/logging.h"
 
 #include <functional>
+#include <stdexcept>
 
 namespace plh = std::placeholders;
 
@@ -19,50 +20,61 @@ namespace ships {
 PlayerInput::PlayerInput(MsgHandlerPtr msgHandler)
 	: Input(msgHandler) {}
 
-bool PlayerInput::registerAddShipMethod(PlayerPtr player, AddShipHandlerType handler) {
+void PlayerInput::registerAddShipMethod(AddShipHandlerType handler) {
 
-	return msgHandler_->addMsgHandler(MessageType::ADD_SHIP, std::bind(
-			[](const MsgType& msg, PlayerPtr player, AddShipHandlerType handler) {
+	if(!player_) {
 
-//		LOG(INFO) << "Received ADDS_SHIP";
-//		ShipVec x;
-//		ShipVec y;
-//
-//		for(int i = 0; i < msg.ships_size(); ++i) {
-//			std::vector<int> xs;
-//			std::vector<int> ys;
-//			auto ship = msg.ships(i);
-//			for(int j = 0; j < ship.x_size(); ++j) {
-//				xs.push_back(ship.x(j));
-//				ys.push_back(ship.y(j));
-//			}
-//			x.push_back(xs);
-//			y.push_back(ys);
-//		}
-//
-//		handler(player, y, x);
-//		player->shipsAdded();
+		std::logic_error err("Cannot bind handler to a null player. Set player first");
+		LOG(ERROR) << err.what();
+		throw err;
+	}
 
-	}, plh::_1, player, handler));
+	if(!msgHandler_->addMsgHandler(MessageType::ADD_SHIP, std::bind(
+			[](const MsgType& msg, PlayerPtr player_, AddShipHandlerType handler) {
+
+		LOG(INFO) << "Received ADD_SHIP";
+		ShipVec x;
+		ShipVec y;
+
+		for(int i = 0; i < msg.ships_size(); ++i) {
+			std::vector<int> xs;
+			std::vector<int> ys;
+			auto ship = msg.ships(i);
+			for(int j = 0; j < ship.x_size(); ++j) {
+				xs.push_back(ship.x(j));
+				ys.push_back(ship.y(j));
+			}
+			x.push_back(xs);
+			y.push_back(ys);
+		}
+
+		handler(player_, y, x);
+		player_->shipsAdded();
+
+	}, plh::_1, player_, handler))) {
+
+		std::runtime_error err("Couldn't add AddShipHandler");
+		LOG(ERROR) << err.what();
+		throw err;
+	}
 }
 
 void PlayerInput::setGamePlayer(PlayerPtr player) {
 
+	if(!player) {
+		std::invalid_argument err("Cannot bind input to a null player");
+		LOG(ERROR) << err.what();
+		throw err;
+	}
+
+	player_ = player;
 	msgHandler_->addMsgHandler(MessageType::HIT, std::bind(
-			[](const MsgType& msg, PlayerPtr player) {
+			[](const MsgType& msg, PlayerPtr player_) {
 
 		LOG(INFO) << "Received HIT";
-		player->hitField(msg.x(), msg.y());
-	}, plh::_1, player));
+		player_->hitField(msg.x(), msg.y());
+	}, plh::_1, player_));
 
-	msgHandler_->addMsgHandler(MessageType::ADD_SHIP, std::bind(
-			[](const MsgType& msg, PlayerPtr player) {
-
-		LOG(INFO) << "Received ADD_SHIP";
-
-
-		player->hitField(msg.x(), msg.y());
-	}, plh::_1, player));
 
 
 //	msgHandler_->addMsgHandler(MessageType::SURRENDER, std::bind(

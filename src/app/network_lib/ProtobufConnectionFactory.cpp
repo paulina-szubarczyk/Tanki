@@ -7,11 +7,12 @@
 
 #include "ProtobufConnectionFactory.h"
 #include "ProtobufConnection.h"
+#include "IoHarbour.h"
 
 namespace ships {
 
 ProtobufConnectionFactory::ProtobufConnectionFactory(HarbourPtr harbour)
-	: ConnectionFactory(harbour), msgHandler_(nullptr) {}
+	: harbour_(harbour), msgHandler_(nullptr) {}
 
 auto ProtobufConnectionFactory::getMsgHandler() const -> MsgHandlerPtr {
 	return msgHandler_;
@@ -23,7 +24,15 @@ void ProtobufConnectionFactory::setMsgHandler(MsgHandlerPtr msgHandler) {
 
 auto ProtobufConnectionFactory::createConnection() const -> ConnectionPtr {
 
-	return std::shared_ptr<ProtobufConnection>(new ProtobufConnection(harbour_, msgHandler_));
+	return std::make_shared<ProtobufConnection>(harbour_, msgHandler_ ? msgHandler_->clone() : nullptr);
+}
+
+auto ProtobufConnectionFactory::getHarbour() const -> HarbourPtr {
+	return harbour_;
+}
+
+void ProtobufConnectionFactory::setHarbour(HarbourPtr harbour) {
+	harbour_ = harbour;
 }
 
 } /* namespace ships */

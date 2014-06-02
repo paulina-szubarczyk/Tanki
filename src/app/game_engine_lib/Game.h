@@ -13,24 +13,25 @@
 
 
 class GamePlayer;
-class Game {
 
+class Game {
+	typedef std::shared_ptr<GamePlayer> PlayerPtr;
 public:
-	Game(std::shared_ptr<GamePlayer> player1, std::shared_ptr<GamePlayer> player2);
-	virtual ~Game();
+	Game(PlayerPtr player1, PlayerPtr player2);
+	virtual ~Game() = default;
 
 	void changeTurn();
-	bool isWinner(std::shared_ptr<GamePlayer> player);
-	std::shared_ptr<GamePlayer> getPlayer1();
-	std::shared_ptr<GamePlayer> getPlayer2();
+	bool isWinner(PlayerPtr player);
+	PlayerPtr getPlayer1();
+	PlayerPtr getPlayer2();
 	void initGame();
 
 	typedef boost::signals2::signal<void ()> StartGameType;
 	StartGameType startGame;
 	void playerPrepared();
 private:
-	std::shared_ptr<GamePlayer> player1_;
-	std::shared_ptr<GamePlayer> player2_;
+	PlayerPtr player1_;
+	PlayerPtr player2_;
 	int prepared_;
 	std::mutex player_;
 };

@@ -12,13 +12,11 @@ include_directories(
 add_library(network
         Acceptor.cpp
         Connection.cpp
-        ConnectionFactory.cpp
         ConnectionPool.cpp
         IoHarbour.cpp 
         MessageHandler.cpp 
         MessageHandlerPolicies.cpp
         MessagePacker.cpp
-        MessageSender.cpp
         PoolingAcceptor.cpp
         ProtobufConnection.cpp
         ProtobufConnectionFactory.cpp   

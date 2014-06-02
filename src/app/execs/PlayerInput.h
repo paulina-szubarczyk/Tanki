@@ -26,8 +26,11 @@ public:
 	PlayerInput(MsgHandlerPtr msgHandler);
 	~PlayerInput() = default;
 
-	bool registerAddShipMethod(PlayerPtr player, AddShipHandlerType handler);
+	void registerAddShipMethod(AddShipHandlerType handler);
 	void setGamePlayer(PlayerPtr player);
+
+private:
+	PlayerPtr player_;
 };
 
 } /* namespace ships */

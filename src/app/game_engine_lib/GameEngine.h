@@ -7,8 +7,11 @@
 
 #ifndef GAMEENGIN_H_
 #define GAMEENGIN_H_
+
 #include "GamePlayerBuilder.h"
 #include "Game.h"
+
+#include <vector>
 
 namespace ships {
 	class PlayerInput;
@@ -24,7 +27,7 @@ public:
 	GameEngine() = default;
 	virtual ~GameEngine() = default;
 
-	void createGame(OutputPtr output1, InputPtr input1, OutputPtr output2, InputPtr input2);
+	void createGame(const std::vector<OutputPtr>& outputs, const std::vector<InputPtr>& inputs);
 
 protected:
 	std::vector<std::shared_ptr<Game>> games_;

@@ -8,18 +8,11 @@
 #include "MessageHandler.h"
 #include "message.pb.h"
 
+#include "glog/logging.h"
+
+#include "stdexcept"
+
 namespace ships {
-
-template<typename K, typename M, template<typename M> class ExecPolicy>
-MessageHandler<K, M, ExecPolicy>::MessageHandler() {
-	// TODO Auto-generated constructor stub
-
-}
-
-template<typename K, typename M, template<typename M> class ExecPolicy>
-MessageHandler<K, M, ExecPolicy>::~MessageHandler() {
-	// TODO Auto-generated destructor stub
-}
 
 template<typename K, typename M, template<typename M> class ExecPolicy>
 void MessageHandler<K, M, ExecPolicy>::setTypeMethod(ResolverType fun) {
@@ -39,7 +32,6 @@ bool MessageHandler<K, M, ExecPolicy>::addMsgHandler(KeyType type, HandlerType h
 	if(msgHandlers_.find(type) != msgHandlers_.end()) {
 		return false;
 	}
-
 	msgHandlers_.insert({type, handler});
 	return true;
 }
@@ -53,7 +45,26 @@ auto MessageHandler<K, M, ExecPolicy>::getMsgHandlers() const -> const HandlerMa
 template<typename K, typename M, template<typename M> class ExecPolicy>
 void MessageHandler<K, M, ExecPolicy>::handleMsg(const MsgType& message) const {
 
-	msgHandlers_.at(resolveType(message))(message);
+	try {
+		auto type = resolveType(message);
+		LOG(INFO) << "Handling message type " << type;
+		msgHandlers_.at(type)(message);
+	} catch(std::bad_function_call& err) {
+
+		LOG(ERROR) << err.what();
+		throw;
+	}
+}
+
+template<typename K, typename M, template<typename M> class ExecPolicy>
+auto MessageHandler<K, M, ExecPolicy>::clone() const -> ThisTypePtr {
+
+	auto msgHandler = std::make_shared<MessageHandler>();
+	msgHandler->setTypeMethod(typeFun_);
+	for(const auto& pair : msgHandlers_) {
+		msgHandler->addMsgHandler(pair.first, pair.second);
+	}
+	return msgHandler;
 }
 
 template class MessageHandler<MessageType, DataMsg, DirectExecutePolicy>;
