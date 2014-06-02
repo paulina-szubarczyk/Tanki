@@ -13,7 +13,7 @@
 
 #include <memory>
 
-namespace ships {
+using namespace ships;
 
 class Input {
 protected:
@@ -28,7 +28,5 @@ public:
 protected:
 	MsgHandlerPtr msgHandler_;
 };
-
-} /* namespace ships */
 
 #endif /* INPUT_H_ */

@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 project( Execs )
 
-include_directories(${Message_BINARY_DIR})
-include_directories(${NetworkLib_SOURCE_DIR})
-include_directories(${ClientLib_SOURCE_DIR})
-include_directories(${GameEngineLib_SOURCE_DIR})
+include_directories(
+        ${GameEngineLib_SOURCE_DIR}
+        ${ClientLib_SOURCE_DIR}
+        ${NetworkLib_SOURCE_DIR}
+        ${Message_BINARY_DIR}
+)
 
 
 add_library(exec 

@@ -27,6 +27,7 @@ public:
 	virtual void oponentMissHit(int x, int y) ;
 	virtual void oponentWin() ;
 	virtual void playerWin() ;
+	virtual void getShips(const std::map<int, int>& shipMap);
 
 	/** error code methods
 	 *

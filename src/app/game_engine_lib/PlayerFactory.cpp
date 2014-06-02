@@ -13,21 +13,18 @@
 #include "IPlayerOutput.h"
 
 #include "glog/logging.h"
+
 namespace game {
-auto PlayerFactory::createGamePlayer(OutputPtr output) -> PlayerPtr {
+
+auto PlayerFactory::createGamePlayer(OutputPtr output, int gameboardSize) -> PlayerPtr {
 
 	LOG(INFO) << "Creating game player";;
 	auto player = std::make_shared<GamePlayer>(output);
 
-	//TODO size should be taken from a python configure script;
-	int size = 10;
-	addPlayerGameboard(player, size);
+	LOG(INFO) << "Adding gameboard";
+	player->setGameboard(std::make_shared<Gameboard>(gameboardSize));
 
 	return player;
-}
-void PlayerFactory::addPlayerGameboard(PlayerPtr player, int size) {
-	LOG(INFO) << "Adding gameboard";
-	player->setGameboard(std::make_shared<Gameboard>(size));
 }
 
 void  PlayerFactory::configPlayerFieldsUpdater(PlayerPtr player1, PlayerPtr player2) {

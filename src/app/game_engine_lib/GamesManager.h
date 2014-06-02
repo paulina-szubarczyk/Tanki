@@ -10,33 +10,32 @@
 
 #include "PlayerFactory.h"
 #include "Game.h"
+#include "IPlayerInput.h"
+#include "IGameConfig.h"
 
 #include <vector>
-
-namespace ships {
-	class PlayerInput;
-}
-
-using namespace ships;
-
-
+#include <memory>
 
 namespace game {
-	typedef std::shared_ptr<GamePlayer> PlayerPtr;
-	typedef std::shared_ptr<PlayerInput> InputPtr;
+
+
+typedef std::shared_ptr<GamePlayer> PlayerPtr;
+typedef std::shared_ptr<IPlayerInput> InputPtr;
 
 class GamesManager {
-
+typedef std::shared_ptr<IGameConfig> GameConfigPtr;
 public:
-	GamesManager() = default;
+	GamesManager(GameConfigPtr gameConfig);
 	virtual ~GamesManager() = default;
 
 	void createGame(const std::vector<OutputPtr>& outputs, const std::vector<InputPtr>& inputs);
 
 protected:
 	std::vector<std::shared_ptr<Game>> games_;
+	GameConfigPtr gameConfig_;
 
 };
+
 }
 
 #endif /* GAMEENGIN_H_ */

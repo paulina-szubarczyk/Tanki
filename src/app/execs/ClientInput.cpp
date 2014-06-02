@@ -43,7 +43,7 @@ ClientInput::ClientInput(ConnectionPtr connection, MsgHandlerPtr msgHandler)
 	msgHandler_->addMsgHandler(MessageType::CONFIG, std::bind(
 				[](const MsgType& msg, ConnectionPtr connection) {
 
-		LOG(INFO) << "Received CONFIG";
+			LOG(INFO) << "Received CONFIG";
 			connection->setGridSize(msg.grid_size());
 
 			std::map<int, int> config;

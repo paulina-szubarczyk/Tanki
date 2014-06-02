@@ -24,9 +24,7 @@ public:
 	PlayerFactory() = delete;
 	virtual ~PlayerFactory() = delete;
 
-	static PlayerPtr createGamePlayer(OutputPtr output);
-	static void addPlayerGameboard(PlayerPtr player, int size);
-
+	static PlayerPtr createGamePlayer(OutputPtr output, int gameboardSize);
 
 	static void addPlayerShips(PlayerPtr player, std::vector<std::vector<int>> y,
 								std::vector<std::vector<int>> x) ;

@@ -6,9 +6,9 @@
  */
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "BasicAcceptor.h"
+#include "Acceptor.h"
 #include "IoHarbour.h"
-#include "Connection.h"
+#include "ProtobufConnection.h"
 
 #include <thread>
 #include <functional>
@@ -27,7 +27,7 @@ struct AcceptorMock : public Acceptor {
 	: Acceptor(harbour), accept_(0), timer_(0), error_(0), shouldAccept_(true) {};
 	virtual ~AcceptorMock() = default;
 
-	bool onAccept(std::shared_ptr<ships::Connection> connection,
+	bool onAccept(std::shared_ptr<ProtobufConnection> connection,
 				const std::string & host, uint16_t port) override {++accept_; return shouldAccept_;};
 	void onTimer(const milliseconds& delta) override {++timer_;};
 	void onError(const boost::system::error_code & error) override {++error_;};
@@ -39,10 +39,10 @@ struct AcceptorMock : public Acceptor {
 /**
  * Mock
  */
-class ConnectionMock : public Connection {
+class ConnectionMock : public ProtobufConnection {
 public:
 
-		ConnectionMock(std::shared_ptr<IoHarbour> harbour) : Connection(harbour) {};
+		ConnectionMock(std::shared_ptr<IoHarbour> harbour) : ProtobufConnection(harbour) {};
 		virtual ~ConnectionMock() = default;
 
 		MOCK_METHOD2(onAccept, void(const std::string& host, uint16_t port));
@@ -133,26 +133,21 @@ TEST_F(AcceptorTest, StopTest) {
 	acceptor->stop();
 }
 
-//TEST_F(AcceptorTest, AcceptTest) {
-//
-//	AcceptorPtr acceptor(new AcceptorMock(harbour));
-//	ConnectionPtr connection(new ConnectionMock(harbour));
-//	ConnectionPtr incoming(new ConnectionMock(harbour));
-//
-//	EXPECT_CALL(*connection, onAccept("127.0.0.1", 8086)).Times(AtLeast(1));
-//	EXPECT_CALL(*connection, onError(_)).Times(0);
-//
-//	EXPECT_CALL(*incoming, onError(_)).Times(0);
-//
-//	acceptor->listen("127.0.0.1", 8086);
-//	acceptor->accept(connection);
-//	incoming->connect("127.0.0.1", 8086);
-//
-//
-//	connection.reset();
-//
-//	EXPECT_TRUE(Mock::VerifyAndClearExpectations(connection.get()));
-//}
+TEST_F(AcceptorTest, AcceptTest) {
+
+	AcceptorPtr acceptor(new AcceptorMock(harbour));
+	ConnectionPtr connection(new ConnectionMock(harbour));
+	ConnectionPtr incoming(new ConnectionMock(harbour));
+
+	EXPECT_CALL(*connection, onAccept("127.0.0.1", 8086)).Times(AtLeast(1));
+	EXPECT_CALL(*connection, onError(_)).Times(0);
+
+	EXPECT_CALL(*incoming, onError(_)).Times(0);
+
+	acceptor->listen("127.0.0.1", 8086);
+	acceptor->accept(connection);
+	incoming->connect("127.0.0.1", 8086);
+}
 
 }  // namespace
 

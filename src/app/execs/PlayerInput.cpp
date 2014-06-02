@@ -15,8 +15,6 @@
 
 namespace plh = std::placeholders;
 
-namespace ships {
-
 PlayerInput::PlayerInput(MsgHandlerPtr msgHandler)
 	: Input(msgHandler) {}
 
@@ -83,5 +81,3 @@ void PlayerInput::setGamePlayer(PlayerPtr player) {
 //		player->surrender();
 //	}, plh::_1, player));
 }
-
-} /* namespace ships */

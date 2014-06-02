@@ -17,7 +17,8 @@ struct IGameConfig {
 	IGameConfig() = default;
 	virtual ~IGameConfig() = default;
 
-	virtual std::map<std::string, std::string> getConfiguration() const = 0;
+	virtual int getGameboardSize() const = 0;
+	virtual std::map<int, int> getShipConfig() const = 0;
 };
 
 } /* namespace ships */

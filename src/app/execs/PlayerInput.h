@@ -9,31 +9,22 @@
 #define PLAYERINPUT_H_
 
 #include "Input.h"
+#include "game_engine_lib/IPlayerInput.h"
 
 #include <vector>
 
-namespace game {
-	class GamePlayer;
-}
+using namespace game;
 
-namespace ships {
-
-class PlayerInput : public Input {
-	typedef std::shared_ptr<game::GamePlayer> PlayerPtr;
-	typedef std::vector<std::vector<int>> ShipVec;
-	typedef std::function<void(PlayerPtr,const ShipVec&, const ShipVec&)>  AddShipHandlerType;;
-
+class PlayerInput : public Input, public IPlayerInput {
 public:
 	PlayerInput(MsgHandlerPtr msgHandler);
 	~PlayerInput() = default;
 
-	void registerAddShipMethod(AddShipHandlerType handler);
-	void setGamePlayer(PlayerPtr player);
+	virtual void registerAddShipMethod(AddShipHandlerType handler) override;
+	virtual void setGamePlayer(PlayerPtr player) override;
 
 private:
 	PlayerPtr player_;
 };
-
-} /* namespace ships */
 
 #endif /* PLAYERINPUT_H_ */

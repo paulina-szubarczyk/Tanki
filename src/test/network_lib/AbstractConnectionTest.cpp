@@ -5,7 +5,7 @@
  *      Author: Adam Kosiorek
  */
 #include "gtest/gtest.h"
-#include "AbstractConnection.h"
+#include "Connection.h"
 #include "IoHarbour.h"
 
 #include <thread>
@@ -16,10 +16,10 @@ namespace {
 using namespace ships;
 using namespace boost::asio;
 
-struct AbstractConnectionMock : public AbstractConnection {
+struct AbstractConnectionMock : public Connection {
 
 	AbstractConnectionMock(std::shared_ptr<IoHarbour> harbour)
-	: AbstractConnection(harbour), accept_(0), connect_(0), send_(0), receive_(0), timer_(0), error_(0) {};
+	: Connection(harbour), accept_(0), connect_(0), send_(0), receive_(0), timer_(0), error_(0) {};
 	virtual ~AbstractConnectionMock() = default;
 
 	virtual void onAccept(const std::string& host, uint16_t port) {++accept_;};

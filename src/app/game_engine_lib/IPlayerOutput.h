@@ -7,6 +7,9 @@
 
 #ifndef GAMEOUTPUT_H_
 #define GAMEOUTPUT_H_
+
+#include <map>
+
 namespace game {
 class IPlayerOutput {
 public:
@@ -23,6 +26,7 @@ public:
 	virtual void oponentMissHit(int x, int y) = 0;
 	virtual void oponentWin() = 0;
 	virtual void playerWin() = 0;
+	virtual void getShips(const std::map<int, int>& shipMap) = 0;
 
 	/** error code methods
 	 *

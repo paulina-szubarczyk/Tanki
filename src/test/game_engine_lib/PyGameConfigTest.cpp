@@ -9,7 +9,12 @@
 
 #include "PyGameConfig.h"
 
+
 using namespace game;
+
+#include <stdexcept>
+#include <memory>
+
 class PyGameConfigTest : public ::testing::Test {
 protected:
 	PyGameConfigTest() {};
@@ -18,6 +23,7 @@ protected:
 	virtual void TearDown() {};
 
 	static const std::string testDir;
+	std::shared_ptr<IGameConfig> gameConfig;
 };
 
 const std::string PyGameConfigTest::testDir = "../../../test_data/";
@@ -25,16 +31,27 @@ const std::string PyGameConfigTest::testDir = "../../../test_data/";
 TEST_F(PyGameConfigTest, CtorDtorTest) {
 
 
-	PyGameConfig interp(testDir + "print.py", "configure");
+	EXPECT_NO_THROW(gameConfig.reset(new PyGameConfig(testDir + "test.py")));
+
+	EXPECT_THROW(gameConfig.reset(new PyGameConfig("")), std::runtime_error);
 }
 
-TEST_F(PyGameConfigTest, GetConfTest) {
+TEST_F(PyGameConfigTest, GameboardSizeTest) {
 
-	PyGameConfig interp(testDir + "print.py", "configure");
-	std::map<std::string, std::string> params = interp.getConfiguration();
-	EXPECT_EQ(params.size(), 2);
-	EXPECT_EQ(params["jeden"], "dwa");
-	EXPECT_EQ(params["cztery"], "osiem");
+	gameConfig.reset(new PyGameConfig(testDir + "test.py"));
+	EXPECT_NO_THROW(
+			EXPECT_EQ(gameConfig->getGameboardSize(), 10)
+	);
+}
+
+TEST_F(PyGameConfigTest, ShipConfigTest) {
+
+	gameConfig.reset(new PyGameConfig(testDir + "test.py"));
+	std::map<int, int> shipConfig;
+	EXPECT_NO_THROW (shipConfig = gameConfig->getShipConfig());
+	EXPECT_EQ(shipConfig.size(), 2);
+	EXPECT_EQ(shipConfig[1], 2);
+	EXPECT_EQ(shipConfig[4], 8);
 }
 
 

@@ -6,11 +6,13 @@ include_directories(${NetworkLib_SOURCE_DIR})
 include_directories(${Message_BINARY_DIR})
 
 add_executable(${name}  
-                    MessageHandlerTest.cpp 
-                    IoHarbourTest.cpp 
-                    ConnectionTest.cpp
-                    MessagePackerTest.cpp
-                    ConnectionPoolTest.cpp
+        AbstractConnectionTest.cpp
+        AcceptorTest.cpp
+        ConnectionPoolTest.cpp
+        ConnectionTest.cpp
+        IoHarbourTest.cpp
+        MessageHandlerTest.cpp
+        MessagePackerTest.cpp
 )
 
 target_link_libraries(${name} ${GTEST_LIBS} network)

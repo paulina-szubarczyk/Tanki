@@ -14,10 +14,15 @@ namespace game {
 
 class PyGameConfig : public IGameConfig {
 public:
-	PyGameConfig(const std::string& filename, const std::string& funcName);
+	PyGameConfig(const std::string& filename);
 	virtual ~PyGameConfig();
 
-	virtual std::map<std::string, std::string> getConfiguration() const;
+	virtual int getGameboardSize() const;
+	virtual std::map<int, int> getShipConfig() const;
+
+private:
+	static const std::string shipConfigFunName_;
+	static const std::string gameboardSizeFunName_;
 };
 
 } /* namespace ships */

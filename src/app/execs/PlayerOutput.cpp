@@ -97,6 +97,23 @@ void PlayerOutput::playerWin() {
 	connection_->send(msg);
 }
 
+void PlayerOutput::getShips(const std::map<int, int>& shipMap) {
+
+	LOG(INFO) << "Sending CONFIG";
+
+	MsgPtr msg = createMsg();
+	msg->set_type(MessageType::CONFIG);
+
+	for(const auto& ship : shipMap) {
+
+		auto* addedShip = msg->add_ships();
+		addedShip->add_x(ship.first);
+		addedShip->add_y(ship.second);
+	}
+
+	connection_->send(msg);
+}
+
 void PlayerOutput::gameAlreadyOccupied() {
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::ERROR);

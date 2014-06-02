@@ -25,7 +25,7 @@ void ConnectionBridge::signal() {
 	auto connections =	connectionPool->getConnection(2);
 
 
-	std::vector<std::shared_ptr<PlayerInput>> inputs = {
+	std::vector<std::shared_ptr<IPlayerInput>> inputs = {
 			std::make_shared<PlayerInput>(connections[0]->getMsgHandler()),
 			std::make_shared<PlayerInput>(connections[1]->getMsgHandler())
 	};
