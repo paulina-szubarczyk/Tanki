@@ -12,7 +12,7 @@
 
 namespace game {
 
-class PyGameConfig : public IGameConfig {
+class PyGameConfig: public IGameConfig {
 public:
 	PyGameConfig(const std::string& filename);
 	virtual ~PyGameConfig();
@@ -25,6 +25,6 @@ private:
 	static const std::string gameboardSizeFunName_;
 };
 
-} /* namespace ships */
+} /* namespace game */
 
 #endif /* PYGAMECONFIG_H_ */

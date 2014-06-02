@@ -14,7 +14,7 @@
 
 #include "glog/logging.h"
 
-ConnectionBridge::ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn,
+ConnectionBridge::ConnectionBridge(std::shared_ptr<ConnectionPool> conn,
 		std::shared_ptr<game::GamesManager> engine) :
 		connectionPool(conn), gamesManager(engine) {}
 

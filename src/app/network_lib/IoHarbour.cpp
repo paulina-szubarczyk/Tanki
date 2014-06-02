@@ -9,8 +9,9 @@
 
 namespace net {
 
-IoHarbour::IoHarbour()
-	: work_(new io_service::work(ioService_)) {}
+IoHarbour::IoHarbour() :
+		work_(new io_service::work(ioService_)) {
+}
 
 io_service& IoHarbour::getService() {
 

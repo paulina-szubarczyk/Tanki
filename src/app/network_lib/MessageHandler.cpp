@@ -21,18 +21,20 @@ void MessageHandler<K, M, ExecPolicy>::setTypeMethod(ResolverType fun) {
 }
 
 template<typename K, typename M, template<typename M> class ExecPolicy>
-auto MessageHandler<K, M, ExecPolicy>::resolveType(const MsgType& message) const -> KeyType {
+auto MessageHandler<K, M, ExecPolicy>::resolveType(
+		const MsgType& message) const -> KeyType {
 
 	return typeFun_(message);
 }
 
 template<typename K, typename M, template<typename M> class ExecPolicy>
-bool MessageHandler<K, M, ExecPolicy>::addMsgHandler(KeyType type, HandlerType handler) {
+bool MessageHandler<K, M, ExecPolicy>::addMsgHandler(KeyType type,
+		HandlerType handler) {
 
-	if(msgHandlers_.find(type) != msgHandlers_.end()) {
+	if (msgHandlers_.find(type) != msgHandlers_.end()) {
 		return false;
 	}
-	msgHandlers_.insert({type, handler});
+	msgHandlers_.insert( { type, handler });
 	return true;
 }
 
@@ -47,11 +49,11 @@ void MessageHandler<K, M, ExecPolicy>::handleMsg(const MsgType& message) const {
 
 	try {
 		auto type = resolveType(message);
-		LOG(INFO) << "Handling message type " << type;
+		LOG(INFO)<< "Handling message type " << type;
 		msgHandlers_.at(type)(message);
-	} catch(std::bad_function_call& err) {
+	} catch (std::bad_function_call& err) {
 
-		LOG(ERROR) << err.what();
+		LOG(ERROR)<< err.what();
 		throw;
 	}
 }
@@ -61,12 +63,12 @@ auto MessageHandler<K, M, ExecPolicy>::clone() const -> ThisTypePtr {
 
 	auto msgHandler = std::make_shared<MessageHandler>();
 	msgHandler->setTypeMethod(typeFun_);
-	for(const auto& pair : msgHandlers_) {
+	for (const auto& pair : msgHandlers_) {
 		msgHandler->addMsgHandler(pair.first, pair.second);
 	}
 	return msgHandler;
 }
 
-template class MessageHandler<MessageType, DataMsg, DirectExecutePolicy>;
+template class MessageHandler<MessageType, DataMsg, DirectExecutePolicy> ;
 
 } /* namespace net */

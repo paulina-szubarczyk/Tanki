@@ -25,7 +25,8 @@ class ConnectionObserver;
  * objects. A ConnectionObserver is signaled whenever the size of the queue exceeds some limit.
  */
 class ConnectionPool {
-public:	//	Typedefs
+public:
+	//	Typedefs
 	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;
 	typedef std::queue<ConnectionPtr> QueueType;
 	typedef std::shared_ptr<QueueType> QueuePtr;

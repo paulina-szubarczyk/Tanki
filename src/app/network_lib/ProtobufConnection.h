@@ -24,17 +24,20 @@ namespace net {
  * Uses a MessagePacker object to pack protobuf messsages.
  */
 class ProtobufConnection: public Connection {
-public:	//	Typedefs
+public:
+	//	Typedefs
 	typedef MessagePacker<DataMsg> PackageType;
 	typedef MessageHandler<MessageType, DataMsg> MsgHandlerType;
 	typedef std::shared_ptr<MsgHandlerType> MsgHandlerPtr;
 
-public:	//	Constructors
+public:
+	//	Constructors
 	ProtobufConnection(HarbourPtr harbour);
 	ProtobufConnection(HarbourPtr harbour, MsgHandlerPtr msgHandler);
 	~ProtobufConnection() = default;
 
-public:	//	Methods
+public:
+	//	Methods
 
 	/**
 	 * Sends a DataMsg to the other side
@@ -45,13 +48,19 @@ public:	//	Methods
 
 	//	 Overriden abstract methods
 	void onAccept(const std::string & host, uint16_t port) override;
-	void onConnect(const std::string & host, uint16_t port) override;;
-	void onSend(const std::vector<uint8_t> & buffer) override;;
-	void onReceive(std::vector<uint8_t> & buffer) override;;
-	void onTimer(const milliseconds& delta) override;;
-	void onError(const boost::system::error_code & error) override;;
+	void onConnect(const std::string & host, uint16_t port) override;
+	;
+	void onSend(const std::vector<uint8_t> & buffer) override;
+	;
+	void onReceive(std::vector<uint8_t> & buffer) override;
+	;
+	void onTimer(const milliseconds& delta) override;
+	;
+	void onError(const boost::system::error_code & error) override;
+	;
 
-private:	//	Methods
+private:
+	//	Methods
 	virtual void startReceive(int32_t totalBytes = 0) override; //header
 	void startReceiveBody(int32_t totalBytes); //header
 

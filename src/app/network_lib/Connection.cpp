@@ -16,14 +16,11 @@ using namespace std::placeholders;
 
 namespace net {
 
-Connection::Connection(HarbourPtr harbour)
-	: harbour_(harbour),
-	  strand_(harbour_->getService()),
-	  socket_(harbour_->getService()),
-	  timer_(harbour_->getService()),
-	  receiveBufferSize_(4096),
-	  timerInterval_(1000),
-	  error_(0) {}
+Connection::Connection(HarbourPtr harbour) :
+		harbour_(harbour), strand_(harbour_->getService()), socket_(
+				harbour_->getService()), timer_(harbour_->getService()), receiveBufferSize_(
+				4096), timerInterval_(1000), error_(0) {
+}
 
 bool Connection::hasError() const {
 	return error_;
@@ -76,36 +73,43 @@ void Connection::bind(const std::string& ip, uint16_t port) {
 void Connection::connect(const std::string& host, uint16_t port) {
 
 	ip::tcp::resolver resolver(harbour_->getService());
-	ip::tcp::resolver::query query(host, boost::lexical_cast<std::string>(port));
+	ip::tcp::resolver::query query(host,
+			boost::lexical_cast<std::string>(port));
 
 	socket_.async_connect(*resolver.resolve(query),
-			strand_.wrap(std::bind(&Connection::handleConnect, shared_from_this(), _1)));
+			strand_.wrap(
+					std::bind(&Connection::handleConnect, shared_from_this(),
+							_1)));
 }
 
 void Connection::send(const std::vector<uint8_t>& buffer) {
 
-	strand_.post(std::bind(
-			&Connection::dispatchSend, shared_from_this(), buffer));
+	strand_.post(
+			std::bind(&Connection::dispatchSend, shared_from_this(), buffer));
 }
 
 void Connection::receive(int totalBytes) {
 
-	strand_.post(std::bind(
-			&Connection::dispatchReceive, shared_from_this(), totalBytes));
+	strand_.post(
+			std::bind(&Connection::dispatchReceive, shared_from_this(),
+					totalBytes));
 }
 
 void Connection::disconnect() {
-	strand_.post(std::bind(
-			&Connection::handleTimer, shared_from_this(), error::connection_reset));
+	strand_.post(
+			std::bind(&Connection::handleTimer, shared_from_this(),
+					error::connection_reset));
 }
 
 void Connection::startSend() {
 
-	if(pendingSends_.empty()) return;
+	if (pendingSends_.empty())
+		return;
 
 	auto writeBuffer = buffer(pendingSends_.front());
-	auto wrappedSendHandler = strand_.wrap(std::bind(
-			&Connection::handleSend, shared_from_this(), _1, pendingSends_.begin()));
+	auto wrappedSendHandler = strand_.wrap(
+			std::bind(&Connection::handleSend, shared_from_this(), _1,
+					pendingSends_.begin()));
 
 	async_write(socket_, writeBuffer, wrappedSendHandler);
 }
@@ -120,17 +124,18 @@ void Connection::startError(const boost::system::error_code& error) {
 
 void Connection::startReceive(int32_t totalBytes) {
 
-	auto wrappedReceptionHandler = strand_.wrap(std::bind(
-			&Connection::handleReceive, shared_from_this(), _1, _2));
+	auto wrappedReceptionHandler = strand_.wrap(
+			std::bind(&Connection::handleReceive, shared_from_this(), _1, _2));
 
-	if(totalBytes > 0) {
+	if (totalBytes > 0) {
 
 		receiveBuffer_.resize(totalBytes);
 		async_read(socket_, buffer(receiveBuffer_), wrappedReceptionHandler);
 	} else {
 
 		receiveBuffer_.resize(receiveBufferSize_);
-		socket_.async_read_some(buffer(receiveBuffer_), wrappedReceptionHandler);
+		socket_.async_read_some(buffer(receiveBuffer_),
+				wrappedReceptionHandler);
 	}
 
 }
@@ -138,15 +143,17 @@ void Connection::startReceive(int32_t totalBytes) {
 void Connection::startTimer() {
 	lastTimerEvent_ = steady_clock::now();
 	timer_.expires_from_now(milliseconds(timerInterval_));
-	timer_.async_wait(strand_.wrap(std::bind(
-			&Connection::dispatchTimer, shared_from_this(), _1)));
+	timer_.async_wait(
+			strand_.wrap(
+					std::bind(&Connection::dispatchTimer, shared_from_this(),
+							_1)));
 }
 
 void Connection::dispatchSend(std::vector<uint8_t> buffer) {
 
 	bool shouldStartSend = pendingSends_.empty();
 	pendingSends_.push_back(buffer);
-	if(shouldStartSend)
+	if (shouldStartSend)
 		startSend();
 }
 
@@ -154,20 +161,21 @@ void Connection::dispatchReceive(int32_t totalBytes) {
 
 	bool shouldStartReceive = pendingReceives_.empty();
 	pendingReceives_.push_back(totalBytes);
-	if(shouldStartReceive)
+	if (shouldStartReceive)
 		startReceive(totalBytes);
 }
 
 void Connection::dispatchTimer(const boost::system::error_code& error) {
-	strand_.post(std::bind(
-			&Connection::handleTimer, shared_from_this(), error));
+	strand_.post(
+			std::bind(&Connection::handleTimer, shared_from_this(), error));
 }
 
 void Connection::handleConnect(const boost::system::error_code& error) {
 
-	if(handleError(error)) return;
+	if (handleError(error))
+		return;
 
-	if(socket_.is_open())
+	if (socket_.is_open())
 		onConnect(socket_.remote_endpoint().address().to_string(),
 				socket_.remote_endpoint().port());
 	else
@@ -176,7 +184,7 @@ void Connection::handleConnect(const boost::system::error_code& error) {
 
 bool Connection::handleError(const boost::system::error_code& error) {
 
-	if(error || hasError() || harbour_->hasStopped()) {
+	if (error || hasError() || harbour_->hasStopped()) {
 		startError(error);
 		return true;
 	}
@@ -186,7 +194,8 @@ bool Connection::handleError(const boost::system::error_code& error) {
 void Connection::handleSend(const boost::system::error_code& error,
 		std::list<std::vector<uint8_t> >::iterator it) {
 
-	if(handleError(error)) return;
+	if (handleError(error))
+		return;
 
 	onSend(*it);
 	pendingSends_.erase(it);
@@ -196,21 +205,22 @@ void Connection::handleSend(const boost::system::error_code& error,
 void Connection::handleReceive(const boost::system::error_code& error,
 		int actualBytes) {
 
-	if(handleError(error)) return;
+	if (handleError(error))
+		return;
 
 	receiveBuffer_.resize(actualBytes);
 	onReceive(receiveBuffer_);
 	pendingReceives_.pop_front();
-	if(!pendingReceives_.empty())
+	if (!pendingReceives_.empty())
 		startReceive(pendingReceives_.front());
 }
 
 void Connection::handleTimer(const boost::system::error_code& error) {
 
-	if(handleError(error)) return;
+	if (handleError(error))
+		return;
 
-	onTimer(duration_cast<milliseconds>(
-			steady_clock::now() - lastTimerEvent_));
+	onTimer(duration_cast<milliseconds>(steady_clock::now() - lastTimerEvent_));
 
 	startTimer();
 }

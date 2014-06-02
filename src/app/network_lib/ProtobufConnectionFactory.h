@@ -22,7 +22,8 @@ class ProtobufConnection;
  * a MessageHandler object to the connections it creates.
  */
 class ProtobufConnectionFactory {
-public:	//	Typedefs
+public:
+	//	Typedefs
 	typedef MessageHandler<MessageType, DataMsg> MsgHandlerType;
 	typedef std::shared_ptr<MsgHandlerType> MsgHandlerPtr;
 	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;

@@ -21,6 +21,4 @@ struct ConnectionObserver {
 
 }
 
-
-
 #endif /* CONNECTIONOBSERVER_H_ */

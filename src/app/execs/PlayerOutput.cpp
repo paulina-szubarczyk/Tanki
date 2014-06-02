@@ -11,14 +11,16 @@
 
 #include <stdexcept>
 
-PlayerOutput::PlayerOutput(std::shared_ptr<ships::ProtobufConnection> connection) : connection_(connection){
-	if(!connection_)
-		throw new std::invalid_argument("Cannot instantiate a MessageSender with a null connection");
+PlayerOutput::PlayerOutput(std::shared_ptr<ProtobufConnection> connection) :
+		connection_(connection) {
+	if (!connection_)
+		throw new std::invalid_argument(
+				"Cannot instantiate a MessageSender with a null connection");
 }
 
 void PlayerOutput::beginGame() {
 
-	LOG(INFO) << "Sending BEGIN";
+	LOG(INFO)<< "Sending BEGIN";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::BEGIN);
 	msg->set_this_(true);
@@ -27,7 +29,7 @@ void PlayerOutput::beginGame() {
 
 void PlayerOutput::playerTurn() {
 
-	LOG(INFO) << "Sending TURN";
+	LOG(INFO)<< "Sending TURN";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::TURN);
 	msg->set_turn(true);
@@ -37,7 +39,7 @@ void PlayerOutput::playerTurn() {
 
 void PlayerOutput::playerShipHit(int x, int y) {
 
-	LOG(INFO) << "Sending HIT";
+	LOG(INFO)<< "Sending HIT";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::HIT);
 	msg->set_x(x);
@@ -57,7 +59,7 @@ void PlayerOutput::playerShipSunk(int x, int y) {
 
 void PlayerOutput::oponentShipHit(int x, int y) {
 
-	LOG(INFO) << "Sending HIT_REPLAY";
+	LOG(INFO)<< "Sending HIT_REPLAY";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::HIT_REPLAY);
 	msg->set_x(x);
@@ -68,7 +70,7 @@ void PlayerOutput::oponentShipHit(int x, int y) {
 
 void PlayerOutput::oponentShipSunk(int x, int y) {
 
-	LOG(INFO) << "Sending SUNK_REPLAY";
+	LOG(INFO)<< "Sending SUNK_REPLAY";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::SUNK_REPLAY);
 	msg->set_x(x);
@@ -79,7 +81,7 @@ void PlayerOutput::oponentShipSunk(int x, int y) {
 
 void PlayerOutput::oponentWin() {
 
-	LOG(INFO) << "Sending OVER OPPONENT WIN";
+	LOG(INFO)<< "Sending OVER OPPONENT WIN";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::OVER);
 	msg->set_win(false);
@@ -89,7 +91,7 @@ void PlayerOutput::oponentWin() {
 
 void PlayerOutput::playerWin() {
 
-	LOG(INFO) << "Sending OVER PLAYER WIN";
+	LOG(INFO)<< "Sending OVER PLAYER WIN";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::OVER);
 	msg->set_win(true);
@@ -99,7 +101,7 @@ void PlayerOutput::playerWin() {
 
 void PlayerOutput::getShips(const std::map<int, int>& shipMap) {
 
-	LOG(INFO) << "Sending CONFIG";
+	LOG(INFO)<< "Sending CONFIG";
 
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::CONFIG);
@@ -123,7 +125,7 @@ void PlayerOutput::gameAlreadyOccupied() {
 
 void PlayerOutput::notEnoughShips(int delivered, int expected) {
 
-	LOG(INFO) << "Sending ERROR";
+	LOG(INFO)<< "Sending ERROR";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::ERROR);
 	msg->set_error_msg("gameAlreadyOccupied");
@@ -132,7 +134,7 @@ void PlayerOutput::notEnoughShips(int delivered, int expected) {
 
 void PlayerOutput::playerNotReady() {
 
-	LOG(INFO) << "Sending ERROR";
+	LOG(INFO)<< "Sending ERROR";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::ERROR);
 	msg->set_error_msg("playerNotReady");
@@ -141,7 +143,7 @@ void PlayerOutput::playerNotReady() {
 
 void PlayerOutput::oponentNotReady() {
 
-	LOG(INFO) << "Sending ERROR";
+	LOG(INFO)<< "Sending ERROR";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::ERROR);
 	msg->set_error_msg("oponentNotReady");
@@ -159,7 +161,7 @@ void PlayerOutput::oponentMissHit(int x, int y) {
 
 void PlayerOutput::playerMissHit(int x, int y) {
 
-	LOG(INFO) << "Sending MISS_REPLAY";
+	LOG(INFO)<< "Sending MISS_REPLAY";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::MISS_REPLAY);
 	msg->set_x(x);
@@ -170,7 +172,7 @@ void PlayerOutput::playerMissHit(int x, int y) {
 
 void PlayerOutput::oponentTurn() {
 
-	LOG(INFO) << "Sending TURN";
+	LOG(INFO)<< "Sending TURN";
 	MsgPtr msg = createMsg();
 	msg->set_type(MessageType::TURN);
 	msg->set_turn(false);

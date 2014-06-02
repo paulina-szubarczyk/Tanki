@@ -32,18 +32,22 @@ class ProtobufConnection;
  */
 class Acceptor: public std::enable_shared_from_this<Acceptor> {
 	friend class ioHarbour;
-public:	//	Typedefs
+public:
+	//	Typedefs
 	typedef std::shared_ptr<IoHarbour> HarbourPtr;
 
-private:	//	 constructors
+private:
+	//	 constructors
 	Acceptor(const Acceptor& acceptor);
 	Acceptor& operator =(const Acceptor& acceptor);
 
-protected:	//	Constructors
+protected:
+	//	Constructors
 	Acceptor(HarbourPtr harbour);
 	virtual ~Acceptor() = default;
 
-public:	//	Setters & getters
+public:
+	//	Setters & getters
 	std::shared_ptr<IoHarbour> getHarbour();
 	ip::tcp::acceptor& getAcceptor();
 	strand& getStrand();
@@ -52,10 +56,10 @@ public:	//	Setters & getters
 	 * Sets timer interval in milliseconds. Default is 1000.
 	 */
 	void setTimerInterval(int32_t timerInterval);
-	int32_t getTimerInterval() const;
-	bool hasError();
+	int32_t getTimerInterval() const;bool hasError();
 
-public:	//	Methods
+public:
+	//	Methods
 	/**
 	 * Begin listening on the specific network interface.
 	 */
@@ -73,7 +77,8 @@ public:	//	Methods
 	 */
 	virtual void stop();
 
-private:	//	Methods
+private:
+	//	Methods
 	void startTimer();
 	void startError(const boost::system::error_code& error);
 
@@ -81,32 +86,34 @@ private:	//	Methods
 
 	void handleTimer(const boost::system::error_code& error);
 	void handleAccept(const boost::system::error_code& error,
-			std::shared_ptr<ProtobufConnection> connection);
-	bool handleError(const boost::system::error_code& error);
+			std::shared_ptr<ProtobufConnection> connection);bool handleError(
+			const boost::system::error_code& error);
 
-private:	//	Abstract methods
-   /**
-	* Called when a connection has connected to the server. This function
-	* should return true to invoke the connection's onAccept function if the
-	* connection will be kept. if the connection will not be kept, the
-	* connection's disconnect function should be called and the function
-	* should return false.
-	*/
+private:
+	//	Abstract methods
+	/**
+	 * Called when a connection has connected to the server. This function
+	 * should return true to invoke the connection's onAccept function if the
+	 * connection will be kept. if the connection will not be kept, the
+	 * connection's disconnect function should be called and the function
+	 * should return false.
+	 */
 	virtual bool onAccept(std::shared_ptr<ProtobufConnection> connection,
 			const std::string& host, uint16_t port) = 0;
-   /**
-	* Called on each timer event.
-	*/
+	/**
+	 * Called on each timer event.
+	 */
 	virtual void onTimer(const milliseconds& delta) = 0;
 
-   /**
-	* Called when an error is encountered. Most typically, this is when the
-	* acceptor is being closed via the stop function or if the Listen is
-	* called on an address that is not available.
-	*/
+	/**
+	 * Called when an error is encountered. Most typically, this is when the
+	 * acceptor is being closed via the stop function or if the Listen is
+	 * called on an address that is not available.
+	 */
 	virtual void onError(const boost::system::error_code& error) = 0;
 
-private:	//	Fields
+private:
+	//	Fields
 	HarbourPtr harbour_;
 	ip::tcp::acceptor acceptor_;
 	strand strand_;

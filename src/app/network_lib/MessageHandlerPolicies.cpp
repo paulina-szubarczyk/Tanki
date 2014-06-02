@@ -11,17 +11,18 @@
 namespace net {
 
 template<typename MsgType>
-RelayExecutePolicy<MsgType>::RelayExecutePolicy(ServicePtr service)
-	: service_(service) {};
+RelayExecutePolicy<MsgType>::RelayExecutePolicy(ServicePtr service) :
+		service_(service) {
+}
 
-template<typename MsgType> void RelayExecutePolicy<MsgType>::execute
-(const std::function<void(const MsgType&)>& fun, const MsgType& msg) {
+template<typename MsgType> void RelayExecutePolicy<MsgType>::execute(
+		const std::function<void(const MsgType&)>& fun, const MsgType& msg) {
 
 	service_->dispatch(std::bind(fun, msg));
-};
+}
 
 template<typename MsgType>
-auto RelayExecutePolicy<MsgType>::getService() const -> ServicePtr{
+auto RelayExecutePolicy<MsgType>::getService() const -> ServicePtr {
 	return service_;
 }
 

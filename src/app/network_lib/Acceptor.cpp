@@ -15,13 +15,11 @@ namespace net {
 
 using namespace std::placeholders;
 
-Acceptor::Acceptor(HarbourPtr harbour)
-		: harbour_(harbour),
-		  acceptor_(harbour->getService()),
-		  strand_(harbour->getService()),
-		  timer_(harbour->getService()),
-		  timerInterval_(1000),
-		  error_(0) {}
+Acceptor::Acceptor(HarbourPtr harbour) :
+		harbour_(harbour), acceptor_(harbour->getService()), strand_(
+				harbour->getService()), timer_(harbour->getService()), timerInterval_(
+				1000), error_(0) {
+}
 
 std::shared_ptr<IoHarbour> Acceptor::getHarbour() {
 	return harbour_;
@@ -50,7 +48,8 @@ bool Acceptor::hasError() {
 void Acceptor::listen(const std::string& host, const uint16_t& port) {
 
 	ip::tcp::resolver resolver(harbour_->getService());
-	ip::tcp::resolver::query query(host, boost::lexical_cast<std::string>(port));
+	ip::tcp::resolver::query query(host,
+			boost::lexical_cast<std::string>(port));
 	ip::tcp::endpoint endpoint = *resolver.resolve(query);
 	acceptor_.open(endpoint.protocol());
 	acceptor_.set_option(ip::tcp::acceptor::reuse_address(false));
@@ -60,23 +59,28 @@ void Acceptor::listen(const std::string& host, const uint16_t& port) {
 }
 
 void Acceptor::accept(std::shared_ptr<ProtobufConnection> connection) {
-	strand_.post(std::bind(&Acceptor::dispatchAccept, shared_from_this(), connection));
+	strand_.post(
+			std::bind(&Acceptor::dispatchAccept, shared_from_this(),
+					connection));
 }
 
 void Acceptor::stop() {
-	strand_.post(std::bind(&Acceptor::handleTimer, shared_from_this(),
-			error::connection_reset));
+	strand_.post(
+			std::bind(&Acceptor::handleTimer, shared_from_this(),
+					error::connection_reset));
 }
 
 void Acceptor::startTimer() {
 	lastTimerEvent_ = steady_clock::now();
 	timer_.expires_from_now(milliseconds(timerInterval_));
-	timer_.async_wait(strand_.wrap(std::bind(
-			&Acceptor::handleTimer, shared_from_this(), _1)));
+	timer_.async_wait(
+			strand_.wrap(
+					std::bind(&Acceptor::handleTimer, shared_from_this(), _1)));
 }
 
 void Acceptor::startError(const boost::system::error_code& error) {
-	if(error_ != 0) return;
+	if (error_ != 0)
+		return;
 
 	boost::system::error_code ec;
 	acceptor_.cancel(ec);
@@ -87,13 +91,16 @@ void Acceptor::startError(const boost::system::error_code& error) {
 
 void Acceptor::dispatchAccept(std::shared_ptr<ProtobufConnection> connection) {
 
-	acceptor_.async_accept(connection->getSocket(), connection->getStrand().wrap(
-			std::bind(&Acceptor::handleAccept, shared_from_this(), _1, connection)));
+	acceptor_.async_accept(connection->getSocket(),
+			connection->getStrand().wrap(
+					std::bind(&Acceptor::handleAccept, shared_from_this(), _1,
+							connection)));
 }
 
 void Acceptor::handleTimer(const boost::system::error_code& error) {
 
-	if(handleError(error)) return;
+	if (handleError(error))
+		return;
 
 	onTimer(duration_cast<milliseconds>(steady_clock::now() - lastTimerEvent_));
 	startTimer();
@@ -102,14 +109,17 @@ void Acceptor::handleTimer(const boost::system::error_code& error) {
 void Acceptor::handleAccept(const boost::system::error_code& error,
 		std::shared_ptr<ProtobufConnection> connection) {
 
-	if(handleError(error)) return;
+	if (handleError(error))
+		return;
 
-	if(connection->getSocket().is_open()) {
+	if (connection->getSocket().is_open()) {
 		connection->startTimer();
 		auto remoteEndpoint = connection->getSocket().remote_endpoint();
-		if(onAccept(connection, remoteEndpoint.address().to_string(), remoteEndpoint.port())) {
+		if (onAccept(connection, remoteEndpoint.address().to_string(),
+				remoteEndpoint.port())) {
 
-			connection->onAccept(acceptor_.local_endpoint().address().to_string(),
+			connection->onAccept(
+					acceptor_.local_endpoint().address().to_string(),
 					acceptor_.local_endpoint().port());
 		}
 	} else

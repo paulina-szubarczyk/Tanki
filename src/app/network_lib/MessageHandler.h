@@ -20,8 +20,9 @@ namespace net {
  * It accepts a message type resolving method and then type-based message handling methods
  * Execution of the message handles is policy based and can be either direct or relayed to another object.
  */
-template<typename K, typename M, template<typename M> class ExecPolicy = DirectExecutePolicy>
-class MessageHandler : private ExecPolicy<M> {
+template<typename K, typename M,
+		template<typename M> class ExecPolicy = DirectExecutePolicy>
+class MessageHandler: private ExecPolicy<M> {
 public:
 	typedef K KeyType;
 	typedef M MsgType;
@@ -66,8 +67,6 @@ public:
 	 * Returns a deep copy (or a clone)
 	 */
 	ThisTypePtr clone() const;
-
-
 
 private:
 	ResolverType typeFun_;

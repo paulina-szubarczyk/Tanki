@@ -16,13 +16,13 @@ using namespace net;
 
 class ConnectionBridge : public ConnectionObserver {
 public:
-	ConnectionBridge(std::shared_ptr<ships::ConnectionPool> conn, std::shared_ptr<game::GamesManager> engine);
+	ConnectionBridge(std::shared_ptr<ConnectionPool> conn, std::shared_ptr<game::GamesManager> engine);
 	virtual ~ConnectionBridge() = default;
 
 	virtual void signal();
 
 private:
-	std::shared_ptr<ships::ConnectionPool> connectionPool;
+	std::shared_ptr<ConnectionPool> connectionPool;
 	std::shared_ptr<game::GamesManager> gamesManager;
 };
 

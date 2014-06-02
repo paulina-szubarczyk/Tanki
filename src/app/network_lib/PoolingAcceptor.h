@@ -21,14 +21,15 @@ class ProtobufConnection;
  * It listens for mutiple connection at the given endpoint. Upon accepting a connection it is
  * moved to a ConnectionPool and a new Connection is spawned at its place
  */
-class PoolingAcceptor : public Acceptor {
-public:	//	Typedefs
+class PoolingAcceptor: public Acceptor {
+public:
+	//	Typedefs
 	typedef std::shared_ptr<ConnectionPool> PoolPtr;
 	typedef std::shared_ptr<ProtobufConnectionFactory> FactoryPtr;
 
-
 public:
-	PoolingAcceptor(HarbourPtr harbour, PoolPtr pool, FactoryPtr factory, int poolSize = 4);
+	PoolingAcceptor(HarbourPtr harbour, PoolPtr pool, FactoryPtr factory,
+			int poolSize = 4);
 	virtual ~PoolingAcceptor() = default;
 
 	virtual void listen(const std::string& host, const uint16_t& port);
@@ -43,8 +44,7 @@ private:
 
 	PoolPtr pool_;
 	FactoryPtr factory_;
-	int poolSize_;
-	bool initialized_;
+	int poolSize_;bool initialized_;
 };
 
 } /* namespace net */
