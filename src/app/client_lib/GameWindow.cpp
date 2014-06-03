@@ -12,9 +12,6 @@ GameWindow& GameWindow::getInstance() {
 	return instance;
 }
 
-GameWindow::GameWindow() {
-}
-
 void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	manager_.reset(new GameManager);
 	shipSize_ = manager_->getSmallestSize();
@@ -193,9 +190,9 @@ void GameWindow::createGLUI() {
 
 	//Picked Coordinates Display
 	GLUI_Panel* pickedPanel = getGlui()->add_panel("Picked Coordinates");
-	GLUI_EditText* xCoordinate = getGlui()->add_edittext_to_panel(pickedPanel,
+	getGlui()->add_edittext_to_panel(pickedPanel,
 			"X coordinate: ", GLUI_EDITTEXT_INT, &pickedX_);
-	GLUI_EditText* yCoordinate = getGlui()->add_edittext_to_panel(pickedPanel,
+	getGlui()->add_edittext_to_panel(pickedPanel,
 			"Y coordinate: ", GLUI_EDITTEXT_INT, &pickedY_);
 
 	/*
@@ -212,7 +209,7 @@ void GameWindow::createGLUI() {
 	 */
 	std::map<int, int>::iterator it;
 	it = getManager()->getShipsQuantity().begin();
-	for (it; it != getManager()->getShipsQuantity().end(); it++) {
+	for (; it != getManager()->getShipsQuantity().end(); it++) {
 		std::string s = std::to_string(it->first);
 		const char* name = s.c_str();
 		shipSize->add_item(it->first, name);

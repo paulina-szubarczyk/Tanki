@@ -20,8 +20,8 @@ namespace game {
 const std::string PyGameConfig::shipConfigFunName_ = "shipConfig";
 const std::string PyGameConfig::gameboardSizeFunName_ = "gameboardSize";
 
-py::object shipConfigFun_;
-py::object gameboardSizeFun_;
+static py::object shipConfigFun_;
+static py::object gameboardSizeFun_;
 
 PyGameConfig::PyGameConfig(const std::string& filename) {
 

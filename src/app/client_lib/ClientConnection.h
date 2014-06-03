@@ -15,6 +15,8 @@ class GameWindow;
 
 class ClientConnection {
 public:
+	ClientConnection() = default;
+	virtual ~ClientConnection() = default;
 
 	/*
 	 * hit coordinates are already in client
