@@ -1,0 +1,42 @@
+enum MessageType { 
+	HIT = 1; 
+	RESULT = 2; 
+	LEFT = 3; 
+	OVER = 4; 
+	XY = 5; 
+	SHIP = 6; 
+	LOGIN = 7; 
+	ADD_SHIP = 8;
+	SURRENDER = 9; 
+	TURN = 10; 
+	HIT_REPLAY = 11; 
+	CONFIG = 12; 
+	BEGIN = 13;
+	SUNK = 14;
+	SUNK_REPLAY = 15;
+	ERROR = 16;
+	MISS_REPLAY = 17;
+} 
+
+message ShipMsg { 
+	repeated int32 x = 1; 
+	repeated int32 y = 2; 
+}
+
+ message DataMsg { 
+	 required MessageType type = 1; 
+	 optional string login = 2; 
+	 optional string password = 3; 
+	 optional int32 x1 = 4; 
+	 optional int32 y1 = 5; 
+	 optional int32 x2 = 6; 
+	 optional int32 y2 = 7; 
+	 optional int32 x = 8; 
+	 optional int32 y = 9; 
+	 optional bool this = 10; 
+	 optional bool win = 11; 
+	 repeated ShipMsg ships = 12; 
+	 optional bool turn = 13; 
+	 optional int32 grid_size = 14; 
+	 optional string error_msg = 15;
+ }

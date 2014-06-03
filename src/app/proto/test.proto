@@ -1,0 +1,4 @@
+message TestMsg {
+	
+	required int32 field = 1;
+}
