@@ -9,102 +9,96 @@
 
 #include "glog/logging.h"
 
-#include <stdexcept>
-
 PlayerOutput::PlayerOutput(std::shared_ptr<ProtobufConnection> connection) :
-		connection_(connection) {
-	if (!connection_)
-		throw new std::invalid_argument(
-				"Cannot instantiate a MessageSender with a null connection");
-}
+		IOutput(connection) {}
 
 void PlayerOutput::beginGame() {
 
 	LOG(INFO)<< "Sending BEGIN";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::BEGIN);
+	MsgPtr msg = createMsg(MessageType::BEGIN);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::playerTurn() {
 
 	LOG(INFO)<< "Sending TURN";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::TURN);
+	MsgPtr msg = createMsg(MessageType::TURN);
+
 	msg->set_turn(true);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::playerShipHit(int x, int y) {
 
 	LOG(INFO)<< "Sending HIT";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::HIT);
+	MsgPtr msg = createMsg(MessageType::HIT);
+
 	msg->set_x(x);
 	msg->set_y(y);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::playerShipSunk(int x, int y) {
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::SUNK);
+	MsgPtr msg = createMsg(MessageType::SUNK);
+
 	msg->set_x(x);
 	msg->set_y(y);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::oponentShipHit(int x, int y) {
 
 	LOG(INFO)<< "Sending HIT_REPLAY";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::HIT_REPLAY);
+	MsgPtr msg = createMsg(MessageType::HIT_REPLAY);
+
 	msg->set_x(x);
 	msg->set_y(y);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::oponentShipSunk(int x, int y) {
 
 	LOG(INFO)<< "Sending SUNK_REPLAY";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::SUNK_REPLAY);
+	MsgPtr msg = createMsg(MessageType::SUNK_REPLAY);
+
 	msg->set_x(x);
 	msg->set_y(y);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::oponentWin() {
 
 	LOG(INFO)<< "Sending OVER OPPONENT WIN";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::OVER);
+	MsgPtr msg = createMsg(MessageType::OVER);
+
 	msg->set_win(false);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::playerWin() {
 
 	LOG(INFO)<< "Sending OVER PLAYER WIN";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::OVER);
+	MsgPtr msg = createMsg(MessageType::OVER);
+
 	msg->set_win(true);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
-void PlayerOutput::getShips(const std::map<int, int>& shipMap) {
+void PlayerOutput::setConfig(const std::map<int, int>& shipMap, int gameboardSize) {
 
 	LOG(INFO)<< "Sending CONFIG";
 
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::CONFIG);
+	MsgPtr msg = createMsg(MessageType::CONFIG);
+
+	msg->set_grid_size(gameboardSize);
 
 	for(const auto& ship : shipMap) {
 
@@ -113,69 +107,71 @@ void PlayerOutput::getShips(const std::map<int, int>& shipMap) {
 		addedShip->add_y(ship.second);
 	}
 
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::gameAlreadyOccupied() {
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::ERROR);
+	MsgPtr msg = createMsg(MessageType::ERROR);
+
 	msg->set_error_msg("gameAlreadyOccupied");
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::notEnoughShips(int delivered, int expected) {
 
 	LOG(INFO)<< "Sending ERROR";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::ERROR);
+	MsgPtr msg = createMsg(MessageType::ERROR);
+
 	msg->set_error_msg("gameAlreadyOccupied");
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::playerNotReady() {
 
 	LOG(INFO)<< "Sending ERROR";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::ERROR);
+	MsgPtr msg = createMsg(MessageType::ERROR);
+
 	msg->set_error_msg("playerNotReady");
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::oponentNotReady() {
 
 	LOG(INFO)<< "Sending ERROR";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::ERROR);
+	MsgPtr msg = createMsg(MessageType::ERROR);
+
 	msg->set_error_msg("oponentNotReady");
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::oponentMissHit(int x, int y) {
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::MISS_REPLAY);
+
+	LOG(INFO) << "Sending MISS_REPLAY";
+	MsgPtr msg = createMsg(MessageType::MISS_REPLAY);
+
 	msg->set_x(x);
 	msg->set_y(y);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::playerMissHit(int x, int y) {
 
 	LOG(INFO)<< "Sending MISS_REPLAY";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::MISS_REPLAY);
+	MsgPtr msg = createMsg(MessageType::MISS_REPLAY);
+
 	msg->set_x(x);
 	msg->set_y(y);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }
 
 void PlayerOutput::oponentTurn() {
 
 	LOG(INFO)<< "Sending TURN";
-	MsgPtr msg = createMsg();
-	msg->set_type(MessageType::TURN);
+	MsgPtr msg = createMsg(MessageType::TURN);
+
 	msg->set_turn(false);
 	msg->set_this_(true);
-	connection_->send(msg);
+	send(msg);
 }

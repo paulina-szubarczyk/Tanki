@@ -43,7 +43,7 @@ public:
 public:
 	//	Constructors
 	Connection(HarbourPtr harbour);
-	virtual ~Connection() = default;
+	virtual ~Connection();
 
 public:
 	//	Setters & Getters

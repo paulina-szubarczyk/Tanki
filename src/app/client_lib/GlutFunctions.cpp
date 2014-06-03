@@ -8,13 +8,12 @@
 #include "GlutFunctions.h"
 #include "GameWindow.h"
 
-void GlutFunctions::drawSquares(GLenum mode, GridPtr grid) //draw grid
-		{
-	GLuint i, j;
-	for (i = 0; i < grid->getGridSize(); i++) { //drawing grid of specified size
+void GlutFunctions::drawSquares(GLenum mode, GridPtr grid) {
+
+	for (int i = 0; i < grid->getGridSize(); i++) { //drawing grid of specified size
 		if (mode == GL_SELECT)
 			glLoadName(i);
-		for (j = 0; j < grid->getGridSize(); j++) {
+		for (int j = 0; j < grid->getGridSize(); j++) {
 			if (mode == GL_SELECT)
 				glPushName(j);
 
@@ -53,12 +52,12 @@ void GlutFunctions::mouseFunc(int button, int state, int x, int y, GridPtr grid,
 	glInitNames();
 	glPushName(0);
 
-	glMatrixMode (GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
 
 	/*  create picking region near cursor location      */
-	gluPickMatrix((GLdouble) x, (GLdouble)(viewport[3] - y), 0.1, 0.1,
+	gluPickMatrix((GLdouble) x, (GLdouble) (viewport[3] - y), 0.1, 0.1,
 			viewport);
 	//gluOrtho2D (0.0, 10.0, 0.0, 10.0);
 	gluOrtho2D(0.0, (float) grid->getGridSize(), 0.0,
@@ -75,18 +74,18 @@ void GlutFunctions::mouseFunc(int button, int state, int x, int y, GridPtr grid,
 }
 
 void GlutFunctions::display(GridPtr grid) {
-	glClear (GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	drawSquares(GL_RENDER, grid);
 	glFlush();
 }
 
 void GlutFunctions::reshape(int w, int h) {
 	glViewport(0, 0, w, h);
-	glMatrixMode (GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	float size = GameWindow::getInstance().getManager()->getGridSize();
 	gluOrtho2D(0.0, size, 0.0, size);
-	glMatrixMode (GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
 
@@ -105,9 +104,9 @@ void GlutFunctions::processHits(GLint hits, GLuint buffer[], GridPtr grid,
 			LOG(INFO)<<" "<<*ptr;
 			//printf("%d ", *ptr);
 			if (j == 0) /*  set row and column  */
-				ii = *ptr;
+			ii = *ptr;
 			else if (j == 1)
-				jj = *ptr;
+			jj = *ptr;
 			ptr++;
 		}
 		//printf("\n");

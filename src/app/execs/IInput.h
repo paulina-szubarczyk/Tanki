@@ -15,15 +15,15 @@
 
 using namespace net;
 
-class Input {
+class IInput {
 protected:
 	typedef MessageHandler<MessageType, DataMsg> MsgHandlerType;
 	typedef std::shared_ptr<MsgHandlerType> MsgHandlerPtr;
 	typedef MsgHandlerType::MsgType MsgType;
 
 public:
-	Input(MsgHandlerPtr msgHandler) : msgHandler_(msgHandler) {};
-	virtual ~Input() = default;
+	IInput(MsgHandlerPtr msgHandler) : msgHandler_(msgHandler) {};
+	virtual ~IInput() = default;
 
 protected:
 	MsgHandlerPtr msgHandler_;

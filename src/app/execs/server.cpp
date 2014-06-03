@@ -68,8 +68,8 @@ int main(int argc, char * argv[]) {
 			ProtobufConnection>(harbour);
 
 //	std::this_thread::sleep_for(std::chrono::milliseconds(300));
-//	connection1->connect("127.0.0.1", atoi(argv[1]));
-//	connection2->connect("127.0.0.1", atoi(argv[1]));
+	connection1->connect("127.0.0.1", port);
+	connection2->connect("127.0.0.1", port);
 
 	thread.join();
 	return 0;

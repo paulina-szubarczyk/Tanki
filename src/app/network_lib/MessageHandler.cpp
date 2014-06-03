@@ -24,7 +24,13 @@ template<typename K, typename M, template<typename M> class ExecPolicy>
 auto MessageHandler<K, M, ExecPolicy>::resolveType(
 		const MsgType& message) const -> KeyType {
 
-	return typeFun_(message);
+	try {
+		return typeFun_(message);
+	} catch(std::bad_function_call& err) {
+
+		LOG(ERROR) << "Couldn't resolve type";
+		throw;
+	}
 }
 
 template<typename K, typename M, template<typename M> class ExecPolicy>

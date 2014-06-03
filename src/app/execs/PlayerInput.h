@@ -8,14 +8,14 @@
 #ifndef PLAYERINPUT_H_
 #define PLAYERINPUT_H_
 
-#include "Input.h"
+#include "IInput.h"
 #include "game_engine_lib/IPlayerInput.h"
 
 #include <vector>
 
 using namespace game;
 
-class PlayerInput : public Input, public IPlayerInput {
+class PlayerInput : public IInput, public IPlayerInput {
 public:
 	PlayerInput(MsgHandlerPtr msgHandler);
 	~PlayerInput() = default;

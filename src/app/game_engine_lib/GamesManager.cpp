@@ -37,7 +37,7 @@ void GamesManager::createGame(const std::vector<OutputPtr>& outputs, const std::
 
 		auto player = PlayerFactory::createGamePlayer(*outputIt, gameboardSize);
 
-		(*outputIt)->getShips(shipConfig);
+		(*outputIt)->setConfig(shipConfig, gameboardSize);
 
 		(*inputIt)->setGamePlayer(player);
 		(*inputIt)->registerAddShipMethod(PlayerFactory::addPlayerShips);

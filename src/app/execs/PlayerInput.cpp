@@ -16,7 +16,7 @@
 namespace plh = std::placeholders;
 
 PlayerInput::PlayerInput(MsgHandlerPtr msgHandler)
-	: Input(msgHandler) {}
+	: IInput(msgHandler) {}
 
 void PlayerInput::registerAddShipMethod(AddShipHandlerType handler) {
 
@@ -72,7 +72,6 @@ void PlayerInput::setGamePlayer(PlayerPtr player) {
 		LOG(INFO) << "Received HIT";
 		player_->hitField(msg.x(), msg.y());
 	}, plh::_1, player_));
-
 
 
 //	msgHandler_->addMsgHandler(MessageType::SURRENDER, std::bind(

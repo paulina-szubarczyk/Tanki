@@ -15,8 +15,9 @@
 namespace plh = std::placeholders;
 
 ClientInput::ClientInput(ConnectionPtr connection, MsgHandlerPtr msgHandler)
-	: Input(msgHandler)  {
+	: IInput(msgHandler)  {
 
+	LOG(INFO) << "Ctor";
 
 	msgHandler_->addMsgHandler(MessageType::TURN, std::bind(
 				[](const MsgType& msg, ConnectionPtr connection) {
@@ -52,4 +53,8 @@ ClientInput::ClientInput(ConnectionPtr connection, MsgHandlerPtr msgHandler)
 			connection->setShipsConfig(config);
 
 		}, plh::_1, connection));
+}
+
+ClientInput::~ClientInput() {
+	LOG(INFO) << "Dtor";
 }

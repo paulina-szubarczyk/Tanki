@@ -41,8 +41,9 @@ public:
 	void setHarbour(HarbourPtr harbour);
 
 private:
-	MsgHandlerPtr msgHandler_;
 	HarbourPtr harbour_;
+	MsgHandlerPtr msgHandler_;
+
 
 };
 

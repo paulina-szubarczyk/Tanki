@@ -26,7 +26,7 @@ public:
 	virtual void oponentMissHit(int x, int y) = 0;
 	virtual void oponentWin() = 0;
 	virtual void playerWin() = 0;
-	virtual void getShips(const std::map<int, int>& shipMap) = 0;
+	virtual void setConfig(const std::map<int, int>& shipMap, int gameboardSize) = 0;
 
 	/** error code methods
 	 *

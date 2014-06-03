@@ -49,15 +49,10 @@ public:
 	//	 Overriden abstract methods
 	void onAccept(const std::string & host, uint16_t port) override;
 	void onConnect(const std::string & host, uint16_t port) override;
-	;
 	void onSend(const std::vector<uint8_t> & buffer) override;
-	;
 	void onReceive(std::vector<uint8_t> & buffer) override;
-	;
 	void onTimer(const milliseconds& delta) override;
-	;
 	void onError(const boost::system::error_code & error) override;
-	;
 
 private:
 	//	Methods

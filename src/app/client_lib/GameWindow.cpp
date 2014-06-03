@@ -20,7 +20,8 @@ void GameWindow::init(std::shared_ptr<ClientConnection> connection) {
 	pickedX_ = 0;
 	pickedY_ = 0;
 
-	ipBuffer_ = "Set IP";
+//	ipBuffer_ = "Set IP";
+	ipBuffer_ = "127.0.0.1";
 	port_ = 8080;
 	horizontal_ = 0;
 

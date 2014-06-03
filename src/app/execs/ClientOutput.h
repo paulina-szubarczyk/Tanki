@@ -8,28 +8,17 @@
 #ifndef CLIENTOUTPUT_H_
 #define CLIENTOUTPUT_H_
 
+#include "IOutput.h"
 #include "ClientConnection.h"
-#include "ProtobufConnection.h"
-#include "message.pb.h"
 
-using namespace net;
-
-class ClientOutput: public ClientConnection {
-	typedef std::shared_ptr<ProtobufConnection> ConnectionPtr;
-	typedef std::shared_ptr<DataMsg> MsgPtr;
-
+class ClientOutput: public IOutput, public ClientConnection {
 public:
 	ClientOutput(ConnectionPtr connection);
 	virtual ~ClientOutput() = default;
 
-	virtual void connect(std::string serverIP, unsigned short port);
-	virtual void sendShip(std::vector<std::vector<std::pair<int,int>>> shipVec);
-	virtual void sendHit(std::pair<int,int> hitCoordinates);
-
-private:
-	MsgPtr createMsg(MessageType type) const;
-	void send(MsgPtr msg) const;
-	ConnectionPtr connection_;
+	void connect(std::string serverIP, unsigned short port);
+	void sendShip(std::vector<std::vector<std::pair<int,int>>> shipVec);
+	void sendHit(std::pair<int,int> hitCoordinates);
 };
 
 #endif /* CLIENTOUTPUT_H_ */

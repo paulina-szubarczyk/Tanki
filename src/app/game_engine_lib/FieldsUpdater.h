@@ -39,8 +39,9 @@ public:
 	void shipsNotHit(int x,int y);
 private:
 	FieldType lastHit_;
-	PlayerPtr oponent_;
 	PlayerPtr player_;
+	PlayerPtr oponent_;
+
 };
 }
 #endif /* CLIENTFIELDUPDATER_H_ */

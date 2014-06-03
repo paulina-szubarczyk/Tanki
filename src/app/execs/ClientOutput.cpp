@@ -9,8 +9,10 @@
 
 #include "glog/logging.h"
 
+using namespace net;
+
 ClientOutput::ClientOutput(ConnectionPtr connection)
-	:connection_(connection) {}
+	: IOutput(connection) {}
 
 void ClientOutput::connect(std::string serverIP, unsigned short port) {
 	LOG(INFO) << "Connecting";
@@ -39,14 +41,4 @@ void ClientOutput::sendHit(std::pair<int, int> hitCoordinates) {
 	msg->set_x(hitCoordinates.first);
 	msg->set_y(hitCoordinates.second);
 	send(msg);
-}
-
-auto ClientOutput::createMsg(MessageType type) const -> MsgPtr {
-	auto msg = std::make_shared<DataMsg>();
-	msg->set_type(type);
-	return msg;
-}
-
-void ClientOutput::send(MsgPtr msg) const {
-	connection_->send(msg);
 }

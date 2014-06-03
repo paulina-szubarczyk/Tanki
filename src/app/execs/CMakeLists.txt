@@ -15,6 +15,7 @@ add_library(exec
         ConnectionBridge.cpp 
         ClientInput.cpp 
         ClientOutput.cpp
+        IOutput.cpp
 )
 target_link_libraries(exec network game_engine lib_client)
 

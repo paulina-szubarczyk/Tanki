@@ -17,9 +17,18 @@ using namespace std::placeholders;
 namespace net {
 
 Connection::Connection(HarbourPtr harbour) :
-		harbour_(harbour), strand_(harbour_->getService()), socket_(
+		harbour_(harbour), socket_(harbour_->getService()), strand_(
 				harbour_->getService()), timer_(harbour_->getService()), receiveBufferSize_(
 				4096), timerInterval_(1000), error_(0) {
+}
+
+Connection::~Connection() {
+
+	if (socket_.is_open()) {
+		boost::system::error_code ec;
+		socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+		socket_.close();
+	}
 }
 
 bool Connection::hasError() const {
