@@ -8,6 +8,9 @@
 #include "MessageHandler.h"
 #include "IGameConfig.h"
 #include "PyGameConfig.h"
+#include "ShipFactoryMethod.h"
+#include "SmallShip.h"
+#include "BigShip.h"
 
 #include "message.pb.h"
 #include "glog/logging.h"
@@ -49,6 +52,10 @@ int main(int argc, char * argv[]) {
 	connectionPool->setConnsToSignal(2);
 	auto acceptor = std::make_shared<PoolingAcceptor>(harbour, connectionPool,
 			connectionFactory);
+
+	//	Setup ShipFactoryMethod
+	ShipFactoryMethod::getInstance()->registerShip("BigShip",BigShip::createBigGameShip);
+	ShipFactoryMethod::getInstance()->registerShip("SmallShip", SmallShip::createSmallGameShip);
 
 	//	Setup GamesManager and connect it to server
 	std::shared_ptr<IGameConfig> gameConfig = std::make_shared<PyGameConfig>(

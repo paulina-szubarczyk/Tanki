@@ -10,6 +10,7 @@
 
 #include "Game.h"
 #include "IPlayerInput.h"
+#include "IPlayerOutput.h"
 #include "IGameConfig.h"
 
 #include <vector>
@@ -17,7 +18,7 @@
 
 namespace game {
 
-
+typedef std::shared_ptr<IPlayerOutput> OutputPtr;
 typedef std::shared_ptr<GamePlayer> PlayerPtr;
 typedef std::shared_ptr<IPlayerInput> InputPtr;
 
