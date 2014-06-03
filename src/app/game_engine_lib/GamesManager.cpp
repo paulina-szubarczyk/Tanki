@@ -7,9 +7,7 @@
 
 #include "GamesManager.h"
 #include "PlayerFactory.h"
-#include "PlayerInput.h"
 #include "GamePlayer.h"
-#include "Game.h"
 #include "IGameConfig.h"
 #include "IPlayerOutput.h"
 

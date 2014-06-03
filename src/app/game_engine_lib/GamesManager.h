@@ -8,7 +8,6 @@
 #ifndef GAMEENGIN_H_
 #define GAMEENGIN_H_
 
-#include "PlayerFactory.h"
 #include "Game.h"
 #include "IPlayerInput.h"
 #include "IGameConfig.h"
