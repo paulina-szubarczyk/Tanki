@@ -24,11 +24,6 @@ TEST_F(GameboardTest, HitTest) {
 
 	gameboard.hit(1,1);
 }
-TEST_F(GameboardTest, GetFieldTest) {
-	Gameboard gameboard(4);
-
-	gameboard.hit(1,1);
-}
 
 
 

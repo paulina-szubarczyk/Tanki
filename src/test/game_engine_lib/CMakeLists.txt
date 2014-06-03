@@ -9,12 +9,7 @@ include_directories(${NetworkLib_SOURCE_DIR})
 add_executable(${name}
         BigGameShipTest.cpp
         FieldTest.cpp 
-        FieldsUpdaterTest.cpp 
-        GameTest.cpp
         GameboardTest.cpp   
-        GameEngineTest.cpp     
-        GamePlayerTest.cpp
-        GamePlayerBuilderTest.cpp
         ShipFactoryMethodTest.cpp
         SmallGameShipTest.cpp 
         PyGameConfigTest.cpp
