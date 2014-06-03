@@ -43,8 +43,6 @@ public:
 private:
 	HarbourPtr harbour_;
 	MsgHandlerPtr msgHandler_;
-
-
 };
 
 } /* namespace net */

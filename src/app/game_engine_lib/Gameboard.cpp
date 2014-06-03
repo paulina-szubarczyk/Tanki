@@ -21,8 +21,8 @@ Gameboard::~Gameboard() {
 
 Gameboard::Gameboard(std::size_t size) {
 	size_ = size;
-	for (int i = 0; i < size ; ++i)
-		for (int j = 0; j < size ; ++j) {
+	for (size_t i = 0; i < size ; ++i)
+		for (size_t j = 0; j < size ; ++j) {
 			Field field(countPosition(i,j));
 			fields_.push_back(field);
 		}

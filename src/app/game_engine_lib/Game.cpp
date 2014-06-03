@@ -15,8 +15,8 @@
 namespace game {
 Game::Game(PlayerPtr player1, PlayerPtr player2) : player1_(player1), player2_(player2), prepared_(0) {}
 
-void Game::initGame()
-{
+void Game::initGame() {
+
 	PlayerFactory::configPlayerFieldsUpdater(player1_,player2_);
 	PlayerFactory::configPlayerFieldsUpdater(player2_,player1_);
 
@@ -39,8 +39,11 @@ auto Game::getPlayer2() -> PlayerPtr {
 void Game::playerPrepared() {
     std::unique_lock<std::mutex> lock(player_);
     ++prepared_;
-    if (prepared_ == 2)
+
+    if (prepared_ == 2) {
+    	lock.unlock();
     	initGame();
+    }
 }
 
 bool Game::isWinner(PlayerPtr player) {
